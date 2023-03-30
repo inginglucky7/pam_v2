@@ -3,7 +3,7 @@ import {useRouteError} from "react-router-dom";
 export default function ErrorPage() {
     const error = useRouteError();
     console.log(error);
-
+    //https://assets3.lottiefiles.com/packages/lf20_suhe7qtm.json
     return (
         <div id="error-page">
             <h1>Oops!</h1>

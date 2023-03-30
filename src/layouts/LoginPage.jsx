@@ -1,6 +1,6 @@
 import React from "react";
 import "./Kiddo.css"
-import {Link, NavLink, Outlet} from "react-router-dom";
+import {Link, NavLink, useNavigation, Outlet} from "react-router-dom";
 
 const loginpage = () => {
     return (
@@ -32,10 +32,10 @@ const loginpage = () => {
             <div className="flex justify-center">
                 <div className="absolute mt-[42%]">
                     <button className="font-bold text-5xl block w-[300px] h-[100px] rounded-t-3xl bg-kiddoyellow hover:bg-kiddoyellowhover mx-auto drop-shadow-kiddodropshadow">
-                        <Link to="/howtoplaypage">LOGIN</Link></button>
+                        <Link to="/tutorial">LOGIN</Link></button>
                     <br />
                     <button className="font-bold text-3xl block w-[400px] h-[75px] rounded-t-3xl bg-kiddoyellow hover:bg-kiddoyellowhover drop-shadow-kiddodropshadow"
-                    ><Link to="/registerpage">CREATE AN ACCOUNT</Link></button>
+                    ><Link to="/register">CREATE AN ACCOUNT</Link></button>
                 </div>
             </div>
 
