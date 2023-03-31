@@ -1,28 +1,27 @@
 import React, {useState} from "react";
 import "./Kiddo.css"
-import SignUp from "../components/SignUp.jsx";
-import RegisterPage from "../layouts/RegisterPage.jsx";
 import {auth} from "../firebase-config.jsx";
-import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
+import {createUserWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
 import {redirect} from "react-router-dom";
 const registerpage = () => {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [user, setUser] = useState({});
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
     const [userConfirmPassword, setUserConfirmPassword] = useState(null);
+
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    });
     let regiser = async () => {
         try {
             if(userConfirmPassword === userPassword && userPassword.length > 8){
                 console.log(userEmail);
                 const user = await createUserWithEmailAndPassword(auth, userEmail, userPassword);
-                setCurrentUser(true);
+                setUser(auth);
                 console.log(user);
             }
         } catch (e) {
             console.log(e.message);
-        }
-        if(currentUser){
-            return redirect("/");
         }
     };
     return (
@@ -65,7 +64,7 @@ const registerpage = () => {
                                onChange={(event) => {
                                    setUserPassword(event.target.value);
                                }}
-                               className="outline-transparent text-xl block w-[500px] p-4 rounded-t-3xl border-8 border-kiddoyellow drop-shadow-kiddodropshadow" type="text" placeholder="PASSWORD" />
+                               className="outline-transparent text-xl block w-[500px] p-4 rounded-t-3xl border-8 border-kiddoyellow drop-shadow-kiddodropshadow" type="password" placeholder="PASSWORD" />
                     </label>
                     <br />
                     <label>
@@ -73,7 +72,7 @@ const registerpage = () => {
                             onChange={(event) => {
                                 setUserConfirmPassword(event.target.value);
                             }}
-                            className="outline-transparent text-xl block w-[500px] p-4 rounded-t-3xl border-8 border-kiddoyellow drop-shadow-kiddodropshadow" type="text" placeholder="CONFIRM PASSWORD" />
+                            className="outline-transparent text-xl block w-[500px] p-4 rounded-t-3xl border-8 border-kiddoyellow drop-shadow-kiddodropshadow" type="password" placeholder="CONFIRM PASSWORD" />
                     </label>
                 </form>
             </div>

@@ -2,6 +2,7 @@ import React from "react";
 import "./Kiddo.css"
 
 const profilepage = () => {
+
     return (
         <div className="bg-kiddobg w-screen h-screen bg-center relative">
 
