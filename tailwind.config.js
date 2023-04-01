@@ -17,8 +17,9 @@ module.exports = {
         'kiddodropshadow': '5px 5px rgba(159, 112, 39, 1)'
       },
       colors: {
-        kiddobg: "#CFDAD6",
+        kiddogray: "#CFDAD6",
         kiddoyellow: "#fbb03b",
+        kiddobrown: "#9F7027",
         kiddoyellowhover: "rgba(251, 156, 0, 1)"
       },
     },

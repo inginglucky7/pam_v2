@@ -5,6 +5,7 @@ import RegisterPage from "./RegisterPage.jsx";
 import SettingsPage from "./SettingsPage.jsx";
 import ErrorPage from "./ErrorPage.jsx";
 import RootLayout from "./RootLayout.jsx";
+import GamePage from "./GamePage";
 
 export {
     RootLayout,
@@ -14,4 +15,5 @@ export {
     RegisterPage,
     SettingsPage,
     ErrorPage,
+    GamePage,
 }

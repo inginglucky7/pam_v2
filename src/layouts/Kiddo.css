@@ -1,13 +1,26 @@
-.kiddologologin{
+.kiddologo {
     animation-name: kiddologin;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
     animation-duration: 6s;
 }
-@keyframes kiddologin{
-    0%   {transform: rotate(12deg);}
+@keyframes kiddologin {
+    0%   {transform: rotate(10deg);}
     25%  {transform: rotate(0deg);}
-    50%  {transform: rotate(-12deg);}
+    50%  {transform: rotate(-10deg);}
     75%  {transform: rotate(0deg);}
-    100% {transform: rotate(12deg);}
+    100% {transform: rotate(10deg);}
+}
+
+.tdtd {
+    background-color: rgb(248 250 252);
+    border-radius: 10%;
+    border: 2px solid black;
+    width: 120px;
+    height: 120px;
+    margin: 8px;
+}
+.tdtd:hover {
+    cursor: pointer;
+    background-color: rgb(241 245 249);
 }
