@@ -9,9 +9,24 @@ const loginpage = () => {
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
     console.log(auth?.currentUser?.email);
+
+    const logInButtonOnNav = () => {
+        const navigation = useNavigation();
+        document.querySelector("#logInBtn").textContent =
+            navigation.state === "submitting"
+                ? "Register..."
+                : navigation.state === "loading"
+                ? "Finished"
+                : "Let's Go";
+        return (
+            <>
+                
+            </>
+        );
+    };
+
     const signIn = async (event) => {
         event.preventDefault();
-
         try {
             const user = await signInWithEmailAndPassword(auth, userEmail, userPassword);
             onAuthStateChanged(auth, (currentUser) => {
@@ -23,7 +38,7 @@ const loginpage = () => {
         } catch (e) {
             console.log(e.message);
             if(e.message === "Firebase: Error (auth/missing-email)." || userPassword == null){
-                //Paul's work
+                //Paul's work.
                 alert("Pleas insert your email or password first");
             }
         }
@@ -68,9 +83,10 @@ const loginpage = () => {
 
             <div className="flex justify-center">
                 <div className="absolute mt-[42%]">
-                    <button onClick={(event) => {
+                    <button id="logInBtn" onClick={(event) => {
                         signIn(event);
                     }}
+                        type="submit"
                         className="font-bold text-5xl block w-[300px] h-[100px] rounded-t-3xl bg-kiddoyellow hover:bg-kiddoyellowhover mx-auto drop-shadow-kiddodropshadow">
                         LOGIN</button>
                     <br />

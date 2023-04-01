@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import "./Kiddo.css"
 import {auth} from "../firebase-config.jsx";
 import {createUserWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
-import {redirect} from "react-router-dom";
+import {useNavigation} from "react-router-dom";
 const registerpage = () => {
     const [user, setUser] = useState({});
     const [userEmail, setUserEmail] = useState(null);
@@ -79,7 +79,7 @@ const registerpage = () => {
 
             <div className="flex justify-center">
                 <div className="absolute mt-[24%]">
-                    <button onClick={regiser} type="submit" className="font-bold text-5xl block w-[300px] h-[100px] rounded-t-3xl bg-kiddoyellow hover:bg-kiddoyellowhover mx-auto drop-shadow-kiddodropshadow">REGISTER</button>
+                    <button id="regBtn" onClick={regiser} type="submit" className="font-bold text-5xl block w-[300px] h-[100px] rounded-t-3xl bg-kiddoyellow hover:bg-kiddoyellowhover mx-auto drop-shadow-kiddodropshadow">REGISTER</button>
                 </div>
             </div>
 
