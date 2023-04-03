@@ -6,6 +6,7 @@ import SettingsPage from "./SettingsPage.jsx";
 import ErrorPage from "./ErrorPage.jsx";
 import RootLayout from "./RootLayout.jsx";
 import GamePage from "./GamePage";
+import MainMenuPage from "./MainMenuPage.jsx"
 
 export {
     RootLayout,
@@ -16,4 +17,5 @@ export {
     SettingsPage,
     ErrorPage,
     GamePage,
+    MainMenuPage,
 }

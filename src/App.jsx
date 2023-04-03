@@ -1,6 +1,6 @@
 import { useState, ReactDOM } from 'react'
 import './App.css'
-import {RootLayout, ErrorPage, HowToPlayPage, LoginPage, Profile, RegisterPage, SettingsPage, GamePage} from './layouts';
+import {RootLayout, ErrorPage, HowToPlayPage, LoginPage, Profile, RegisterPage, SettingsPage, GamePage, MainMenuPage} from './layouts';
 import {Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
 
 const App = () =>{
@@ -13,6 +13,7 @@ const App = () =>{
                 <Route path="/setting" element={<SettingsPage/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/game" element={<GamePage/>}/>
+                <Route path="/mainmenu" element={<MainMenuPage/>}/>
             </Route>
         )
     )
