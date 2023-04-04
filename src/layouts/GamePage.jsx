@@ -38,7 +38,7 @@ const gamepage = () => {
 
                     <div className="relative bg-slate-200 p-8 rounded-3xl border-2 border-black mt-16">
                         <div className="flex justify-center">
-                            <div className="tdtd hover:drop-shadow-xl"></div>
+                            <div className="tdtd"></div>
                             <div className="tdtd"></div>
                             <div className="tdtd"></div>
                             <div className="tdtd"></div>

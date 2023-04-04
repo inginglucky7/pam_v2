@@ -6,7 +6,7 @@ const mainmenu = () => {
     return (
         <div>
                 <div className="grid grid-cols-2 bg-kiddogray w-screen h-screen">
-                    <div className="my-auto">
+                    <div className="flex justify-center my-auto">
                         Leaderboard
                     </div>
                     <div className="my-auto">
