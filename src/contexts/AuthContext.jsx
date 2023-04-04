@@ -32,6 +32,7 @@ export const AuthProvider = ({children}) => {
             if(currentUser != null){
                 return redirect("/profile");
             }
+            console.log(user);
         });
     }, [])
 
