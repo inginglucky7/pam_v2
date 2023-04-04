@@ -1,4 +1,4 @@
-import {useAuth} from "./contexts/AuthContext.jsx";
+import {useAuth} from "../contexts/AuthContext.jsx";
 import {Outlet, useLocation} from "react-router-dom";
 import {Navigate} from "react-router-dom";
 

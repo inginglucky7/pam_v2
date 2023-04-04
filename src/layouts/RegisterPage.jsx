@@ -1,16 +1,17 @@
 import React, {useState, useRef} from "react";
 import "./Kiddo.css"
-import {Link, redirect} from "react-router-dom";
+import {Link, redirect, useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 const registerpage = () => {
     // const [user, setUser] = useState({});
     // const [userEmail, setUserEmail] = useState(null);
     // const [userPassword, setUserPassword] = useState(null);
     // const [userConfirmPassword, setUserConfirmPassword] = useState(null);
+    const navigate = useNavigate();
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
-    const {signIn, signInAnonymous, currentUser, logOut, user, setUser} = useAuth();
+    const {signUp, signIn, signInAnonymous, currentUser, logOut, user, setUser} = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const handleReg = async (e) => {
@@ -28,9 +29,6 @@ const registerpage = () => {
                 navigate("/mainmenu", {replace : true});
             }
             console.log(currentUser);
-            if(loading){
-                return redirect("/profile");
-            }
         } catch (e) {
             setError("Failed to create account");
             console.log(e.message);
