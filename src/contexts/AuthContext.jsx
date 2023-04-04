@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, createContext} from "react";
+import React, {useContext, useEffect, useState, createContext, useRef} from "react";
 import {auth} from "../firebase-config.jsx";
 import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously} from "firebase/auth";
 import {redirect} from "react-router-dom";
@@ -9,6 +9,7 @@ export const useAuth = () => {
     return useContext(AuthContext);
 }
 export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState({loggedIn: false});
     const [currentUser, setCurrentUser] = useState(null);
     const signUp = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
@@ -29,9 +30,6 @@ export const AuthProvider = ({children}) => {
     useEffect(() => {
         return onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
-            if(currentUser != null){
-                return redirect("/profile");
-            }
             console.log(user);
         });
     }, [])
@@ -41,7 +39,9 @@ export const AuthProvider = ({children}) => {
         signUp,
         signIn,
         logOut,
-        signInAnonymous
+        signInAnonymous,
+        user,
+        setUser
     }
     return(
         <AuthContext.Provider value={value}>

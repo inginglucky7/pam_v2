@@ -1,8 +1,25 @@
 import React from "react";
 import "./Kiddo.css"
+import {useAuth} from "../contexts/AuthContext.jsx";
+import {auth} from "../firebase-config.jsx";
+import {useNavigate} from "react-router-dom";
 
 const mainmenu = () => {
-
+    const {signIn, signInAnonymous, currentUser, logOut, user, setUser} = useAuth();
+    const navigate = useNavigate();
+    const handleLogOut = async (e) => {
+        e.preventDefault();
+        try {
+            await logOut();
+            setUser({loggedIn:false});
+            if(user.loggedIn){
+                navigate("/", {replace : true});
+            }
+            console.log(auth?.currentUser?.email);
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
     return (
         <div>
                 <div className="grid grid-cols-2 bg-kiddogray w-screen h-screen">
@@ -27,7 +44,7 @@ const mainmenu = () => {
                             <button className="w-4/12 p-4 text-3xl font-bold rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover">PROFILE</button>
                         </div>
                         <div className="flex justify-center items-center mb-32">
-                            <button className="w-3/12 p-2 text-2xl font-bold rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover">LOGOUT</button>
+                            <button onClick={handleLogOut} className="w-3/12 p-2 text-2xl font-bold rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover">LOGOUT</button>
                         </div>
                         <div className="flex justify-center items-center mb-8">
                             <button className="w-4/12 p-4 text-3xl font-bold rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover">HOW TO PLAY</button>
