@@ -5,8 +5,8 @@ import {auth} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
 
 const loginpage = () => {
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
     const logEmailRef = useRef();
@@ -16,8 +16,7 @@ const loginpage = () => {
     const handleLogInWithEmail = async (e) => {
         e.preventDefault();
         try {
-            await signIn(logEmailRef.current.value, logPassRef.current.value);
-            setUser({loggedIn: true});
+            await signIn(email, password);
             if(!user.loggedIn){
                 navigate("/mainmenu", {replace : true});
             }
@@ -32,7 +31,6 @@ const loginpage = () => {
         e.preventDefault();
         try {
             await signInAnonymous();
-            setUser({loggedIn: true});
             if(!user.loggedIn){
                 navigate("/mainmenu", {replace : true});
             }
@@ -71,7 +69,10 @@ const loginpage = () => {
                                                 xl:mt-[7%]
                                                 lg:mt-[7%]
                                                 md:mt-[7%]">
-                                <input ref={logEmailRef}
+                                <input ref={logEmailRef} onChange = {(event) => {
+                                    setEmail(event.target.value)
+                                }
+                                }
                                     className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
                                                     lg:w-8/12 p-3 drop-shadow-lg text-lg rounded-xl border-4 border-black
                                                     md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
@@ -81,7 +82,11 @@ const loginpage = () => {
                                                 xl:mt-[5%]
                                                 lg:mt-[5%]
                                                 md:mt-[5%]">
-                                <input ref={logPassRef} className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
+                                <input ref={logPassRef} onChange = {(event) => {
+                                    setPassword(event.target.value)
+                                }
+                                }
+                                       className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
                                                     lg:w-8/12 p-3 drop-shadow-lg text-lg rounded-xl border-4 border-black
                                                     md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
                                        type="password" placeholder="PASSWORD" />

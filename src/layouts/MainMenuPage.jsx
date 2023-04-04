@@ -11,8 +11,7 @@ const mainmenu = () => {
         e.preventDefault();
         try {
             await logOut();
-            setUser({loggedIn:false});
-            if(user.loggedIn){
+            if(!user.loggedIn){
                 navigate("/", {replace : true});
             }
             console.log(auth?.currentUser?.email);

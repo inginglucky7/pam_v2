@@ -1,19 +1,21 @@
 import React, {useState, useRef} from "react";
 import "./Kiddo.css"
-import {Link, redirect, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../firebase-config.jsx";
 const registerpage = () => {
-    // const [user, setUser] = useState({});
-    // const [userEmail, setUserEmail] = useState(null);
-    // const [userPassword, setUserPassword] = useState(null);
-    // const [userConfirmPassword, setUserConfirmPassword] = useState(null);
-    const navigate = useNavigate();
+    const [user, setUser] = useState({});
+    const [userEmail, setUserEmail] = useState(null);
+    const [userPassword, setUserPassword] = useState(null);
+    const [userConfirmPassword, setUserConfirmPassword] = useState(null);
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
-    const {signUp, signIn, signInAnonymous, currentUser, logOut, user, setUser} = useAuth();
+    const {signUp, currentUser} = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const handleReg = async (e) => {
         e.preventDefault();
         if(passwordRef.current.value !== confirmPasswordRef.current.value){
@@ -23,12 +25,11 @@ const registerpage = () => {
             setError("")
             setLoading(true);
             console.log(emailRef);
-            await signUp(emailRef.current.value, passwordRef.current.value);
-            setUser({loggedIn : true});
+            await signUp(userEmail, userPassword);
             if(!user.loggedIn){
                 navigate("/mainmenu", {replace : true});
             }
-            console.log(currentUser);
+            console.log(auth.currentUser.email);
         } catch (e) {
             setError("Failed to create account");
             console.log(e.message);
@@ -50,7 +51,9 @@ const registerpage = () => {
                                                 lg:w-9/12 h-5/12 mx-auto drop-shadow-md mx-auto mt-[10%]
                                                 md:w-11/12 h-7/12 mx-auto drop-shadow-md mx-auto mt-[10%]"
                                  src="https://cdn.discordapp.com/attachments/981506950569275482/1092494973255024670/Register.png" draggable="false" />
-                            <div ref={emailRef} className="flex justify-center
+                            <div ref={emailRef} onChange={(event) => {
+                                setUserEmail(event.target.value);
+                            }} className="flex justify-center
                                                 xl:mt-[8%]
                                                 lg:mt-[8%]
                                                 md:mt-[8%]">
@@ -59,7 +62,9 @@ const registerpage = () => {
                                                     md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
                                        type="text" placeholder="USERNAME" />
                             </div>
-                            <div ref={passwordRef} className="flex justify-center
+                            <div ref={passwordRef} onChange={(event) => {
+                                setUserPassword(event.target.value);
+                            }} className="flex justify-center
                                                 xl:mt-[3%]
                                                 lg:mt-[3%]
                                                 md:mt-[3%]">
@@ -68,7 +73,9 @@ const registerpage = () => {
                                                     md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
                                        type="password" placeholder="PASSWORD" />
                             </div>
-                            <div ref={confirmPasswordRef} className="flex justify-center
+                            <div ref={confirmPasswordRef} onChange={(event) => {
+                                setUserConfirmPassword(event.target.value);
+                            }} className="flex justify-center
                                                 xl:mt-[3%]
                                                 lg:mt-[3%]
                                                 md:mt-[3%]">
