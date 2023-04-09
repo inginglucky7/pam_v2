@@ -38,66 +38,48 @@ const registerpage = () => {
     }
 
     return (
-        <div>
-            <div className="flex justify-center items-center bg-kiddogray w-full h-full">
-                <div className="grid grid-cols-2 bg-slate-50 w-[80%] h-[80%] rounded-3xl drop-shadow-2xl my-40">
-                    <div className="my-auto">
-                        <img className="kiddologo w-6/12 h-6/12 mx-auto drop-shadow-md" src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" draggable="false" />
-                        <img className="w-6/12 h-6/12 mx-auto drop-shadow-md" src="https://cdn.discordapp.com/attachments/981506950569275482/1078970065866727444/Name.png" draggable="false" />
+        
+        <div className="kiddobg flex h-screen w-full items-center justify-center bg-kiddogray bg-cover bg-no-repeat">
+
+            <div className="rounded-3xl bg-black px-10 py-6 bg-opacity-60 backdrop-blur">
+
+                <div className="text-white">
+                    <div className="mb-8 flex flex-col items-center">
+                        <img src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" className="kiddologo w-4/12" draggable="false" />
+                        <h1 className="my-2 font-bold text-3xl">PAM's KIDDO</h1>
+                        <h1 className="mb-8 font-bold text-2xl">TIC TAC TOE</h1>
+                        <span className="text-gray-200 text-xl">Register</span>
                     </div>
-                    <div className="bg-slate-100 rounded-r-3xl">
-                        <div>
-                            <img className="xl:w-8/12 h-4/12 mx-auto drop-shadow-md mx-auto mt-[10%]
-                                                lg:w-9/12 h-5/12 mx-auto drop-shadow-md mx-auto mt-[10%]
-                                                md:w-11/12 h-7/12 mx-auto drop-shadow-md mx-auto mt-[10%]"
-                                 src="https://cdn.discordapp.com/attachments/981506950569275482/1092494973255024670/Register.png" draggable="false" />
-                            <div ref={emailRef} onChange={(event) => {
-                                setUserEmail(event.target.value);
-                            }} className="flex justify-center
-                                                xl:mt-[8%]
-                                                lg:mt-[8%]
-                                                md:mt-[8%]">
-                                <input className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    lg:w-8/12 p-3 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
-                                       type="text" placeholder="USERNAME" />
-                            </div>
-                            <div ref={passwordRef} onChange={(event) => {
-                                setUserPassword(event.target.value);
-                            }} className="flex justify-center
-                                                xl:mt-[3%]
-                                                lg:mt-[3%]
-                                                md:mt-[3%]">
-                                <input className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    lg:w-8/12 p-3 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
-                                       type="password" placeholder="PASSWORD" />
-                            </div>
-                            <div ref={confirmPasswordRef} onChange={(event) => {
-                                setUserConfirmPassword(event.target.value);
-                            }} className="flex justify-center
-                                                xl:mt-[3%]
-                                                lg:mt-[3%]
-                                                md:mt-[3%]">
-                                <input className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    lg:w-8/12 p-3 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
-                                       type="password" placeholder="CONFIRM PASSWORD" />
-                            </div>
-                            <div className="flex justify-center
-                                                xl:mt-[8%] mb-[10%]
-                                                lg:mt-[8%] mb-[10%]
-                                                md:mt-[8%] mb-[10%]">
-                                <button onClick={handleReg}
-                                    className="xl:w-5/12 p-4 font-bold text-3xl rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    lg:w-6/12 p-3 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    md:w-7/12 p-3 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover">REGISTER</button>
-                            </div>
+
+                    <form action="#">
+
+                        <div className="mb-4 flex justify-center text-black">
+                            <input ref={emailRef} onChange={(event) => {setUserEmail(event.target.value)}} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-20 py-3 text-center placeholder-slate-500 shadow-lg drop-shadow-kiddodropshadow outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="text" placeholder="USERNAME" />
                         </div>
-                    </div>
+
+                        <div className="mb-4 flex justify-center text-black">
+                            <input ref={passwordRef} onChange={(event) => {setUserPassword(event.target.value)}} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-20 py-3 text-center placeholder-slate-500 shadow-lg drop-shadow-kiddodropshadow outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="password" placeholder="PASSWORD" />
+                        </div>
+
+                        <div className="mb-8 flex justify-center text-black">
+                            <input ref={confirmPasswordRef} onChange={(event) => {setUserConfirmPassword(event.target.value)}} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-20 py-3 text-center placeholder-slate-500 shadow-lg drop-shadow-kiddodropshadow outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="password" placeholder="CONFIRM PASSWORD" />
+                        </div>
+
+                        <div className="mb-8 flex justify-center text-xl">
+                            <button onClick={handleReg} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-10 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">REGISTER</button>
+                        </div>
+
+                        <div className="flex justify-center">
+                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK TO LOGIN</button>
+                        </div>
+
+                    </form>
                 </div>
+
             </div>
+
         </div>
+
     )
 }
 

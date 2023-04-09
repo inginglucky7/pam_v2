@@ -1,21 +1,27 @@
-import HowToPlayPage from "./HowToPlayPage.jsx";
-import LoginPage from "./LoginPage.jsx";
-import Profile from "./Profile.jsx";
-import RegisterPage from "./RegisterPage.jsx";
-import SettingsPage from "./SettingsPage.jsx";
-import ErrorPage from "./ErrorPage.jsx";
 import RootLayout from "./RootLayout.jsx";
-import GamePage from "./GamePage";
+import ErrorPage from "./ErrorPage.jsx";
+import LoginPage from "./LoginPage.jsx";
+import RegisterPage from "./RegisterPage.jsx";
 import MainMenuPage from "./MainMenuPage.jsx";
+import Profile from "./Profile.jsx";
+import Leaderboard from "./Leaderboard.jsx"
+import HowToPlayPage from "./HowToPlayPage.jsx";
+import SettingsPage from "./SettingsPage.jsx";
+import LobbyPage from "./LobbyPage.jsx";
+import GamePage from "./GamePage.jsx";
+import ReviewYourAnswer from "./ReviewPage.jsx"
 
 export {
     RootLayout,
-    HowToPlayPage,
-    LoginPage,
-    Profile,
-    RegisterPage,
-    SettingsPage,
     ErrorPage,
+    LoginPage,
+    RegisterPage,
+    MainMenuPage,
+    Profile,
+    Leaderboard,
+    HowToPlayPage,
+    SettingsPage,
+    LobbyPage,
     GamePage,
-    MainMenuPage
+    ReviewYourAnswer
 }

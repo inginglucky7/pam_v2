@@ -52,76 +52,52 @@ const loginpage = () => {
 
     return (
 
-        <div>
-            <div className="flex justify-center items-center bg-kiddogray w-full h-full">
-                <div className="grid grid-cols-2 bg-slate-50 w-[80%] h-[80%] rounded-3xl drop-shadow-2xl my-40">
-                    <div className="my-auto">
-                        <img className="kiddologo w-6/12 h-6/12 mx-auto drop-shadow-md" src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" draggable="false" />
-                        <img className="w-6/12 h-6/12 mx-auto drop-shadow-md" src="https://cdn.discordapp.com/attachments/981506950569275482/1078970065866727444/Name.png" draggable="false" />
+        <div className="kiddobg flex h-screen w-full items-center justify-center bg-kiddogray bg-cover bg-no-repeat">
+
+            <div className="rounded-3xl bg-black px-10 py-6 bg-opacity-60 backdrop-blur">
+
+                <div className="text-white">
+                    <div className="mb-8 flex flex-col items-center">
+                        <img src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" className="kiddologo w-4/12" draggable="false" />
+                        <h1 className="my-2 font-bold text-3xl">PAM's KIDDO</h1>
+                        <h1 className="mb-8 font-bold text-2xl">TIC TAC TOE</h1>
+                        <span className="text-gray-200 text-xl">Login</span>
                     </div>
-                    <div className="bg-slate-100 rounded-r-3xl">
-                        <div>
-                            <img className="xl:w-4/12 h-4/12 mx-auto drop-shadow-md mx-auto mt-[7%]
-                                                lg:w-5/12 h-5/12 mx-auto drop-shadow-md mx-auto mt-[7%]
-                                                md:w-7/12 h-7/12 mx-auto drop-shadow-md mx-auto mt-[7%]"
-                                 src="https://cdn.discordapp.com/attachments/981506950569275482/1091016731419496488/Login.png" draggable="false" />
-                            <div className="flex justify-center
-                                                xl:mt-[7%]
-                                                lg:mt-[7%]
-                                                md:mt-[7%]">
-                                <input ref={logEmailRef} onChange = {(event) => {
-                                    setEmail(event.target.value)
-                                }
-                                }
-                                    className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    lg:w-8/12 p-3 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
-                                       type="text" placeholder="USERNAME" />
-                            </div>
-                            <div className="flex justify-center
-                                                xl:mt-[5%]
-                                                lg:mt-[5%]
-                                                md:mt-[5%]">
-                                <input ref={logPassRef} onChange = {(event) => {
-                                    setPassword(event.target.value)
-                                }
-                                }
-                                       className="xl:w-7/12 p-4 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    lg:w-8/12 p-3 drop-shadow-lg text-lg rounded-xl border-4 border-black
-                                                    md:w-9/12 p-3 drop-shadow-lg text-lg rounded-xl border-2 border-black"
-                                       type="password" placeholder="PASSWORD" />
-                            </div>
-                            <div className="flex justify-center
-                                                xl:mt-[7%]
-                                                lg:mt-[7%]
-                                                md:mt-[7%]">
-                                <button onClick={handleLogInWithEmail}
-                                    className="xl:w-4/12 p-4 font-bold text-3xl rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    lg:w-5/12 p-3 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    md:w-6/12 p-3 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover">LOGIN</button>
-                            </div>
-                            <div className="flex justify-center
-                                                xl:mt-[3%]
-                                                lg:mt-[3%]
-                                                md:mt-[3%]">
-                                <button className="xl:w-6/12 p-2 font-bold text-xl rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    lg:w-7/12 p-1 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    md:w-8/12 p-1 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover"><Link to={"/register"}>CREATE AN ACCOUNT</Link></button>
-                            </div>
-                            <div className="flex justify-center
-                                                xl:mt-[5%] mb-[7%]
-                                                lg:mt-[5%] mb-[7%]
-                                                md:mt-[5%] mb-[7%]">
-                                <button onClick={handleLogInAnonymous}
-                                    className="xl:w-6/12 p-2 font-bold text-xl rounded-2xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    lg:w-7/12 p-1 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover
-                                                    md:w-8/12 p-1 font-bold rounded-xl drop-shadow-kiddodropshadow bg-kiddoyellow hover:bg-kiddoyellowhover">LOGIN AS A GUEST</button>
-                            </div>
+
+                    <form action="#">
+
+                        <div className="mb-4 flex justify-center text-black">
+                            <input ref={logEmailRef} onChange = {(event) => {setEmail(event.target.value)}} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-20 py-3 text-center placeholder-slate-500 shadow-lg drop-shadow-kiddodropshadow outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="text" placeholder="USERNAME" />
                         </div>
-                    </div>
+
+                        <div className="mb-8 flex justify-center text-black">
+                            <input ref={logPassRef} onChange = {(event) => {setPassword(event.target.value)}} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-20 py-3 text-center placeholder-slate-500 shadow-lg drop-shadow-kiddodropshadow outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="password" placeholder="PASSWORD" />
+                        </div>
+
+                        <div className="mb-8 flex justify-center text-xl">
+                            <button onClick={handleLogInWithEmail} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-10 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">LOGIN</button>
+                        </div>
+
+                        <div className="mb-4 flex justify-center">
+                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">LOGIN AS A GUEST</button>
+                        </div>
+
+                        <div className="mb-8 flex justify-center">
+                            <button onClick={handleLogInAnonymous} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">CREATE AN ACCOUNT</button>
+                        </div>
+
+                        <div className="flex justify-center">
+                            <button className="flex items-center rounded-2xl bg-kiddored bg-opacity-90 px-12 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">
+                            <img className="w-8 h-8 mr-2" src="https://cdn.discordapp.com/attachments/981506950569275482/1094160577670164500/icons8-google-90.png" />SIGN IN WITH GOOGLE</button>
+                        </div>
+
+                    </form>
                 </div>
+
             </div>
+
         </div>
+
     )
 }
 

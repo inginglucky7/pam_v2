@@ -14,13 +14,19 @@ module.exports = {
     },
     extend: {
       dropShadow: {
-        'kiddodropshadow': '5px 5px rgba(159, 112, 39, 1)'
+        'kiddodropshadow': '5px 5px rgba(159, 112, 39, 1)',
+        'kiddodropred': '5px 5px rgba(159, 39, 39, 1)',
+        'kiddodropshadowtwo': '5px 5px rgba(251,176,59, 1)',
       },
       colors: {
         kiddogray: "#CFDAD6",
         kiddoyellow: "#fbb03b",
+        kiddolightyellow: "#FBBF62",
         kiddobrown: "#9F7027",
-        kiddoyellowhover: "rgba(251, 156, 0, 1)"
+        kiddored: "#FB3B3B",
+        kiddodarkred: "#9F2727",
+        kiddoyellowhover: "rgba(250, 155, 0, 1)",
+        kiddoredhover: "rgba(250, 55, 0, 1)",
       },
     },
     screens: {
