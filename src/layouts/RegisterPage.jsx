@@ -45,7 +45,7 @@ const registerpage = () => {
 
                 <div className="text-white">
                     <div className="mb-8 flex flex-col items-center">
-                        <img src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" className="kiddologo w-4/12" draggable="false" />
+                        <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-4/12" draggable="false" />
                         <h1 className="my-2 font-bold text-3xl">PAM's KIDDO</h1>
                         <h1 className="mb-8 font-bold text-2xl">TIC TAC TOE</h1>
                         <span className="text-gray-200 text-xl">Register</span>

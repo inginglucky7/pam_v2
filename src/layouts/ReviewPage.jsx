@@ -11,7 +11,7 @@ const reviewanswer = () => {
 
                 <div className="rounded-3xl bg-black py-2 bg-opacity-80 backdrop-blur shadow-lg md:w-6/12 lg:w-4/12 xl:w-3/12">
                     <div className="flex items-center justify-center">
-                        <img src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" className="kiddologo w-4/12" draggable="false" />
+                        <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-4/12" draggable="false" />
                         <div className="relative text-white ml-8">
                             <h1 className="mb-4 font-bold text-3xl">PAM's KIDDO</h1>
                             <h1 className="font-bold text-2xl">TIC TAC TOE</h1>
@@ -20,7 +20,7 @@ const reviewanswer = () => {
                 </div>
 
                 <div className="ml-16">
-                    <img className="w-80" src="https://cdn.discordapp.com/attachments/981506950569275482/1094333630907699292/Review_your_answer.png" draggable="false" />
+                    <img className="w-80" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902928175114/Review_your_answer.png" draggable="false" />
                 </div>
 
             </div>

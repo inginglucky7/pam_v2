@@ -18,7 +18,7 @@ const gamepage = () => {
 
                 <div className="rounded-3xl bg-black py-2 bg-opacity-80 backdrop-blur shadow-lg md:w-5/12 lg:w-3/12 xl:w-2/12">
                     <div className="flex items-center justify-center">
-                        <img src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" className="kiddologo w-3/12" draggable="false" />
+                        <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-3/12" draggable="false" />
                         <div className="relative text-white ml-8">
                             <h1 className="mb-4 font-bold text-2xl">PAM's KIDDO</h1>
                             <h1 className="font-bold text-xl">TIC TAC TOE</h1>

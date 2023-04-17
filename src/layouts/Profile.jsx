@@ -15,7 +15,7 @@ const profilepage = () => {
 
                 <div className="rounded-3xl bg-black py-2 bg-opacity-80 backdrop-blur shadow-lg md:w-6/12 lg:w-4/12 xl:w-3/12">
                     <div className="flex items-center justify-center">
-                        <img src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" className="kiddologo w-4/12" draggable="false" />
+                        <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-4/12" draggable="false" />
                         <div className="relative text-white ml-8">
                             <h1 className="mb-4 font-bold text-3xl">PAM's KIDDO</h1>
                             <h1 className="font-bold text-2xl">TIC TAC TOE</h1>
@@ -24,7 +24,7 @@ const profilepage = () => {
                 </div>
 
                 <div className="ml-16">
-                    <img className="w-80" src="https://cdn.discordapp.com/attachments/981506950569275482/1094193001078726686/Profile.png" draggable="false" />
+                    <img className="w-80" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902668140594/Profile.png" draggable="false" />
                 </div>
 
             </div>
@@ -44,7 +44,7 @@ const profilepage = () => {
                             <h1 className="text-md">63070002@it.kmitl.ac.th</h1>
                         </div>
                         <div className="ml-12">
-                            <img className="w-16 cursor-pointer" src="https://cdn.discordapp.com/attachments/981506950569275482/1094215326041919609/Edit0.png" />
+                            <img className="w-16 cursor-pointer" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383901460168744/Edit0.png" />
                         </div>
                     </div>
                 </div>

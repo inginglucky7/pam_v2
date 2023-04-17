@@ -58,7 +58,7 @@ const loginpage = () => {
 
                 <div className="text-white">
                     <div className="mb-8 flex flex-col items-center">
-                        <img src="https://cdn.discordapp.com/attachments/981506950569275482/1078961231815245824/Logo.png" className="kiddologo w-4/12" draggable="false" />
+                        <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-4/12" draggable="false" />
                         <h1 className="my-2 font-bold text-3xl">PAM's KIDDO</h1>
                         <h1 className="mb-8 font-bold text-2xl">TIC TAC TOE</h1>
                         <span className="text-gray-200 text-xl">Login</span>
@@ -88,7 +88,7 @@ const loginpage = () => {
 
                         <div className="flex justify-center">
                             <button className="flex items-center rounded-2xl bg-kiddored bg-opacity-90 px-12 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">
-                            <img className="w-8 h-8 mr-2" src="https://cdn.discordapp.com/attachments/981506950569275482/1094160577670164500/icons8-google-90.png" />SIGN IN WITH GOOGLE</button>
+                            <img className="w-8 h-8 mr-2" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097385357189849099/icons8-google-512.png" />SIGN IN WITH GOOGLE</button>
                         </div>
 
                     </form>
