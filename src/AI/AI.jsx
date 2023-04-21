@@ -1,3 +1,7 @@
+import {GamePage, LoginPage} from "../layouts/index.jsx";
+
+const sth = document.querySelectorAll(".tdtd")
+
 let board = [
   ["", "", "", "", ""],
   ["", "", "", "", ""],
@@ -9,7 +13,7 @@ let board = [
 let w; // = width / 5;
 let h; // = height / 5;
 
-let ai = "X";
+let AI = "X";
 let human = "O";
 let currentPlayer = human;
 let count = 0;
@@ -75,18 +79,8 @@ function checkWinner() {
   }
 }
 
-function mousePressed() {
-  if (currentPlayer == human) {
-    // Human make turn
-    let i = floor(mouseX / w);
-    let j = floor(mouseY / h);
-    // If valid turn
-    if (board[i][j] == "") {
-      board[i][j] = human;
-      currentPlayer = ai;
-      bestMove();
-    }
-  }
+export default function mousePressed() {
+  console.log("Pressed")
 }
 
 function draw() {
@@ -112,7 +106,7 @@ function draw() {
       if (spot == human) {
         noFill();
         ellipse(x, y, r * 2);
-      } else if (spot == ai) {
+      } else if (spot == AI) {
         line(x - r, y - r, x + r, y + r);
         line(x + r, y - r, x - r, y + r);
       }
@@ -131,3 +125,4 @@ function draw() {
     }
   }
 }
+

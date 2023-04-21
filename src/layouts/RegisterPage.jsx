@@ -5,7 +5,6 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../firebase-config.jsx";
 const registerpage = () => {
-    const [user, setUser] = useState({});
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
     const [userConfirmPassword, setUserConfirmPassword] = useState(null);
@@ -26,7 +25,7 @@ const registerpage = () => {
             setLoading(true);
             console.log(emailRef);
             await signUp(userEmail, userPassword);
-            if(!user.loggedIn){
+            if(user.loggedIn){
                 navigate("/mainmenu", {replace : true});
             }
             console.log(auth.currentUser.email);
@@ -37,6 +36,9 @@ const registerpage = () => {
         setLoading(false);
     }
 
+    const handleBack = () => {
+        navigate("/", {replace: false});
+    }
     return (
         
         <div className="kiddobg flex h-screen w-full items-center justify-center bg-kiddogray bg-cover bg-no-repeat">
@@ -70,7 +72,7 @@ const registerpage = () => {
                         </div>
 
                         <div className="flex justify-center">
-                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK TO LOGIN</button>
+                            <button onClick={handleBack} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK TO LOGIN</button>
                         </div>
 
                     </form>

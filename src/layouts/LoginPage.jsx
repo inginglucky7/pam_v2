@@ -3,6 +3,7 @@ import "./Kiddo.css"
 import {Link, Navigate, useLocation, useNavigate} from "react-router-dom";
 import {auth} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
+import {GoogleAuthProvider} from "firebase/auth";
 
 const loginpage = () => {
     const [email, setEmail] = useState("");
@@ -11,15 +12,19 @@ const loginpage = () => {
     const location = useLocation();
     const logEmailRef = useRef();
     const logPassRef = useRef();
-    const {signIn, signInAnonymous, currentUser, logOut, user, setUser} = useAuth();
-    const [hasUser, setHasUser] = useState(false);
+    const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, signInGoogle, userName, setUserName} = useAuth();
+
+    useEffect(() => {
+        if(currentUser != null) {
+            navigate("/mainmenu")
+        } if(currentUser == null){
+            navigate("/")
+        }
+    }, [currentUser])
     const handleLogInWithEmail = async (e) => {
         e.preventDefault();
         try {
             await signIn(email, password);
-            if(!user.loggedIn){
-                navigate("/mainmenu", {replace : true});
-            }
             console.log(auth.currentUser.email);
         } catch (e) {
             console.log(e.message);
@@ -31,19 +36,32 @@ const loginpage = () => {
         e.preventDefault();
         try {
             await signInAnonymous();
-            if(!user.loggedIn){
-                navigate("/mainmenu", {replace : true});
-            }
             console.log(auth.currentUser.isAnonymous);
         } catch (e) {
             console.log(e.message);
         }
     }
 
+    const handleSignInGoogle = async (e) => {
+        e.preventDefault();
+        try {
+            await signInGoogle();
+        } catch (e) {
+            console.log(e.message);
+            console.log(e.code);
+        }
+    }
+
+    const navigateCreateAccount = async(e) => {
+        e.preventDefault();
+        navigate("/register", {replace : true});
+    }
+
     const handleLogOut = async (e) => {
         e.preventDefault();
         try {
             await logOut();
+            setHasUser(false);
             console.log(auth?.currentUser?.email);
         } catch (e) {
             console.log(e.message)
@@ -79,15 +97,15 @@ const loginpage = () => {
                         </div>
 
                         <div className="mb-4 flex justify-center">
-                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">LOGIN AS A GUEST</button>
+                            <button onClick={handleLogInAnonymous} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">LOGIN AS A GUEST</button>
                         </div>
 
                         <div className="mb-8 flex justify-center">
-                            <button onClick={handleLogInAnonymous} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">CREATE AN ACCOUNT</button>
+                            <button onClick={navigateCreateAccount} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-16 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">CREATE AN ACCOUNT</button>
                         </div>
 
                         <div className="flex justify-center">
-                            <button className="flex items-center rounded-2xl bg-kiddored bg-opacity-90 px-12 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">
+                            <button onClick={handleSignInGoogle} className="flex items-center rounded-2xl bg-kiddored bg-opacity-90 px-12 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">
                             <img className="w-8 h-8 mr-2" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097385357189849099/icons8-google-512.png" />SIGN IN WITH GOOGLE</button>
                         </div>
 

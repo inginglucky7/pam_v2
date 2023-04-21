@@ -1,17 +1,25 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
 import {Link, NavLink, useNavigation, Outlet, redirect, useNavigate} from "react-router-dom";
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {auth} from "../firebase-config.jsx";
+import mousePressed from "../AI/AI.jsx";
+import {oImage, xImage} from "../img/exportImage";
 
 const gamepage = () => {
 
-    return (
+    useEffect(() => {
+        document.querySelectorAll(".tdtd").forEach(block =>{
+            block.addEventListener("click", event => {
+                event.currentTarget.innerHTML = `<img src="${oImage}"/>`;
+            })
+        })
+    },[])
 
+    return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
-            
             <div className="absolute text-2xl ml-6 mt-6">
-                <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={mousePressed} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
             <div className="flex items-center justify-center pt-6">

@@ -5,14 +5,22 @@ import {auth} from "../firebase-config.jsx";
 import {useNavigate} from "react-router-dom";
 
 const mainmenu = () => {
-    const {signIn, signInAnonymous, currentUser, logOut, user, setUser} = useAuth();
+    const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, userName, setuserName} = useAuth();
     const navigate = useNavigate();
+    console.log(userLoggedIn)
     const handleLogOut = async (e) => {
         e.preventDefault();
         try {
-            await logOut();
-            if(!user.loggedIn){
-                navigate("/", {replace : true});
+            if(userLoggedIn){
+                if(currentUser.isAnonymous){
+                    auth.currentUser.delete();
+                    console.log("Delete Complete")
+                    await logOut();
+                    setUserLoggedIn(false);
+                } else{
+                    await logOut();
+                    setUserLoggedIn(false);
+                }
             }
             console.log(auth?.currentUser?.email);
         } catch (e) {
@@ -78,9 +86,9 @@ const mainmenu = () => {
                                     <h1 className="text-black font-bold text-xl">6</h1>
                                 </div>
                                 <div className="text-white">
-                                    <h1 className="mb-2 font-bold text-xl">PAUL</h1>
-                                    <h1 className="mb-2 font-bold text-xl">1000</h1>
-                                    <h1 className="text-md">63070002@it.kmitl.ac.th</h1>
+                                    <h1 className="mb-2 font-bold text-xl">{userName}</h1>
+                                    <h1 className="mb-2 font-bold text-xl">Point : 1000</h1>
+                                    <h1 className="text-md">{userName}</h1>
                                 </div>
                             </div>
                         </div>

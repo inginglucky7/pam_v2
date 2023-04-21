@@ -3,6 +3,7 @@ import './App.css'
 import {RootLayout, ErrorPage, LoginPage, RegisterPage, MainMenuPage, Profile, Leaderboard, SettingsPage, HowToPlayPage, LobbyPage, GamePage, ReviewYourAnswer} from './layouts';
 import {Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
 import {AuthProvider} from "./contexts/AuthContext.jsx";
+import Protected from "./components/Protected.jsx";
 
 const App = () =>{
     const router = createBrowserRouter(
@@ -10,7 +11,7 @@ const App = () =>{
             <Route path = '/' errorElement={<ErrorPage />} element={<RootLayout />}>
                 <Route index element={<LoginPage />}/>
                 <Route path="/register" element={<RegisterPage />}/>
-                <Route path="/mainmenu" element={<MainMenuPage />}/>
+                <Route path="/mainmenu" element={<Protected><MainMenuPage/></Protected>}/>
                 <Route path="/profile" element={<Profile />}/>
                 <Route path="/leaderboard" element={<Leaderboard />}/>
                 <Route path="/tutorial" element={<HowToPlayPage />}/>

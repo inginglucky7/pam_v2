@@ -1,6 +1,9 @@
 import React, {useContext, useEffect, useState, createContext, useRef} from "react";
 import {auth} from "../firebase-config.jsx";
-import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously} from "firebase/auth";
+import {
+    createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously,
+    signInWithPopup, GoogleAuthProvider
+} from "firebase/auth";
 import {redirect} from "react-router-dom";
 
 const AuthContext = createContext(null);
@@ -9,8 +12,9 @@ export const useAuth = () => {
     return useContext(AuthContext);
 }
 export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState({loggedIn: false});
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [userName, setUserName] = useState();
     const signUp = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
@@ -23,16 +27,32 @@ export const AuthProvider = ({children}) => {
         return signInAnonymously(auth);
     }
 
+    const signInGoogle = () => {
+        const provider = new GoogleAuthProvider();
+        return signInWithPopup(auth, provider)
+    }
+
     const logOut = () => {
         return signOut(auth);
     }
 
     useEffect(() => {
         return onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user)
-            console.log(user);
+            if(user) {
+                setCurrentUser(user);
+                setUserLoggedIn(true);
+                console.log(currentUser);
+                if(currentUser.isAnonymous){
+                    setUserName("Guest");
+                } else {
+                    setUserName(currentUser?.displayName);
+                }
+                //console.log(user.uid);
+            }if(user == null) {
+                setCurrentUser(null);
+            }
         });
-    }, [])
+    }, )
 
     const value = {
         currentUser,
@@ -40,8 +60,11 @@ export const AuthProvider = ({children}) => {
         signIn,
         logOut,
         signInAnonymous,
-        user,
-        setUser
+        signInGoogle,
+        userLoggedIn,
+        setUserLoggedIn,
+        userName,
+        setUserName
     }
     return(
         <AuthContext.Provider value={value}>
