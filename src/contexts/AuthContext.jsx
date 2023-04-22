@@ -14,7 +14,7 @@ export const useAuth = () => {
 export const AuthProvider = ({children}) => {
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-    const [userName, setUserName] = useState();
+    const [userName, setUserName] = useState({name: "", email: ""});
     const signUp = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
@@ -42,11 +42,6 @@ export const AuthProvider = ({children}) => {
                 setCurrentUser(user);
                 setUserLoggedIn(true);
                 console.log(currentUser);
-                if(currentUser.isAnonymous){
-                    setUserName("Guest");
-                } else {
-                    setUserName(currentUser?.displayName);
-                }
                 //console.log(user.uid);
             }if(user == null) {
                 setCurrentUser(null);

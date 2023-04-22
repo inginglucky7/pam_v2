@@ -11,7 +11,7 @@ const registerpage = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
-    const {signUp, currentUser} = useAuth();
+    const {signUp, currentUser, setUserName} = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const registerpage = () => {
             setLoading(true);
             console.log(emailRef);
             await signUp(userEmail, userPassword);
-            if(user.loggedIn){
+            if(currentUser != null){
                 navigate("/mainmenu", {replace : true});
             }
             console.log(auth.currentUser.email);

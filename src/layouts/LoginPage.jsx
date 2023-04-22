@@ -17,6 +17,23 @@ const loginpage = () => {
     useEffect(() => {
         if(currentUser != null) {
             navigate("/mainmenu")
+            if(currentUser?.isAnonymous){
+                setUserName({
+                    name: "Guest",
+                    email: "Guest@Guest.com"
+                })
+            } else if(currentUser.displayName == null){
+                setUserName({
+                    name: currentUser.email,
+                    email: currentUser.email
+                })
+            }
+            else {
+                setUserName({
+                    name: currentUser.displayName,
+                    email: currentUser.email
+                })
+            }
         } if(currentUser == null){
             navigate("/")
         }
@@ -25,6 +42,9 @@ const loginpage = () => {
         e.preventDefault();
         try {
             await signIn(email, password);
+            if(currentUser != null) {
+                currentUser.displayName = currentUser.email;
+            }
             console.log(auth.currentUser.email);
         } catch (e) {
             console.log(e.message);
@@ -37,6 +57,7 @@ const loginpage = () => {
         try {
             await signInAnonymous();
             console.log(auth.currentUser.isAnonymous);
+
         } catch (e) {
             console.log(e.message);
         }

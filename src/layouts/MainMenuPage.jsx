@@ -5,9 +5,9 @@ import {auth} from "../firebase-config.jsx";
 import {useNavigate} from "react-router-dom";
 
 const mainmenu = () => {
-    const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, userName, setuserName} = useAuth();
+    const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, userName, setUserName} = useAuth();
     const navigate = useNavigate();
-    console.log(userLoggedIn)
+
     const handleLogOut = async (e) => {
         e.preventDefault();
         try {
@@ -86,9 +86,9 @@ const mainmenu = () => {
                                     <h1 className="text-black font-bold text-xl">6</h1>
                                 </div>
                                 <div className="text-white">
-                                    <h1 className="mb-2 font-bold text-xl">{userName}</h1>
+                                    <h1 className="mb-2 font-bold text-xl">{userName.name}</h1>
                                     <h1 className="mb-2 font-bold text-xl">Point : 1000</h1>
-                                    <h1 className="text-md">{userName}</h1>
+                                    <h1 className="text-md">{userName.email}</h1>
                                 </div>
                             </div>
                         </div>
