@@ -10,7 +10,7 @@ const loginpage = () => {
     const navigate = useNavigate();
     const logEmailRef = useRef();
     const logPassRef = useRef();
-    const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, signInGoogle, userName, setUserName} = useAuth();
+    const {signIn, signInAnonymous, currentUser, signInGoogle, setUserName} = useAuth();
 
     useEffect(() => {
         if(currentUser != null) {

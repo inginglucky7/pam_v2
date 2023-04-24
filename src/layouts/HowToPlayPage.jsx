@@ -1,14 +1,18 @@
 import React from "react";
 import "./Kiddo.css"
+import {useNavigate} from "react-router-dom";
 
 const howtoplaypage = () => {
-
+    const navigate = useNavigate();
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
-                <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={(e) => {
+                    navigate("/mainmenu");
+                }
+                } className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
             
             <div className="flex items-center justify-center pt-12">

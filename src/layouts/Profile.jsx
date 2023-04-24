@@ -1,16 +1,20 @@
 import React from "react";
 import "./Kiddo.css"
 import {useAuth} from "../contexts/AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 const profilepage = () => {
-
+    const navigate = useNavigate();
+    const {currentUser, userName, setUserName} = useAuth();
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
-                <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={(e) => {
+                    navigate("/mainmenu")
+                }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
             
             <div className="flex items-center justify-center pt-12">
@@ -41,9 +45,9 @@ const profilepage = () => {
                             <h1 className="text-black font-bold text-xl">6</h1>
                         </div>
                         <div className="text-white">
-                            <h1 className="mb-2 font-bold text-xl">PAUL</h1>
+                            <h1 className="mb-2 font-bold text-xl">{userName.name}</h1>
                             <h1 className="mb-2 font-bold text-xl">1000</h1>
-                            <h1 className="text-md">63070002@it.kmitl.ac.th</h1>
+                            <h1 className="text-md">{userName.email}</h1>
                         </div>
                         <div className="ml-12">
                             <img className="w-16 cursor-pointer" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383901460168744/Edit0.png" />

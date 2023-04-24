@@ -5,7 +5,7 @@ import {auth} from "../firebase-config.jsx";
 import {useNavigate, useNavigation} from "react-router-dom";
 
 const mainmenu = () => {
-    const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, userName, setUserName} = useAuth();
+    const { currentUser, logOut, setUserLoggedIn, userName } = useAuth();
     const navigate = useNavigate();
     const navigation = useNavigation();
 
