@@ -39,7 +39,7 @@ const profilepage = () => {
                 <div className="rounded-3xl bg-black py-6 bg-opacity-80 backdrop-blur shadow-lg md:w-8/12 lg:w-6/12 xl:w-4/12">
                     <div className="flex items-center justify-center">
                         <div className="w-24 h-24 rounded-full bg-white">
-                            {/* Profile Image */}
+                            <img className="w-24 h-24 rounded-full" src={userName.photo} referrerPolicy="no-referrer"/>
                         </div>
                         <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white mx-4">
                             <h1 className="text-black font-bold text-xl">6</h1>

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
-import {Link, NavLink, useNavigation, Outlet, redirect, useNavigate} from "react-router-dom";
-import {onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {auth} from "../firebase-config.jsx";
-import mousePressed from "../AI/AI.jsx";
+import { useNavigate} from "react-router-dom";
+import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
 
 const gamepage = () => {
-
+    const navigate = useNavigate();
+    const { currentUser, userName } = useAuth();
     useEffect(() => {
         var humen = "X";
         var ai = "O"
@@ -109,7 +108,10 @@ const gamepage = () => {
     return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
             <div className="absolute text-2xl ml-6 mt-6">
-                <button onClick={mousePressed} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/lobby");
+                }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
             <div className="flex items-center justify-center pt-6">
@@ -132,7 +134,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">MEK</div>
+                <div className="text-center text-3xl font-bold mb-4">{userName.name}</div>
 
                 <div className="text-center text-5xl font-bold">X</div>
 

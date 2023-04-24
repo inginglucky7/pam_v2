@@ -1,14 +1,18 @@
 import React from "react";
 import "./Kiddo.css"
+import {useNavigate} from "react-router-dom";
 
 const lobbypage = () => {
-
+    const navigate = useNavigate();
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
-                <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/mainmenu");
+                }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
             
             <div className="flex items-center justify-center pt-12">
@@ -37,7 +41,10 @@ const lobbypage = () => {
                         <hr className="w-60 h-1 mx-auto bg-kiddobrown border-0 rounded" />
                     </div>
                     <div className="flex justify-center items-center py-20">
-                        <button className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-slate-200">START</button>
+                        <button onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/game")
+                        }} className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-slate-200">START</button>
                     </div>
                 </div>
 

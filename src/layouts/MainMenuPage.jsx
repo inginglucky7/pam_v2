@@ -3,12 +3,12 @@ import "./Kiddo.css"
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {auth} from "../firebase-config.jsx";
 import {useNavigate, useNavigation} from "react-router-dom";
+import {Oimg} from "../img/exportImage.jsx";
 
 const mainmenu = () => {
     const { currentUser, logOut, setUserLoggedIn, userName } = useAuth();
     const navigate = useNavigate();
     const navigation = useNavigation();
-
     const handleTest = () => {
         const text = navigation.state === "submitting" ? "Saving..." : navigation.state === "loading"
             ? "SAVE!" : "GO!";
@@ -54,6 +54,11 @@ const mainmenu = () => {
     const handleSetting = (e) => {
         e.preventDefault();
         navigate("/setting");
+    }
+
+    const handleStartGame = (e) => {
+        e.preventDefault();
+        navigate("/lobby");
     }
 
     return (
@@ -109,7 +114,7 @@ const mainmenu = () => {
                             md:w-11/12 lg:w-10/12 xl:w-8/12">
                             <div className="flex items-center justify-center">
                                 <div className="w-24 h-24 rounded-full bg-white">
-                                    {/* Profile Image */}
+                                    <img className="w-24 h-24 rounded-full" src={userName.photo} referrerPolicy="no-referrer"/>
                                 </div>
                                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white mx-4">
                                     <h1 className="text-black font-bold text-xl">6</h1>
@@ -123,7 +128,7 @@ const mainmenu = () => {
                         </div>
 
                         <div className="flex justify-center text-3xl">
-                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-12 py-8 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">START GAME</button>
+                            <button onClick={handleStartGame} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-12 py-8 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">START GAME</button>
                         </div>
 
                     </div>

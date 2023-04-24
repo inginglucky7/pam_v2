@@ -29,7 +29,8 @@ const loginpage = () => {
             else {
                 setUserName({
                     name: currentUser.displayName,
-                    email: currentUser.email
+                    email: currentUser.email,
+                    photo: currentUser.photoURL
                 })
             }
         } if(currentUser == null){

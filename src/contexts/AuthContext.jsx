@@ -14,7 +14,7 @@ export const useAuth = () => {
 export const AuthProvider = ({children}) => {
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-    const [userName, setUserName] = useState({name: "", email: ""});
+    const [userName, setUserName] = useState({name: "", email: "", photo: ""});
     const signUp = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
