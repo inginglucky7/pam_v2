@@ -1,14 +1,44 @@
-import React from "react";
+import React, {useState, useRef} from "react";
 import "./Kiddo.css"
+import {useLocation, useNavigate} from "react-router-dom";
 
 const settingspage = () => {
+    const screenRef = useRef(null);
+    const checkRef = useRef(null);
+    const navigate = useNavigate()
+    const handleFullScreen = (event) => {
+        if(event.target.checked){
+            if(screenRef.current.requestFullscreen){
+                screenRef.current.requestFullscreen();
+            }
+        }
+        else{
+            if(document.exitFullscreen){
+                document.exitFullscreen();
+            }
+        }
+    }
+
+    const handleSfx = (event) => {
+        if(event.target.checked){
+
+        }
+    }
+
+    const handleMusic = (event) => {
+        if(event.target.checked){
+
+        }
+    }
 
     return (
         
-        <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
+        <div ref={screenRef} className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
-                <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={(e) => {
+                    navigate("/mainmenu");
+                }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
             
             <div className="flex items-center justify-center pt-12">
@@ -38,19 +68,28 @@ const settingspage = () => {
                             <tr className="text-xl">
                                 <th className="px-6 py-4">SFX</th>
                                 <td className="px-12 py-4">
-                                    <input id="checked-checkbox" type="checkbox" value="" className="w-6 h-6 border-2 accent-sky-200" />
+                                    <input onChange={(e) => {
+                                        handleSfx(e);
+                                    }
+                                    } id="checked-checkbox sfx" type="checkbox" className="w-6 h-6 border-2 accent-sky-200" />
                                 </td>
                             </tr>
                             <tr className="text-xl">
                                 <th className="px-6 py-4">MUSIC</th>
                                 <td className="px-12 py-4">
-                                    <input id="checked-checkbox" type="checkbox" value="" className="w-6 h-6 border-2 accent-sky-200" />
+                                    <input onChange={(e) => {
+                                        handleMusic(e);
+                                    }
+                                    } id="checked-checkbox" type="checkbox" value="" className="w-6 h-6 border-2 accent-sky-200" />
                                 </td>
                             </tr>
                             <tr className="text-xl">
                                 <th className="px-6 py-4">FULLSCREEN</th>
                                 <td className="px-12 py-4">
-                                    <input id="default-checkbox" type="checkbox" value="" className="w-6 h-6 border-2 accent-sky-200" />
+                                    <input onChange={(e) => {
+                                        handleFullScreen(e);
+                                    }
+                                    } id="default-checkbox" type="checkbox" value="" className="w-6 h-6 border-2 accent-sky-200" />
                                 </td>
                             </tr>
                         </tbody>

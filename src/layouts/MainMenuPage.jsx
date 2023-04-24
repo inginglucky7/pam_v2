@@ -2,16 +2,24 @@ import React from "react";
 import "./Kiddo.css"
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {auth} from "../firebase-config.jsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useNavigation} from "react-router-dom";
 
 const mainmenu = () => {
     const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, userName, setUserName} = useAuth();
     const navigate = useNavigate();
+    const navigation = useNavigation();
+
+    const handleTest = () => {
+        const text = navigation.state === "submitting" ? "Saving..." : navigation.state === "loading"
+            ? "SAVE!" : "GO!";
+
+        return <button type="submit">{text}</button>
+    }
 
     const handleLogOut = async (e) => {
         e.preventDefault();
         try {
-            if(userLoggedIn){
+            if(currentUser != null){
                 if(currentUser.isAnonymous){
                     auth.currentUser.delete();
                     console.log("Delete Complete")
@@ -27,6 +35,27 @@ const mainmenu = () => {
             console.log(e.message)
         }
     }
+
+    const handleProfile = (e) => {
+        e.preventDefault();
+        navigate("/profile")
+    }
+
+    const handleLeaderboard = (e) => {
+        e.preventDefault();
+        navigate("/leaderboard");
+    }
+
+    const handleTutorial = (e) => {
+        e.preventDefault();
+        navigate("/tutorial");
+    }
+
+    const handleSetting = (e) => {
+        e.preventDefault();
+        navigate("/setting");
+    }
+
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
@@ -38,19 +67,19 @@ const mainmenu = () => {
                     <form action="#">
 
                         <div className="mb-10 flex justify-center text-2xl">
-                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">PROFILE</button>
+                            <button onClick={handleProfile} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">PROFILE</button>
                         </div>
 
                         <div className="mb-10 flex justify-center text-2xl">
-                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">LEADERBOARD</button>
+                            <button onClick={handleLeaderboard} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">LEADERBOARD</button>
                         </div>
 
                         <div className="mb-10 flex justify-center text-2xl">
-                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">HOW TO PLAY</button>
+                            <button onClick={handleTutorial} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">HOW TO PLAY</button>
                         </div>
 
                         <div className="mb-20 flex justify-center text-2xl">
-                            <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">SETTING</button>
+                            <button onClick={handleSetting} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-24 py-4 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">SETTING</button>
                         </div>
 
                         <div className="flex justify-center text-xl">

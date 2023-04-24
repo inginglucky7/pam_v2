@@ -1,5 +1,7 @@
 import React from "react";
 import "./Kiddo.css"
+import {useAuth} from "../contexts/AuthContext.jsx";
+
 
 const profilepage = () => {
 

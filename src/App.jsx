@@ -1,7 +1,6 @@
-import { useState, ReactDOM } from 'react'
 import './App.css'
 import {RootLayout, ErrorPage, LoginPage, RegisterPage, MainMenuPage, Profile, Leaderboard, SettingsPage, HowToPlayPage, LobbyPage, GamePage, ReviewYourAnswer} from './layouts';
-import {Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
 import {AuthProvider} from "./contexts/AuthContext.jsx";
 import Protected from "./components/Protected.jsx";
 

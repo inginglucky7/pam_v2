@@ -1,15 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import "./Kiddo.css"
-import {Link, Navigate, useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {auth} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
-import {GoogleAuthProvider} from "firebase/auth";
 
 const loginpage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const location = useLocation();
     const logEmailRef = useRef();
     const logPassRef = useRef();
     const {signIn, signInAnonymous, currentUser, logOut, userLoggedIn, setUserLoggedIn, signInGoogle, userName, setUserName} = useAuth();
@@ -76,17 +74,6 @@ const loginpage = () => {
     const navigateCreateAccount = async(e) => {
         e.preventDefault();
         navigate("/register", {replace : true});
-    }
-
-    const handleLogOut = async (e) => {
-        e.preventDefault();
-        try {
-            await logOut();
-            setHasUser(false);
-            console.log(auth?.currentUser?.email);
-        } catch (e) {
-            console.log(e.message)
-        }
     }
 
     return (
