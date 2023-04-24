@@ -1,7 +1,7 @@
-import oImage from "./O.png"
-import xImage from "./X.png"
+import Oimg from "./O.png"
+import Ximg from "./X.png"
 
 export {
-    oImage,
-    xImage
+    Oimg,
+    Ximg
 }

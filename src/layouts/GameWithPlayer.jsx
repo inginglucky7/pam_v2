@@ -4,106 +4,36 @@ import {Link, NavLink, useNavigation, Outlet, redirect, useNavigate} from "react
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {auth} from "../firebase-config.jsx";
 import mousePressed from "../AI/AI.jsx";
-import {Oimg, Ximg} from "../img/exportImage";
+import {oImage, xImage} from "../img/exportImage";
 
 const gamepage = () => {
 
     useEffect(() => {
         var humen = "X";
         var ai = "O"
-        var tie = false;
-        var playable = false;
         var win = false;
         var winner = "";
-        var turn = false;
         var row = [[],[],[],[],[]];
-        document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
-        document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
-        document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
-        document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
-        document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
+        let row1 = document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
+        let row2 = document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
+        let row3 = document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
+        let row4 = document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
+        let row5 = document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
+        console.log(row);
+        // console.log(row[1][0][0]);
         row[0].forEach((block) => block.addEventListener("click",clickCol));
         row[1].forEach((block) => block.addEventListener("click",clickCol));
         row[2].forEach((block) => block.addEventListener("click",clickCol));
         row[3].forEach((block) => block.addEventListener("click",clickCol));
         row[4].forEach((block) => block.addEventListener("click",clickCol));
-        console.log(row);
 
         function clickCol(event) {
-            console.log(win);
-            if (win == false && event.currentTarget.innerHTML == "" && tie == false){
+            if (win == false && event.currentTarget.innerHTML == ""){
+                console.log(event.currentTarget);
                 event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
-                turn = true;
-                checkWinner(row);
-                if(win == false){
-                    AiMove();
-                }
+                console.log(event.currentTarget.innerHTML);
             }
-        }    
-        
-        function AiMove(){
-            if(turn == true && win == false && tie == false){
-                let num1 = Math.floor(Math.random() * 5);
-                let num2 = Math.floor(Math.random() * 5);
-                if(row[num1][num2].innerHTML == ""){
-                    row[num1][num2].innerHTML = `<img src="${Oimg}"></img>`
-                    turn = false;
-                    checkWinner(row);
-                } else{
-                    AiMove();
-                }
-            }
-        }
-
-        function checkWinner(board) {
-            // Check rows
-            for (let i = 0; i < 5; i++) {
-              if (board[i][0].innerHTML != "" && board[i][0].innerHTML == board[i][1].innerHTML && board[i][1].innerHTML == board[i][2].innerHTML && board[i][2].innerHTML == board[i][3].innerHTML && board[i][3].innerHTML == board[i][4].innerHTML) {
-                console.log(board[i][0].innerHTML);
-                win = true;
-                winner = board[i][0].innerHTML;
-                console.log("Win row");
-              }
-            }
-          
-            // Check columns
-            for (let i = 0; i < 5; i++) {
-              if (board[0][i].innerHTML != "" && board[0][i].innerHTML == board[1][i].innerHTML && board[1][i].innerHTML == board[2][i].innerHTML && board[2][i].innerHTML == board[3][i].innerHTML && board[3][i].innerHTML == board[4][i].innerHTML) {
-                win = true;
-                winner = board[0][i].innerHTML;
-                console.log("Win col");
-              }
-            }
-          
-            // Check diagonals
-            if (board[0][0].innerHTML != "" && board[0][0].innerHTML == board[1][1].innerHTML && board[1][1].innerHTML == board[2][2].innerHTML && board[2][2].innerHTML == board[3][3].innerHTML && board[3][3].innerHTML == board[4][4].innerHTML) {
-                win = true;
-                winner = board[0][0].innerHTML;
-                console.log("Win di");
-            }
-          
-            if (board[0][4].innerHTML != "" && board[0][4].innerHTML == board[1][3].innerHTML && board[1][3].innerHTML == board[2][2].innerHTML && board[2][2].innerHTML == board[3][1].innerHTML && board[3][1].innerHTML == board[4][0].innerHTML) {
-                win = true;
-                winner = board[0][4].innerHTML;
-            }
-            for (let i = 0; i < 5; i++){
-                if(playable == false){
-                    for(let j = 0; j < 5; j++){
-                        if(board[i][j].innerHTML == ""){
-                            playable = true;
-                        }
-                    }
-                }
-            }
-
-            if(playable == false){
-                tie = true;
-                console.log("tie");
-            }else{
-                playable = false;
-            }
-          
-          }
+        }     
     })
 
     return (
