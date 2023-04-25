@@ -109,7 +109,7 @@ const leaderboard = () => {
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
                 <button onClick={(e) => {
-                    navigate("/mainmenu")
+                    navigate(-1);
                 }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 

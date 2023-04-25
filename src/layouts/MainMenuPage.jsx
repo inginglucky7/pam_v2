@@ -2,19 +2,11 @@ import React from "react";
 import "./Kiddo.css"
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {auth} from "../firebase-config.jsx";
-import {useNavigate, useNavigation} from "react-router-dom";
-import {Oimg} from "../img/exportImage.jsx";
+import {useNavigate } from "react-router-dom";
 
 const mainmenu = () => {
     const { currentUser, logOut, setUserLoggedIn, userName } = useAuth();
     const navigate = useNavigate();
-    const navigation = useNavigation();
-    const handleTest = () => {
-        const text = navigation.state === "submitting" ? "Saving..." : navigation.state === "loading"
-            ? "SAVE!" : "GO!";
-
-        return <button type="submit">{text}</button>
-    }
 
     const handleLogOut = async (e) => {
         e.preventDefault();
