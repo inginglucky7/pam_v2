@@ -53,8 +53,11 @@ const lobbypage = () => {
                         <h1 className="text-4xl font-bold text-center py-10">VS PLAYER</h1>
                         <hr className="w-60 h-1 mx-auto bg-kiddoyellow border-0 rounded" />
                     </div>
-                    <div className="flex justify-center items-center py-20">
-                        <button className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadowtwo duration-200 hover:bg-slate-200">JOIN</button>
+                    <div className="flex justify-center items-center py-8">
+                        <button className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadowtwo duration-200 hover:bg-slate-200">CREATE</button>
+                    </div>
+                    <div className="flex justify-center items-center py-8">
+                        <button className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadowtwo duration-200 hover:bg-slate-200">BROWSE</button>
                     </div>
                 </div>
 

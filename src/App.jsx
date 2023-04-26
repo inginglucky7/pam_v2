@@ -1,6 +1,6 @@
 import './App.css'
-import {RootLayout, ErrorPage, LoginPage, RegisterPage, MainMenuPage, Profile, Leaderboard, SettingsPage, HowToPlayPage, LobbyPage, GamePage, ReviewYourAnswer} from './layouts';
-import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
+import {RootLayout, ErrorPage, LoginPage, RegisterPage, MainMenuPage, Profile, Leaderboard, SettingsPage, HowToPlayPage, LobbyPage, BrowseGamePage, GamePage, ReviewYourAnswer} from './layouts';
+import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
 import {AuthProvider} from "./contexts/AuthContext.jsx";
 import Protected from "./components/Protected.jsx";
 
@@ -16,6 +16,7 @@ const App = () =>{
                 <Route path="/tutorial" element={<HowToPlayPage />}/>
                 <Route path="/setting" element={<SettingsPage />}/>
                 <Route path="/lobby" element={<LobbyPage />}/>
+                <Route path="/browse" element={<BrowseGamePage />}/>
                 <Route path="/game" element={<GamePage />}/>
                 <Route path="/review" element={<ReviewYourAnswer />}/>
             </Route>

@@ -8,8 +8,9 @@ import Leaderboard from "./Leaderboard.jsx"
 import HowToPlayPage from "./HowToPlayPage.jsx";
 import SettingsPage from "./SettingsPage.jsx";
 import LobbyPage from "./LobbyPage.jsx";
+import BrowseGamePage from "./BrowseGamePage.jsx";
 import GamePage from "./GamePage.jsx";
-import ReviewYourAnswer from "./ReviewPage.jsx"
+import ReviewYourAnswer from "./ReviewPage.jsx";
 
 export {
     RootLayout,
@@ -22,6 +23,7 @@ export {
     HowToPlayPage,
     SettingsPage,
     LobbyPage,
+    BrowseGamePage,
     GamePage,
     ReviewYourAnswer
 }

@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
-import { useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
 
 const gamepage = () => {
+    const [showModal, setShowModal] = React.useState(false);
+    
     const navigate = useNavigate();
     const { currentUser, userName } = useAuth();
     var human = "X"; // Santakorn Change humen -> human //
@@ -127,21 +129,7 @@ const gamepage = () => {
                 }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
-            <div className="flex items-center justify-center pt-6">
-
-                <div className="rounded-3xl bg-black py-2 bg-opacity-80 backdrop-blur shadow-lg md:w-5/12 lg:w-3/12 xl:w-2/12">
-                    <div className="flex items-center justify-center">
-                        <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-3/12" draggable="false" />
-                        <div className="relative text-white ml-8">
-                            <h1 className="mb-4 font-bold text-2xl">PAM's KIDDO</h1>
-                            <h1 className="font-bold text-xl">TIC TAC TOE</h1>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div className="absolute bg-kiddoyellow w-2/12 py-16 left-0 rounded-r-3xl border-4 border-black text-black mt-24">
+            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 rounded-r-3xl border-4 border-black text-black mt-40">
 
                 <div className="text-center text-4xl font-bold">TIME</div>
 
@@ -155,15 +143,25 @@ const gamepage = () => {
 
                 <div className="text-center text-3xl font-bold">Your Turn...</div>
 
+                <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
+
+                <div className="flex items-center justify-center">
+                    <button className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover">READY</button>
+                </div>
+
+                <div className="flex items-center justify-center mt-4">
+                    <button className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">GIVE UP</button>
+                </div>
+
             </div>
 
-            <div className="absolute bg-kiddobrown w-2/12 py-16 right-0 rounded-l-3xl border-4 border-white text-white mt-24">
+            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 rounded-l-3xl border-4 border-white text-white mt-40">
 
                 <div className="text-center text-4xl font-bold">TIME</div>
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">ING</div>
+                <div className="text-center text-3xl font-bold mb-4"></div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 
@@ -171,9 +169,19 @@ const gamepage = () => {
 
                 <div className="text-center text-3xl font-bold">Waiting...</div>
 
+                <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
+
+                <div className="flex items-center justify-center">
+                    <button className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover">READY</button>
+                </div>
+
+                <div className="flex items-center justify-center mt-4">
+                    <button className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">GIVE UP</button>
+                </div>
+
             </div>
 
-            <div className="flex items-center justify-center pt-6">
+            <div className="flex items-center justify-center pt-20">
 
                 <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
@@ -216,6 +224,59 @@ const gamepage = () => {
                 </div>
 
             </div>
+
+            <div className="flex items-center justify-center p-4">
+                <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-4 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">START</button>
+                
+                {/* Modal test */}
+                <button onClick={() => setShowModal(true)} className="rounded-2xl text-black font-bold bg-white px-4 py-4 text-2xl">MODAL</button>
+                {/* Modal test */}
+            
+            </div>
+
+            {showModal ? (
+            <>
+            <div className="flex justify-center items-center fixed inset-0 z-50">
+                <div className="relative w-auto max-w-2xl drop-shadow-kiddodropshadowtwo">
+                    <div className="rounded-2xl shadow-xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
+
+                        <div className="flex justify-center items-center p-6">
+                            
+                            <h3 className="text-3xl font-bold">Question:</h3>
+
+                        </div>
+
+                        <div className="flex justify-center items-center p-6 border-b">
+                            
+                            <h3 className="text-2xl font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quasi delectus deserunt.</h3>
+
+                        </div>
+
+                        <div className="flex items-center justify-center p-6 border-t">
+
+                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => setShowModal(false)}>A) ...</button>
+
+                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => setShowModal(false)}>B) ...</button>
+
+                        </div>
+
+                        <div className="flex items-center justify-center p-6">
+
+                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => setShowModal(false)}>C) ...</button>
+
+                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => setShowModal(false)}>D) ...</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            </>
+            ) : null}
 
         </div>
 
