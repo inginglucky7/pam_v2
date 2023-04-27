@@ -11,6 +11,7 @@ import LobbyPage from "./LobbyPage.jsx";
 import BrowseGamePage from "./BrowseGamePage.jsx";
 import GamePage from "./GamePage.jsx";
 import ReviewYourAnswer from "./ReviewPage.jsx";
+import GameWithPlayer from "./GameWithPlayer.jsx"
 
 export {
     RootLayout,
@@ -25,5 +26,6 @@ export {
     LobbyPage,
     BrowseGamePage,
     GamePage,
-    ReviewYourAnswer
+    ReviewYourAnswer,
+    GameWithPlayer
 }

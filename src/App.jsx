@@ -1,5 +1,5 @@
 import './App.css'
-import {RootLayout, ErrorPage, LoginPage, RegisterPage, MainMenuPage, Profile, Leaderboard, SettingsPage, HowToPlayPage, LobbyPage, BrowseGamePage, GamePage, ReviewYourAnswer} from './layouts';
+import {RootLayout, ErrorPage, LoginPage, RegisterPage, MainMenuPage, Profile, Leaderboard, SettingsPage, HowToPlayPage, LobbyPage, BrowseGamePage, GamePage, ReviewYourAnswer, GameWithPlayer} from './layouts';
 import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
 import {AuthProvider} from "./contexts/AuthContext.jsx";
 import Protected from "./components/Protected.jsx";
@@ -19,6 +19,7 @@ const App = () =>{
                 <Route path="/browse" element={<BrowseGamePage />}/>
                 <Route path="/game" element={<GamePage />}/>
                 <Route path="/review" element={<ReviewYourAnswer />}/>
+                <Route path="/gamewithplayer" element={<GameWithPlayer />}/>
             </Route>
         )
     )
