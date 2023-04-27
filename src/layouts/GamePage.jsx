@@ -3,12 +3,26 @@ import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
+import {ref, set, onValue, update, get, remove} from "firebase/database";
+import {db} from "../firebase-config.jsx";
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
     
     const navigate = useNavigate();
     const { currentUser, userName } = useAuth();
+    const dbRef = ref(db);
+    const roomRef = ref(db, "botRooms/owners/" + currentUser.uid);
+    const handleDeleteBotRoom = async (e) => {
+        e.preventDefault();
+        try {
+            await remove(roomRef);
+            navigate(-1);
+            console.log("delete")
+        }catch (e) {
+            console.log(e.message);
+        }
+    };
     var human = "X"; // Santakorn Change humen -> human //
     var ai = "O"
     var tie = false;
@@ -123,10 +137,7 @@ const gamepage = () => {
     return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
             <div className="absolute text-2xl ml-6 mt-6">
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/lobby");
-                }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={handleDeleteBotRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
             <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 rounded-r-3xl border-4 border-black text-black mt-40">
@@ -161,7 +172,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4"></div>
+                <div className="text-center text-3xl font-bold mb-4">Opponent</div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 

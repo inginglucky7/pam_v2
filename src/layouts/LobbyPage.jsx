@@ -1,9 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
+import {db} from "../firebase-config.jsx";
+import {ref, set, onValue, update, get, remove} from "firebase/database";
+import {useAuth} from "../contexts/AuthContext.jsx";
 
 const lobbypage = () => {
     const navigate = useNavigate();
+    const { currentUser, setUserName, userName} = useAuth();
+    const dbRef = ref(db);
+    const roomRef = ref(db, "botRooms/owners/" + currentUser.uid);
+
+    const createBotRoom = (user, email) => {
+        set(roomRef, {
+            username: user,
+            userEmail: email
+        })
+    };
+
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
@@ -11,7 +25,7 @@ const lobbypage = () => {
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
                 <button onClick={(e) => {
                     e.preventDefault();
-                    navigate("/mainmenu");
+                    navigate(-1);
                 }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
             
@@ -43,6 +57,7 @@ const lobbypage = () => {
                     <div className="flex justify-center items-center py-20">
                         <button onClick={(e) => {
                             e.preventDefault();
+                            createBotRoom(userName.name, userName.email);
                             navigate("/game")
                         }} className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-slate-200">START</button>
                     </div>
