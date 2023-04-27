@@ -4,36 +4,12 @@ import {Link, NavLink, useNavigation, Outlet, redirect, useNavigate} from "react
 import {onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {auth} from "../firebase-config.jsx";
 import mousePressed from "../AI/AI.jsx";
-import {oImage, xImage} from "../img/exportImage";
+import {Oimg, Ximg} from "../img/exportImage";
 
 const gamepage = () => {
 
     useEffect(() => {
-        var humen = "X";
-        var ai = "O"
-        var win = false;
-        var winner = "";
-        var row = [[],[],[],[],[]];
-        let row1 = document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
-        let row2 = document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
-        let row3 = document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
-        let row4 = document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
-        let row5 = document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
-        console.log(row);
-        // console.log(row[1][0][0]);
-        row[0].forEach((block) => block.addEventListener("click",clickCol));
-        row[1].forEach((block) => block.addEventListener("click",clickCol));
-        row[2].forEach((block) => block.addEventListener("click",clickCol));
-        row[3].forEach((block) => block.addEventListener("click",clickCol));
-        row[4].forEach((block) => block.addEventListener("click",clickCol));
-
-        function clickCol(event) {
-            if (win == false && event.currentTarget.innerHTML == ""){
-                console.log(event.currentTarget);
-                event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
-                console.log(event.currentTarget.innerHTML);
-            }
-        }     
+         
     })
 
     return (
