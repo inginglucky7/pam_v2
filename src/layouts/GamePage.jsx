@@ -76,12 +76,11 @@ const gamepage = () => {
         }
 
         /// Santakorn Fix here ///
-        if(win === true){
-            playable = false
-            if(playable === false){
-                tie = true;
-            }
+        if(win === false && playable === false){
+            tie = true;
+            console.log("Tie true");
         } else {
+            playable = false;
             tie = false;
         }
         // if(playable === false){
@@ -100,7 +99,7 @@ const gamepage = () => {
             event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
             turn = true;
             checkWinner(row);
-            if(win === false){
+            if(win === false && tie === false){
                 AiMove();
             }
         }
