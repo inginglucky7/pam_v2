@@ -3,7 +3,7 @@ import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
-import {ref, remove} from "firebase/database";
+import {onValue, ref, remove} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 
 const gamepage = () => {
@@ -18,7 +18,7 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
-    const roomPlayerRef = ref(db, "playerRoom/" + "game" + userName.name);
+    const roomPlayerRef = ref(db, "playerRoom/" + userName.name + "'s game");
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
         document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
@@ -31,6 +31,11 @@ const gamepage = () => {
         row[3].forEach((block) => block.addEventListener("click",clickCol));
         row[4].forEach((block) => block.addEventListener("click",clickCol));
     })
+
+    useEffect(() => {
+        onValue()
+    }, []);
+
     const handleDeletePlayerRoom = async (e) => {
         e.preventDefault();
         try {

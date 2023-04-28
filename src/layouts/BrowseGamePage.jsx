@@ -10,22 +10,31 @@ const browsegame = () => {
     const roomlistRef = useRef(null);
     const roomPlayerRef = ref(db, "playerRoom/" + userName.name + "'s game");
     const [roomNumber, setRoomNumber] = useState(0);
-    const [value, setValue] = useState('initState');
+
     useEffect(() => {
         onValue(roomPlayerRef, (snapshot) => {
             const roomInfo = snapshot.val();
             setRoomNumber(snapshot.size);
-            Object.keys(roomInfo).forEach((e) => {
-                roomlistRef.current.innerHTML += `<tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-6">${roomNumber}</th>
-                                <th>MEK</th>
-                                <th>GAME HAS STARTED</th>
-                                <th className="text-xl text-blue-800 cursor-pointer hover:underline">JOIN</th>
-                            </tr>`
-            })
         })
+    }, [roomPlayerRef])
+    const insertRoomList = () => {
+        onValue(roomPlayerRef, (snapshot) => {
+            const roomInfo = snapshot.val();
+            if(roomNumber !== 0){
+                Object.keys(roomInfo).forEach((e) => {
 
-    }, [value]);
+                });
+            }
+        })
+        return <>
+            <tr className="bg-kiddolightyellow">
+                <th scope="row" className="py-6">{roomPlayerRef.key.indexOf()+2}</th>
+                <th className="">{roomPlayerRef.key}</th>
+                <th className="">GAME HAS STARTED</th>
+                <th className="text-xl text-red-800"><span><button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-2 py-0 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">JOIN</button></span></th>
+            </tr>
+        </>
+    }
 
     return (
         
@@ -44,7 +53,7 @@ const browsegame = () => {
                     <div className="flex items-center justify-center">
                         <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-4/12" draggable="false" />
                         <div className="relative text-white ml-8">
-                            <h1 className="mb-4 font-bold text-3xl">PAM's KIDDO</h1>
+                            <h1 onClick={insertRoomList} className="mb-4 font-bold text-3xl">PAM's KIDDO</h1>
                             <h1 className="font-bold text-2xl">TIC TAC TOE</h1>
                         </div>
                     </div>
@@ -64,19 +73,20 @@ const browsegame = () => {
                     <table className="w-full text-center">
                         <thead className="bg-kiddoyellow uppercase text-black">
                             <tr>
-                                <th scope="col" className="px-12 py-4">Room</th>
-                                <th scope="col" className="px-12 py-4">Host</th>
+                                <th scope="col" className="px-12 py-4">No.</th>
+                                <th scope="col" className="px-12 py-4">Name</th>
                                 <th scope="col" className="px-16 py-4">Status</th>
                                 <th scope="col" className="px-12 py-4"></th>
                             </tr>
                         </thead>
                         <tbody ref={roomlistRef}>
-                            {/*<tr className="bg-kiddolightyellow">*/}
-                            {/*    <th scope="row" className="py-6">1</th>*/}
-                            {/*    <th className="">MEK</th>*/}
-                            {/*    <th className="">GAME HAS STARTED</th>*/}
-                            {/*    <th className="text-xl text-red-800">JOIN</th>*/}
-                            {/*</tr>*/}
+                            <tr className="bg-kiddolightyellow">
+                                {/*<th scope="row" className="py-6">1</th>*/}
+                                {/*<th className="">MEK</th>*/}
+                                {/*<th className="">GAME HAS STARTED</th>*/}
+                                {/*<th className="text-xl text-red-800">JOIN</th>*/}
+                            </tr>
+                            {insertRoomList()}
                         </tbody>
                     </table>
                 </div>

@@ -15,6 +15,7 @@ export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userName, setUserName] = useState({name: "", email: "", photo: ""});
     const [loading, setLoading] = useState(true);
+
     const signUp = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
@@ -71,9 +72,9 @@ export const AuthProvider = ({children}) => {
         }
     }, [currentUser])
 
-    if(loading){
-        return <p>Loading...</p>
-    }
+    // if(loading){
+    //     return <p>Loading...</p>
+    // }
 
     const value = {
         currentUser,

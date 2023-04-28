@@ -13,10 +13,13 @@ const loginpage = () => {
     const {signIn, signInAnonymous, currentUser, signInGoogle, setUserName} = useAuth();
 
     useEffect(() => {
+        if(currentUser !== null){
+            navigate("/mainmenu");
+        }
         if(currentUser === null){
             navigate("/")
         }
-    }, []);
+    }, [currentUser]);
     const handleLogInWithEmail = async (e) => {
         e.preventDefault();
         try {
