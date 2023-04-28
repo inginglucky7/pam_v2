@@ -11,7 +11,7 @@ const gamepage = () => {
     const navigate = useNavigate();
     const { currentUser, setCurrentUser, userName } = useAuth();
     const dbRef = ref(db);
-    const roomBotRef = ref(db, "botRooms/owners/" + userName.name);
+    const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
 
     const handleDeleteBotRoom = async (e) => {
         e.preventDefault();
@@ -144,7 +144,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{userName.name}</div>
+                <div className="text-center text-3xl font-bold mb-4">{userName?.name}</div>
 
                 <div className="text-center text-5xl font-bold">X</div>
 

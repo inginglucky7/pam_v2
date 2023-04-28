@@ -13,30 +13,10 @@ const loginpage = () => {
     const {signIn, signInAnonymous, currentUser, signInGoogle, setUserName} = useAuth();
 
     useEffect(() => {
-        if(currentUser != null) {
-            navigate("/mainmenu")
-            if(currentUser?.isAnonymous){
-                setUserName({
-                    name: "Guest",
-                    email: "Guest@Guest.com"
-                })
-            } else if(currentUser.displayName == null){
-                setUserName({
-                    name: currentUser.email,
-                    email: currentUser.email
-                })
-            }
-            else {
-                setUserName({
-                    name: currentUser.displayName,
-                    email: currentUser.email,
-                    photo: currentUser.photoURL
-                })
-            }
-        } if(currentUser == null){
+        if(currentUser === null){
             navigate("/")
         }
-    }, [currentUser])
+    }, []);
     const handleLogInWithEmail = async (e) => {
         e.preventDefault();
         try {

@@ -4,7 +4,6 @@ import {
     createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously,
     signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
-import {redirect} from "react-router-dom";
 
 const AuthContext = createContext(null);
 
@@ -15,6 +14,7 @@ export const AuthProvider = ({children}) => {
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const [userName, setUserName] = useState({name: "", email: "", photo: ""});
+    const [loading, setLoading] = useState(true);
     const signUp = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
@@ -37,18 +37,43 @@ export const AuthProvider = ({children}) => {
     }
 
     useEffect(() => {
-        return () => onAuthStateChanged(auth, (user) => {
+        return onAuthStateChanged(auth, (user) => {
             if(user) {
                 setCurrentUser(user);
                 setUserLoggedIn(true);
+                setLoading(false);
                 console.log(currentUser);
-                //console.log(user.uid);
             }
-            if(user == null) {
+            else{
                 setCurrentUser(null);
             }
         });
+    }, []);
+
+    useEffect(() => {
+        if(currentUser?.isAnonymous){
+            setUserName({
+                name: "Guest",
+                email: "Guest@Guest.com"
+            })
+        } else if(currentUser?.displayName == null){
+            setUserName({
+                name: currentUser?.email,
+                email: currentUser?.email
+            })
+        }
+        else {
+            setUserName({
+                name: currentUser?.displayName,
+                email: currentUser?.email,
+                photo: currentUser?.photoURL
+            })
+        }
     }, [currentUser])
+
+    if(loading){
+        return <p>Loading...</p>
+    }
 
     const value = {
         currentUser,

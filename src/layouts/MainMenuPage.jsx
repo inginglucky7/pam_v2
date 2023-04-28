@@ -106,15 +106,15 @@ const mainmenu = () => {
                             md:w-11/12 lg:w-10/12 xl:w-8/12">
                             <div className="flex items-center justify-center">
                                 <div className="w-24 h-24 rounded-full bg-white">
-                                    <img className="w-24 h-24 rounded-full" src={userName.photo} referrerPolicy="no-referrer"/>
+                                    <img className="w-24 h-24 rounded-full" src={userName?.photo} referrerPolicy="no-referrer"/>
                                 </div>
                                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white mx-4">
                                     <h1 className="text-black font-bold text-xl">6</h1>
                                 </div>
                                 <div className="text-white">
-                                    <h1 className="mb-2 font-bold text-xl">{userName.name}</h1>
+                                    <h1 className="mb-2 font-bold text-xl">{userName?.name}</h1>
                                     <h1 className="mb-2 font-bold text-xl">Point : 1000</h1>
-                                    <h1 className="text-md">{userName.email}</h1>
+                                    <h1 className="text-md">{userName?.email}</h1>
                                 </div>
                             </div>
                         </div>
