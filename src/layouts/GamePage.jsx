@@ -8,7 +8,6 @@ import {db} from "../firebase-config.jsx";
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
-    
     const navigate = useNavigate();
     const { currentUser, userName } = useAuth();
     const dbRef = ref(db);
@@ -42,6 +41,7 @@ const gamepage = () => {
         row[2].forEach((block) => block.addEventListener("click",clickCol));
         row[3].forEach((block) => block.addEventListener("click",clickCol));
         row[4].forEach((block) => block.addEventListener("click",clickCol));
+
 
     })
 

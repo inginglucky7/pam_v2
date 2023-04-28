@@ -5,7 +5,7 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../firebase-config.jsx";
 const registerpage = () => {
-    const [userEmail, setUserEmail] = useState(null);
+    const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState(null);
     const [userConfirmPassword, setUserConfirmPassword] = useState(null);
     const emailRef = useRef();
@@ -19,6 +19,9 @@ const registerpage = () => {
         e.preventDefault();
         if(passwordRef.current.value !== confirmPasswordRef.current.value){
             return setError("Password do not match");
+        }
+        if(!userEmail.includes("@")){
+            setUserEmail(userEmail+"222");
         }
         try {
             setError("")

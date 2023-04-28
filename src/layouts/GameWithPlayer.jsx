@@ -27,7 +27,6 @@ const gamepage = () => {
         row[2].forEach((block) => block.addEventListener("click",clickCol));
         row[3].forEach((block) => block.addEventListener("click",clickCol));
         row[4].forEach((block) => block.addEventListener("click",clickCol));
-
     })
 
     /// Santakorn change comparison ///
