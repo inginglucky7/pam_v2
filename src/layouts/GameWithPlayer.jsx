@@ -3,6 +3,8 @@ import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
+import {ref, remove} from "firebase/database";
+import {db} from "../firebase-config.jsx";
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
@@ -16,6 +18,7 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
+    const roomPlayerRef = ref(db, "playerRoom/" + "game" + userName.name);
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
         document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
@@ -28,6 +31,16 @@ const gamepage = () => {
         row[3].forEach((block) => block.addEventListener("click",clickCol));
         row[4].forEach((block) => block.addEventListener("click",clickCol));
     })
+    const handleDeletePlayerRoom = async (e) => {
+        e.preventDefault();
+        try {
+            await remove(roomPlayerRef);
+            navigate("/lobby");
+            console.log("delete room")
+        }catch (e) {
+            console.log(e.message);
+        }
+    };
 
     /// Santakorn change comparison ///
     function checkWinner(board) {
@@ -120,10 +133,7 @@ const gamepage = () => {
     return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
             <div className="absolute text-2xl ml-6 mt-6">
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/lobby");
-                }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={handleDeletePlayerRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
             <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 rounded-r-3xl border-4 border-black text-black mt-40">

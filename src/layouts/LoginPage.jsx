@@ -36,14 +36,6 @@ const loginpage = () => {
         } if(currentUser == null){
             navigate("/")
         }
-        window.onbeforeunload = (event) => {
-            const e = event || window.event;
-            e.preventDefault();
-            if(e){
-                e.returnValue = "";
-            }
-            return '';
-        };
     }, [currentUser])
     const handleLogInWithEmail = async (e) => {
         e.preventDefault();

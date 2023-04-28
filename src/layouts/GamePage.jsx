@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
@@ -9,13 +9,14 @@ import {db} from "../firebase-config.jsx";
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
     const navigate = useNavigate();
-    const { currentUser, userName } = useAuth();
+    const { currentUser, setCurrentUser, userName } = useAuth();
     const dbRef = ref(db);
-    const roomRef = ref(db, "botRooms/owners/" + currentUser.uid);
+    const roomBotRef = ref(db, "botRooms/owners/" + userName.name);
+
     const handleDeleteBotRoom = async (e) => {
         e.preventDefault();
         try {
-            await remove(roomRef);
+            await remove(roomBotRef);
             navigate(-1);
             console.log("delete")
         }catch (e) {
@@ -41,8 +42,6 @@ const gamepage = () => {
         row[2].forEach((block) => block.addEventListener("click",clickCol));
         row[3].forEach((block) => block.addEventListener("click",clickCol));
         row[4].forEach((block) => block.addEventListener("click",clickCol));
-
-
     })
 
     /// Santakorn change comparison ///
@@ -177,7 +176,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold">Waiting...</div>
+                <div className="text-center text-3xl font-bold">Ready!</div>
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 

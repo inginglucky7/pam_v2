@@ -1,14 +1,41 @@
-import React from "react";
+import React, {useRef, useEffect, useState} from "react";
 import "./Kiddo.css"
-
+import {useNavigate} from "react-router-dom";
+import {ref, set, onValue, update, get, remove} from "firebase/database";
+import {db} from "../firebase-config.jsx";
+import {useAuth} from "../contexts/AuthContext.jsx";
 const browsegame = () => {
+    const navigate = useNavigate();
+    const { currentUser, setUserName, userName} = useAuth();
+    const roomlistRef = useRef(null);
+    const roomPlayerRef = ref(db, "playerRoom/" + userName.name + "'s game");
+    const [roomNumber, setRoomNumber] = useState(0);
+    const [value, setValue] = useState('initState');
+    useEffect(() => {
+        onValue(roomPlayerRef, (snapshot) => {
+            const roomInfo = snapshot.val();
+            setRoomNumber(snapshot.size);
+            Object.keys(roomInfo).forEach((e) => {
+                roomlistRef.current.innerHTML += `<tr className="bg-kiddolightyellow">
+                                <th scope="row" className="py-6">${roomNumber}</th>
+                                <th>MEK</th>
+                                <th>GAME HAS STARTED</th>
+                                <th className="text-xl text-blue-800 cursor-pointer hover:underline">JOIN</th>
+                            </tr>`
+            })
+        })
+
+    }, [value]);
 
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
-                <button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
+                <button onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/lobby");
+                }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
             
             <div className="flex items-center justify-center pt-12">
@@ -37,43 +64,19 @@ const browsegame = () => {
                     <table className="w-full text-center">
                         <thead className="bg-kiddoyellow uppercase text-black">
                             <tr>
-                                <th scope="col" class="px-12 py-4">Room</th>
-                                <th scope="col" class="px-12 py-4">Host</th>
-                                <th scope="col" class="px-16 py-4">Status</th>
-                                <th scope="col" class="px-12 py-4"></th>
+                                <th scope="col" className="px-12 py-4">Room</th>
+                                <th scope="col" className="px-12 py-4">Host</th>
+                                <th scope="col" className="px-16 py-4">Status</th>
+                                <th scope="col" className="px-12 py-4"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-6">1</th>
-                                <th className="">MEK</th>
-                                <th className="">GAME HAS STARTED</th>
-                                <th className="text-xl text-red-800 cursor-not-allowed">JOIN</th>
-                            </tr>
-                            <tr className="bg-kiddoyellow">
-                                <th scope="row" className="py-6">2</th>
-                                <th className="">ING</th>
-                                <th className="">WAITING A PLAYER</th>
-                                <th className="text-xl text-blue-800 cursor-pointer hover:underline">JOIN</th>
-                            </tr>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-6">3</th>
-                                <th className=""></th>
-                                <th className=""></th>
-                                <th className=""></th>
-                            </tr>
-                            <tr className="bg-kiddoyellow">
-                                <th scope="row" className="py-6">4</th>
-                                <th className=""></th>
-                                <th className=""></th>
-                                <th className=""></th>
-                            </tr>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-6">5</th>
-                                <th className=""></th>
-                                <th className=""></th>
-                                <th className=""></th>
-                            </tr>
+                        <tbody ref={roomlistRef}>
+                            {/*<tr className="bg-kiddolightyellow">*/}
+                            {/*    <th scope="row" className="py-6">1</th>*/}
+                            {/*    <th className="">MEK</th>*/}
+                            {/*    <th className="">GAME HAS STARTED</th>*/}
+                            {/*    <th className="text-xl text-red-800">JOIN</th>*/}
+                            {/*</tr>*/}
                         </tbody>
                     </table>
                 </div>

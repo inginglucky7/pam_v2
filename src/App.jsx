@@ -7,7 +7,7 @@ import Protected from "./components/Protected.jsx";
 const App = () =>{
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path = '/' errorElement={<ErrorPage />} element={<RootLayout />}>
+            <Route path = '/' element={<RootLayout />}>
                 <Route index element={<LoginPage />}/>
                 <Route path="/register" element={<RegisterPage />}/>
                 <Route path="/mainmenu" element={<Protected><MainMenuPage/></Protected>}/>
@@ -20,6 +20,7 @@ const App = () =>{
                 <Route path="/game" element={<GamePage />}/>
                 <Route path="/review" element={<ReviewYourAnswer />}/>
                 <Route path="/gamewithplayer" element={<GameWithPlayer />}/>
+                <Route path="/browsegame" element={<BrowseGamePage/>}/>
             </Route>
         )
     )

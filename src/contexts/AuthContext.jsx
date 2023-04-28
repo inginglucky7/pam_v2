@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, createContext, useRef} from "react";
+import React, {useContext, useEffect, useState, createContext, useRef, useCallback} from "react";
 import {auth} from "../firebase-config.jsx";
 import {
     createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously,
@@ -37,17 +37,18 @@ export const AuthProvider = ({children}) => {
     }
 
     useEffect(() => {
-        return onAuthStateChanged(auth, (user) => {
+        return () => onAuthStateChanged(auth, (user) => {
             if(user) {
                 setCurrentUser(user);
                 setUserLoggedIn(true);
                 console.log(currentUser);
                 //console.log(user.uid);
-            }if(user == null) {
+            }
+            if(user == null) {
                 setCurrentUser(null);
             }
         });
-    }, )
+    }, [currentUser])
 
     const value = {
         currentUser,
