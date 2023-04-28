@@ -31,6 +31,7 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
+    var OgiveupBtn = document.getElementById("Ogiveup");
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
         document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
@@ -110,6 +111,8 @@ const gamepage = () => {
     function clickCol(event) {
         checkWinner(row); /// Santakorn Add Here ///
         if (win === false && tie === false && event.currentTarget.innerHTML === ""){
+            OgiveupBtn.disabled = false;
+            OgiveupBtn.style.opacity = "1";
             event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
             turn = true;
             checkWinner(row);
@@ -186,7 +189,7 @@ const gamepage = () => {
                 </div>
 
                 <div className="flex items-center justify-center mt-4">
-                    <button className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">GIVE UP</button>
+                    <button id="Ogiveup" style={{opacity: 0.5}} className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">GIVE UP</button>
                 </div>
 
             </div>
