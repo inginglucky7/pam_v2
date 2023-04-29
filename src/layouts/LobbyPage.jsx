@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import "./Kiddo.css"
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {db} from "../firebase-config.jsx";
 import {ref, set, onValue, update, get, remove} from "firebase/database";
 import {useAuth} from "../contexts/AuthContext.jsx";
@@ -17,6 +17,10 @@ const lobbypage = () => {
         }
     };
 
+    useEffect(() => {
+        console.log(location.pathname, location?.state?.previousUrl)
+    })
+
     const handleCreatePlayerRoom = async (user, userUid) => {
         try {
             await createPlayerRoom(user, userUid);
@@ -25,6 +29,16 @@ const lobbypage = () => {
             console.log(e.message)
         }
         navigate("/gamewithplayer");
+    }
+
+    const handleBrowseRoom = () => {
+        if(location?.state?.previousUrl === undefined){
+            navigate("/browsegame", {
+                state: {
+                    previousUrl: location.pathname
+                }
+            })
+        }
     }
 
     return (
@@ -83,10 +97,7 @@ const lobbypage = () => {
                         }} className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadowtwo duration-200 hover:bg-slate-200">CREATE</button>
                     </div>
                     <div className="flex justify-center items-center py-8">
-                        <button onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/browsegame");
-                        }} className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadowtwo duration-200 hover:bg-slate-200">BROWSE</button>
+                        <button onClick={handleBrowseRoom} className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadowtwo duration-200 hover:bg-slate-200">BROWSE</button>
                     </div>
                 </div>
 

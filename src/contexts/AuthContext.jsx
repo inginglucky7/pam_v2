@@ -17,7 +17,7 @@ export const AuthProvider = ({children}) => {
     const [userName, setUserName] = useState({name: "", email: "", photo: ""});
     const [loading, setLoading] = useState(true);
     const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
-    const roomPlayerRef = ref(db, "playerRoom/" + userName?.name + "'s game");
+    const roomPlayerRef = ref(db, "playerRoom/" + userName?.name + "'sGame");
     const userListRef = ref(db, `userList/${userName.name}`);
     useEffect(() => {
         if(currentUser?.isAnonymous){

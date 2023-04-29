@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
 import {onValue, ref, remove} from "firebase/database";
@@ -20,6 +20,7 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
+    const location = useLocation();
     
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
@@ -49,9 +50,14 @@ const gamepage = () => {
     const handleDeletePlayerRoom = async (e) => {
         e.preventDefault();
         try {
+            navigate("/browsegame", {
+                state: {
+                    previousUrl: location.pathname,
+                },
+            });
             await remove(roomPlayerRef);
-            navigate("/lobby");
             console.log("delete room")
+
         }catch (e) {
             console.log(e.message);
         }

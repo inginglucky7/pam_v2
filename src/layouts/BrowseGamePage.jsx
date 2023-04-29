@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import "./Kiddo.css"
-import {useNavigate} from "react-router-dom";
-import {onValue, ref, get} from "firebase/database";
+import { useNavigate, useLocation } from "react-router-dom";
+import {onValue, ref, get, set} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
 
@@ -9,13 +9,12 @@ const browsegame = () => {
     const navigate = useNavigate();
     const { currentUser, setUserName, userName} = useAuth();
     const roomlistRef = useRef(null);
-    const dbRef = ref(db);
     const [roomNumber, setRoomNumber] = useState(0);
-    const [roomName, setRoomName] = useState(null);
+    const location = useLocation();
 
-    const handleJoinRoom = (roomName) => {
-        console.log(roomName);
-        navigate(`/game/${roomName}`)
+    const handleJoinRoom = (e) => {
+        navigate("/gamewithplayer");
+        console.log("Complete")
     }
 
     useEffect(() => {
@@ -25,20 +24,23 @@ const browsegame = () => {
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();
             const roomInfo = Object.entries(gameRooms);
-            roomInfo.forEach((room, i = 0) => {
+            let i = 0;
+            roomInfo.forEach((room) => {
                 let playerInRoom = 0;
                 document.querySelector("#roomlist").innerHTML += `
                     <tr key="${number}" className="bg-kiddolightyellow">
                         <th scope="row" className="py-6">${parseInt(room.indexOf(room[i]))+1}</th>
                         <th className="">${room[0]}</th>
-                        <th className="">${room[1].playerX.name ? playerInRoom+1+"/2" : "Player O Not Available"}</th>
-                        <th id="${room[0]}-joinBtn" className="text-xl text-red-800">
-                            <button onClick="${handleJoinRoom(room[0])}">JOIN</button>
+                        <th className="">${room[1].playerX.name ? playerInRoom+1+"/2" : "Full"}</th>
+                        <th className="text-xl text-red-800">
+                            <button id="${room[0]}-joinBtn">JOIN</button>
                         </th>
                     </tr>
                 `
-            })
-        })
+                console.log(document.getElementById(`${room[0]}-joinBtn`));
+                i++;
+            });
+        });
     }, []);
 
     return (

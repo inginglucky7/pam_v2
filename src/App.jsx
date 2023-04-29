@@ -17,7 +17,9 @@ const App = () =>{
                 <Route path="/setting" element={<SettingsPage />}/>
                 <Route path="/lobby" element={<LobbyPage />}/>
                 <Route path="/browse" element={<BrowseGamePage />}/>
-                <Route path="/game" element={<GamePage />}/>
+                <Route path="/game" element={<GamePage />}>
+
+                </Route>
                 <Route path="/review" element={<ReviewYourAnswer />}/>
                 <Route path="/gamewithplayer" element={<GameWithPlayer />}/>
                 <Route path="/browsegame" element={<BrowseGamePage/>}/>
