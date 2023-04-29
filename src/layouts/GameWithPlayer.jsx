@@ -9,6 +9,8 @@ import {db} from "../firebase-config.jsx";
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
     const navigate = useNavigate();
+    const [playerX, setPlayerX] = useState(null);
+    const [playerO, setPlayerO] = useState(null);
     const { currentUser, userName, roomPlayerRef } = useAuth();
     var human = "X"; // Santakorn Change humen -> human //
     var ai = "O"
@@ -18,6 +20,7 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
+    
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
         document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
@@ -31,6 +34,18 @@ const gamepage = () => {
         row[4].forEach((block) => block.addEventListener("click",clickCol));
     })
 
+    useEffect(() => {
+        const gameRoomsRef = ref(db, 'playerRoom');
+        onValue(gameRoomsRef, (snapshot) => {
+            const gameRooms = snapshot.val();
+            const roomInfo = Object.entries(gameRooms);
+            roomInfo.forEach((room, i = 0) => {
+                setPlayerX(room[1].playerX.name);
+                setPlayerO(room[1].playerO.name);
+            })
+        })
+    }, [])
+
     const handleDeletePlayerRoom = async (e) => {
         e.preventDefault();
         try {
@@ -41,6 +56,11 @@ const gamepage = () => {
             console.log(e.message);
         }
     };
+
+    const handlePlayerName = () => {
+        console.log(playerX)
+        console.log(playerO)
+    }
 
     /// Santakorn change comparison ///
     function checkWinner(board) {
@@ -142,7 +162,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{userName.name}</div>
+                <div className="text-center text-3xl font-bold mb-4">{playerX ? playerX : "Waiting..."}</div>
 
                 <div className="text-center text-5xl font-bold">X</div>
 
@@ -168,7 +188,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4"></div>
+                <div className="text-center text-3xl font-bold mb-4">{playerO ? playerO : "Waiting..."}</div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 

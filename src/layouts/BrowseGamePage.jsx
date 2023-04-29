@@ -13,18 +13,9 @@ const browsegame = () => {
     const [roomNumber, setRoomNumber] = useState(0);
     const [roomName, setRoomName] = useState(null);
 
-    const generataRoomRow = (room) => {
-        const roomShowInfo = room;
-        const number = roomNumber + 1;
-        setRoomNumber(number);
-        return (
-            <tr key={number} className="bg-kiddolightyellow">
-                <th scope="row" className="py-6">{number}</th>
-                <th className="">{roomShowInfo[0]}</th>
-                <th className="">{roomShowInfo[1]}</th>
-                <th className="text-xl text-red-800">JOIN</th>
-            </tr>
-        )
+    const handleJoinRoom = (roomName) => {
+        console.log(roomName);
+        navigate(`/game/${roomName}`)
     }
 
     useEffect(() => {
@@ -34,18 +25,19 @@ const browsegame = () => {
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();
             const roomInfo = Object.entries(gameRooms);
-            roomInfo.map((room) => {
-                generataRoomRow(room)
+            roomInfo.forEach((room, i = 0) => {
+                let playerInRoom = 0;
+                document.querySelector("#roomlist").innerHTML += `
+                    <tr key="${number}" className="bg-kiddolightyellow">
+                        <th scope="row" className="py-6">${parseInt(room.indexOf(room[i]))+1}</th>
+                        <th className="">${room[0]}</th>
+                        <th className="">${room[1].playerX.name ? playerInRoom+1+"/2" : "Player O Not Available"}</th>
+                        <th id="${room[0]}-joinBtn" className="text-xl text-red-800">
+                            <button onClick="${handleJoinRoom(room[0])}">JOIN</button>
+                        </th>
+                    </tr>
+                `
             })
-            const roomList = roomlistRef.current;
-            // document.querySelector("#roomlist").innerHTML += `
-            // <tr key={number} className="bg-kiddolightyellow">
-            //     <th scope="row" className="py-6">${number}</th>
-            //     <th className="">${roomRows[0]}</th>
-            //     <th className="">PlayerO: ${roomStatus[0].playerO.status}</th>
-            //     <th className="text-xl text-red-800"><span><button>JOIN</button></span></th>
-            // </tr>
-            // `
         })
     }, []);
 

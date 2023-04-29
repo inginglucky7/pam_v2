@@ -27,13 +27,13 @@ export const AuthProvider = ({children}) => {
             })
         } else if(currentUser?.displayName == null){
             setUserName({
-                name: currentUser?.email.replace(".com", ""),
+                name: currentUser?.email.substring(0, currentUser?.email.indexOf("@")),
                 email: currentUser?.email
             })
         }
         else {
             setUserName({
-                name: currentUser?.displayName,
+                name: currentUser?.displayName.substring(0, currentUser?.displayName.indexOf(" ")),
                 email: currentUser?.email,
                 photo: currentUser?.photoURL
             })
@@ -93,7 +93,7 @@ export const AuthProvider = ({children}) => {
                 role: "X",
                 isOwner: true,
                 count: 0,
-                status: "",
+                readyStatus: 0,
             },
             "playerO": {
                 name: "",
@@ -101,7 +101,7 @@ export const AuthProvider = ({children}) => {
                 role: "O",
                 isOwner: false,
                 count: 0,
-                status: "",
+                readyStatus: 0,
             }
         })
     }
@@ -113,9 +113,9 @@ export const AuthProvider = ({children}) => {
         })
     };
 
-    // if(loading){
-    //     return <p>Loading...</p>
-    // }
+    if(loading){
+        return <p>Loading...</p>
+    }
 
     const value = {
         currentUser,
