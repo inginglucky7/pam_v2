@@ -1,9 +1,10 @@
 import React, {useContext, useEffect, useState, createContext, useRef, useCallback} from "react";
-import {auth} from "../firebase-config.jsx";
+import {auth, db} from "../firebase-config.jsx";
 import {
     createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously,
     signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
+import {ref, set} from "firebase/database";
 
 const AuthContext = createContext(null);
 
@@ -15,6 +16,43 @@ export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userName, setUserName] = useState({name: "", email: "", photo: ""});
     const [loading, setLoading] = useState(true);
+    const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
+    const roomPlayerRef = ref(db, "playerRoom/" + userName?.name + "'s game");
+    const userListRef = ref(db, `userList/${userName.name}`);
+    useEffect(() => {
+        if(currentUser?.isAnonymous){
+            setUserName({
+                name: "Guest",
+                email: "Guest@Guest.com"
+            })
+        } else if(currentUser?.displayName == null){
+            setUserName({
+                name: currentUser?.email.replace(".com", ""),
+                email: currentUser?.email
+            })
+        }
+        else {
+            setUserName({
+                name: currentUser?.displayName,
+                email: currentUser?.email,
+                photo: currentUser?.photoURL
+            })
+        }
+    }, [userName?.name, currentUser])
+
+    useEffect(() => {
+        return onAuthStateChanged(auth, (user) => {
+            if(user) {
+                setCurrentUser(user);
+                setUserLoggedIn(true);
+                setLoading(false);
+                console.log(currentUser);
+            }
+            else{
+                setCurrentUser(null);
+            }
+        });
+    }, [currentUser]);
 
     const signUp = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
@@ -37,40 +75,43 @@ export const AuthProvider = ({children}) => {
         return signOut(auth);
     }
 
-    useEffect(() => {
-        return onAuthStateChanged(auth, (user) => {
-            if(user) {
-                setCurrentUser(user);
-                setUserLoggedIn(true);
-                setLoading(false);
-                console.log(currentUser);
-            }
-            else{
-                setCurrentUser(null);
-            }
-        });
-    }, []);
+    const setUserList = (user, email, name, createUserList = true) => {
+        if (createUserList) {
+            return set(userList, {
+                username: user,
+                email: email,
+                playerName: name,
+            });
+        }
+    };
 
-    useEffect(() => {
-        if(currentUser?.isAnonymous){
-            setUserName({
-                name: "Guest",
-                email: "Guest@Guest.com"
-            })
-        } else if(currentUser?.displayName == null){
-            setUserName({
-                name: currentUser?.email,
-                email: currentUser?.email
-            })
-        }
-        else {
-            setUserName({
-                name: currentUser?.displayName,
-                email: currentUser?.email,
-                photo: currentUser?.photoURL
-            })
-        }
-    }, [currentUser])
+    const createPlayerRoom = (user, userUid) => {
+        return set(roomPlayerRef, {
+            "playerX": {
+                name: user,
+                uid: userUid,
+                role: "X",
+                isOwner: true,
+                count: 0,
+                status: "",
+            },
+            "playerO": {
+                name: "",
+                uid: "",
+                role: "O",
+                isOwner: false,
+                count: 0,
+                status: "",
+            }
+        })
+    }
+
+    const createBotRoom = (user, email) => {
+        return set(roomBotRef, {
+            username: user,
+            userEmail: email
+        })
+    };
 
     // if(loading){
     //     return <p>Loading...</p>
@@ -83,10 +124,15 @@ export const AuthProvider = ({children}) => {
         logOut,
         signInAnonymous,
         signInGoogle,
+        setUserList,
         userLoggedIn,
         setUserLoggedIn,
         userName,
-        setUserName
+        setUserName,
+        roomBotRef,
+        roomPlayerRef,
+        createPlayerRoom,
+        createBotRoom
     }
     return(
         <AuthContext.Provider value={value}>

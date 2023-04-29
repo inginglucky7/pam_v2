@@ -2,8 +2,9 @@ import React, {useState, useRef} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
+import {onValue, ref, get, set} from "firebase/database";
 import {createUserWithEmailAndPassword} from "firebase/auth";
-import {auth} from "../firebase-config.jsx";
+import {auth, db} from "../firebase-config.jsx";
 const registerpage = () => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState(null);
@@ -11,7 +12,7 @@ const registerpage = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
-    const {signUp, currentUser, setUserName} = useAuth();
+    const {signUp, currentUser, setUserName, userName,setUserList} = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -19,9 +20,6 @@ const registerpage = () => {
         e.preventDefault();
         if(passwordRef.current.value !== confirmPasswordRef.current.value){
             return setError("Password do not match");
-        }
-        if(!userEmail.includes("@")){
-            setUserEmail(userEmail+"222");
         }
         try {
             setError("")

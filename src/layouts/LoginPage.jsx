@@ -3,6 +3,7 @@ import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {auth} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
+import {set} from "firebase/database";
 
 const loginpage = () => {
     const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ const loginpage = () => {
     const navigate = useNavigate();
     const logEmailRef = useRef();
     const logPassRef = useRef();
-    const {signIn, signInAnonymous, currentUser, signInGoogle, setUserName} = useAuth();
+    const {signIn, signInAnonymous, currentUser, signInGoogle, setUserName, userName, setUserList} = useAuth();
 
     useEffect(() => {
         if(currentUser !== null){
@@ -20,6 +21,7 @@ const loginpage = () => {
             navigate("/")
         }
     }, [currentUser]);
+
     const handleLogInWithEmail = async (e) => {
         e.preventDefault();
         try {
@@ -39,7 +41,6 @@ const loginpage = () => {
         try {
             await signInAnonymous();
             console.log(auth.currentUser.isAnonymous);
-
         } catch (e) {
             console.log(e.message);
         }
@@ -51,7 +52,6 @@ const loginpage = () => {
             await signInGoogle();
         } catch (e) {
             console.log(e.message);
-            console.log(e.code);
         }
     }
 

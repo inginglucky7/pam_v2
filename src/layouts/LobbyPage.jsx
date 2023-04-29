@@ -7,37 +7,24 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 
 const lobbypage = () => {
     const navigate = useNavigate();
-    const { currentUser, setUserName, userName} = useAuth();
-    const dbRef = ref(db);
-    const roomBotRef = ref(db, "botRooms/owners/" + userName.name);
-    const roomPlayerRef = ref(db, "playerRoom/" + userName.name + "'s game");
-    const createBotRoom = (user, email) => {
-        set(roomBotRef, {
-            username: user,
-            userEmail: email
-        })
+    const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom} = useAuth();
+
+    const handleCreateBotRoom = async (user, email) => {
+        try {
+            await createBotRoom(user, email);
+        } catch (e) {
+            console.log(e.message);
+        }
     };
 
-    const createUserRoom = (user, userUid) => {
-
-        set(roomPlayerRef, {
-            "playerX": {
-                name: user,
-                uid: userUid,
-                role: "X",
-                isOwner: true,
-                count: 0,
-                status: "",
-            },
-            "playerO": {
-                name: "",
-                uid: "",
-                role: "O",
-                isOwner: false,
-                count: 0,
-                status: "",
-            }
-        })
+    const handleCreatePlayerRoom = async (user, userUid) => {
+        try {
+            await createPlayerRoom(user, userUid);
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+        navigate("/gamewithplayer");
     }
 
     return (
@@ -79,7 +66,7 @@ const lobbypage = () => {
                     <div className="flex justify-center items-center py-20">
                         <button onClick={(e) => {
                             e.preventDefault();
-                            createBotRoom(userName.name, userName.email);
+                            handleCreateBotRoom(userName.name, userName.email);
                             navigate("/game")
                         }} className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-slate-200">START</button>
                     </div>
@@ -92,9 +79,7 @@ const lobbypage = () => {
                     </div>
                     <div className="flex justify-center items-center py-8">
                         <button onClick={(e) => {
-                            e.preventDefault();
-                            createUserRoom(userName.name, currentUser.uid);
-                            navigate("/gamewithplayer")
+                            handleCreatePlayerRoom(userName.name, currentUser.uid);
                         }} className="rounded-2xl bg-white bg-opacity-90 px-16 py-8 text-black text-3xl font-bold shadow-xl drop-shadow-kiddodropshadowtwo duration-200 hover:bg-slate-200">CREATE</button>
                     </div>
                     <div className="flex justify-center items-center py-8">

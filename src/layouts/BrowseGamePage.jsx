@@ -1,43 +1,56 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
-import {ref, set, onValue, update, get, remove} from "firebase/database";
+import {onValue, ref, get} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
+
 const browsegame = () => {
     const navigate = useNavigate();
     const { currentUser, setUserName, userName} = useAuth();
     const roomlistRef = useRef(null);
-    const roomPlayerRef = ref(db, "playerRoom/" + userName.name + "'s game");
+    const dbRef = ref(db);
     const [roomNumber, setRoomNumber] = useState(0);
+    const [roomName, setRoomName] = useState(null);
 
-    useEffect(() => {
-        onValue(roomPlayerRef, (snapshot) => {
-            const roomInfo = snapshot.val();
-            setRoomNumber(snapshot.size);
-        })
-    }, [roomPlayerRef])
-    const insertRoomList = () => {
-        onValue(roomPlayerRef, (snapshot) => {
-            const roomInfo = snapshot.val();
-            if(roomNumber !== 0){
-                Object.keys(roomInfo).forEach((e) => {
-
-                });
-            }
-        })
-        return <>
-            <tr className="bg-kiddolightyellow">
-                <th scope="row" className="py-6">{roomPlayerRef.key.indexOf()+2}</th>
-                <th className="">{roomPlayerRef.key}</th>
-                <th className="">GAME HAS STARTED</th>
-                <th className="text-xl text-red-800"><span><button className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-2 py-0 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">JOIN</button></span></th>
+    const generataRoomRow = (room) => {
+        const roomShowInfo = room;
+        const number = roomNumber + 1;
+        setRoomNumber(number);
+        return (
+            <tr key={number} className="bg-kiddolightyellow">
+                <th scope="row" className="py-6">{number}</th>
+                <th className="">{roomShowInfo[0]}</th>
+                <th className="">{roomShowInfo[1]}</th>
+                <th className="text-xl text-red-800">JOIN</th>
             </tr>
-        </>
+        )
     }
 
+    useEffect(() => {
+        const gameRoomsRef = ref(db, 'playerRoom');
+        const number = roomNumber + 1;
+        setRoomNumber(number);
+        onValue(gameRoomsRef, (snapshot) => {
+            const gameRooms = snapshot.val();
+            const roomInfo = Object.entries(gameRooms);
+            roomInfo.map((room) => {
+                generataRoomRow(room)
+            })
+            const roomList = roomlistRef.current;
+            // document.querySelector("#roomlist").innerHTML += `
+            // <tr key={number} className="bg-kiddolightyellow">
+            //     <th scope="row" className="py-6">${number}</th>
+            //     <th className="">${roomRows[0]}</th>
+            //     <th className="">PlayerO: ${roomStatus[0].playerO.status}</th>
+            //     <th className="text-xl text-red-800"><span><button>JOIN</button></span></th>
+            // </tr>
+            // `
+        })
+    }, []);
+
     return (
-        
+
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
@@ -46,14 +59,14 @@ const browsegame = () => {
                     navigate("/lobby");
                 }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
-            
+
             <div className="flex items-center justify-center pt-12">
 
                 <div className="rounded-3xl bg-black py-2 bg-opacity-80 backdrop-blur shadow-lg md:w-6/12 lg:w-4/12 xl:w-3/12">
                     <div className="flex items-center justify-center">
                         <img src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383902408097862/Logo.png" className="kiddologo w-4/12" draggable="false" />
                         <div className="relative text-white ml-8">
-                            <h1 onClick={insertRoomList} className="mb-4 font-bold text-3xl">PAM's KIDDO</h1>
+                            <h1 className="mb-4 font-bold text-3xl">PAM's KIDDO</h1>
                             <h1 className="font-bold text-2xl">TIC TAC TOE</h1>
                         </div>
                     </div>
@@ -79,14 +92,13 @@ const browsegame = () => {
                                 <th scope="col" className="px-12 py-4"></th>
                             </tr>
                         </thead>
-                        <tbody ref={roomlistRef}>
-                            <tr className="bg-kiddolightyellow">
-                                {/*<th scope="row" className="py-6">1</th>*/}
-                                {/*<th className="">MEK</th>*/}
-                                {/*<th className="">GAME HAS STARTED</th>*/}
-                                {/*<th className="text-xl text-red-800">JOIN</th>*/}
-                            </tr>
-                            {insertRoomList()}
+                        <tbody id="roomlist" ref={roomlistRef}>
+                            {/*<tr className="bg-kiddolightyellow">*/}
+                            {/*    <th scope="row" className="py-6">1</th>*/}
+                            {/*    <th className="">MEK</th>*/}
+                            {/*    <th className="">GAME HAS STARTED</th>*/}
+                            {/*    <th className="text-xl text-red-800">JOIN</th>*/}
+                            {/*</tr>*/}
                         </tbody>
                     </table>
                 </div>
