@@ -7,7 +7,7 @@ import {Oimg, Ximg} from "../img/exportImage";
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
     const navigate = useNavigate();
-    const { currentUser, userName } = useAuth();
+    const {currentUser, userName } = useAuth();
     var human = "X"; // Santakorn Change humen -> human //
     var ai = "O"
     var tie = false;
@@ -127,7 +127,7 @@ const gamepage = () => {
                 }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
-            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 rounded-r-3xl border-4 border-black text-black mt-40">
+            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black lg:mb-[3%] xl:mb-[6%]">
 
                 <div className="text-center text-4xl font-bold">TIME</div>
 
@@ -153,7 +153,7 @@ const gamepage = () => {
 
             </div>
 
-            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 rounded-l-3xl border-4 border-white text-white mt-40">
+            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 bottom-0 rounded-l-3xl border-4 border-white text-white lg:mb-[3%] xl:mb-[6%]">
 
                 <div className="text-center text-4xl font-bold">TIME</div>
 
@@ -179,57 +179,58 @@ const gamepage = () => {
 
             </div>
 
-            <div className="flex items-center justify-center pt-20">
+            <div className="flex items-center justify-center">
+                <div className="absolute top-0 lg:mt-8 xl:mt-16">
+                    <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
-                <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
+                        <div className="flex justify-center" id="row1">
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                        </div>
+                        <div className="flex justify-center" id="row2">
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                        </div>
+                            <div className="flex justify-center" id="row3">
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                        </div>
+                        <div className="flex justify-center" id="row4">
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                        </div>
+                        <div className="flex justify-center" id="row5">
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                            <div className="tdtd"></div>
+                        </div>
 
-                    <div className="flex justify-center" id="row1">
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
                     </div>
-                    <div className="flex justify-center" id="row2">
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                    </div>
-                        <div className="flex justify-center" id="row3">
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                    </div>
-                    <div className="flex justify-center" id="row4">
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                    </div>
-                    <div className="flex justify-center" id="row5">
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                        <div className="tdtd"></div>
-                    </div>
-
                 </div>
-
             </div>
 
-            <div className="flex items-center justify-center p-4">
-                <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-4 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">START</button>
-                
-                {/* Modal test */}
-                <button onClick={() => setShowModal(true)} className="rounded-2xl text-black font-bold bg-white px-4 py-4 text-2xl">MODAL</button>
-                {/* Modal test */}
-            
+            <div className="flex items-center justify-center">
+                <div className="absolute bottom-0 lg:mb-4 xl:mb-12">
+                    <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-4 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">START</button>
+                    
+                    {/* Modal test */}
+                    <button onClick={() => setShowModal(true)} className="rounded-2xl text-black font-bold bg-white px-4 py-4 text-2xl">MODAL</button>
+                    {/* Modal test */}
+                </div>
             </div>
 
             {showModal ? (
