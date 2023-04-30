@@ -92,16 +92,14 @@ export const AuthProvider = ({children}) => {
                 uid: userUid,
                 role: "X",
                 isOwner: true,
-                count: 0,
-                readyStatus: 0,
+                readyStatus: false,
             },
             "playerO": {
                 name: "",
                 uid: "",
                 role: "O",
                 isOwner: false,
-                count: 0,
-                readyStatus: 0,
+                readyStatus: false,
             }
         })
     }
@@ -113,9 +111,9 @@ export const AuthProvider = ({children}) => {
         })
     };
 
-    if(loading){
-        return <p>Loading...</p>
-    }
+    // if(loading){
+    //     return <p>Loading...</p>
+    // }
 
     const value = {
         currentUser,

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import "./Kiddo.css"
-import { useNavigate, useLocation } from "react-router-dom";
+import {useNavigate, useLocation, Link} from "react-router-dom";
 import {onValue, ref, get, set} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
@@ -10,11 +10,11 @@ const browsegame = () => {
     const { currentUser, setUserName, userName} = useAuth();
     const roomlistRef = useRef(null);
     const [roomNumber, setRoomNumber] = useState(0);
+    const [roomList, setRoomList] = useState([]);
     const location = useLocation();
 
-    const handleJoinRoom = (e) => {
-        navigate("/gamewithplayer");
-        console.log("Complete")
+    const handleJoinRoom = (roomId) => {
+        navigate(`/gamewithplayer/${roomId}`);
     }
 
     useEffect(() => {
@@ -23,23 +23,7 @@ const browsegame = () => {
         setRoomNumber(number);
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();
-            const roomInfo = Object.entries(gameRooms);
-            let i = 0;
-            roomInfo.forEach((room) => {
-                let playerInRoom = 0;
-                document.querySelector("#roomlist").innerHTML += `
-                    <tr key="${number}" className="bg-kiddolightyellow">
-                        <th scope="row" className="py-6">${parseInt(room.indexOf(room[i]))+1}</th>
-                        <th className="">${room[0]}</th>
-                        <th className="">${room[1].playerX.name ? playerInRoom+1+"/2" : "Full"}</th>
-                        <th className="text-xl text-red-800">
-                            <button id="${room[0]}-joinBtn">JOIN</button>
-                        </th>
-                    </tr>
-                `
-                console.log(document.getElementById(`${room[0]}-joinBtn`));
-                i++;
-            });
+            setRoomList(gameRooms);
         });
     }, []);
 
@@ -86,13 +70,19 @@ const browsegame = () => {
                                 <th scope="col" className="px-12 py-4"></th>
                             </tr>
                         </thead>
-                        <tbody id="roomlist" ref={roomlistRef}>
-                            {/*<tr className="bg-kiddolightyellow">*/}
-                            {/*    <th scope="row" className="py-6">1</th>*/}
-                            {/*    <th className="">MEK</th>*/}
-                            {/*    <th className="">GAME HAS STARTED</th>*/}
-                            {/*    <th className="text-xl text-red-800">JOIN</th>*/}
-                            {/*</tr>*/}
+                        <tbody ref={roomlistRef}>
+                                {roomList === null ? <></> : Object.keys(roomList).map((room) => (
+                                    <tr key={room}  className="bg-kiddolightyellow">
+                                        <th scope="row" className="py-6">{room.length}</th>
+                                        <th className="">{room}</th>
+                                        <th className="">{roomList[room].playerX.name ? "1/2" : roomList[room].playerO.name ? "1/2" :
+                                            roomList[room].playerX.name && roomList[room].playerO.name ? "2/2" : ""
+                                        }</th>
+                                        <th id="${room[0]}-joinBtn" className="text-xl text-red-800">
+                                            <button onClick={() => handleJoinRoom(room)}>JOIN</button>
+                                        </th>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

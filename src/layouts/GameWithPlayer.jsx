@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
-import {useNavigate, useLocation} from "react-router-dom";
+import {useNavigate, useLocation, Route, Routes} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
 import {onValue, ref, remove} from "firebase/database";
@@ -13,6 +13,7 @@ const gamepage = () => {
     const [playerX, setPlayerX] = useState(null);
     const [playerO, setPlayerO] = useState(null);
     const { currentUser, userName, roomPlayerRef } = useAuth();
+    const [roomList, setRoomList] = useState([]);
 
     var human = "X"; // Santakorn Change humen -> human //
     var ai = "O"
@@ -35,17 +36,13 @@ const gamepage = () => {
         row[2].forEach((block) => block.addEventListener("click",clickCol));
         row[3].forEach((block) => block.addEventListener("click",clickCol));
         row[4].forEach((block) => block.addEventListener("click",clickCol));
-    })
+    }, [])
 
     useEffect(() => {
         const gameRoomsRef = ref(db, 'playerRoom');
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();
-            const roomInfo = Object.entries(gameRooms);
-            roomInfo.forEach((room, i = 0) => {
-                setPlayerX(room[1].playerX.name);
-                setPlayerO(room[1].playerO.name);
-            })
+            setRoomList(gameRooms);
         })
     }, [])
 
@@ -59,7 +56,6 @@ const gamepage = () => {
             });
             await remove(roomPlayerRef);
             console.log("delete room")
-
         }catch (e) {
             console.log(e.message);
         }
@@ -160,6 +156,9 @@ const gamepage = () => {
 
     return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
+            <Routes>
+                <Route></Route>
+            </Routes>
             <div className="absolute text-2xl ml-6 mt-6">
                 <button onClick={handleDeletePlayerRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
@@ -313,7 +312,6 @@ const gamepage = () => {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
             </>
             ) : null}
-
         </div>
 
     )

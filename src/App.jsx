@@ -9,20 +9,17 @@ const App = () =>{
         createRoutesFromElements(
             <Route path = '/' element={<RootLayout />}>
                 <Route index element={<LoginPage />}/>
-                <Route path="/register" element={<RegisterPage />}/>
-                <Route path="/mainmenu" element={<Protected><MainMenuPage/></Protected>}/>
-                <Route path="/profile" element={<Profile />}/>
-                <Route path="/leaderboard" element={<Leaderboard />}/>
-                <Route path="/tutorial" element={<HowToPlayPage />}/>
-                <Route path="/setting" element={<SettingsPage />}/>
-                <Route path="/lobby" element={<LobbyPage />}/>
-                <Route path="/browse" element={<BrowseGamePage />}/>
-                <Route path="/game" element={<GamePage />}>
-
-                </Route>
-                <Route path="/review" element={<ReviewYourAnswer />}/>
-                <Route path="/gamewithplayer" element={<GameWithPlayer />}/>
-                <Route path="/browsegame" element={<BrowseGamePage/>}/>
+                <Route path="register" element={<RegisterPage />}/>
+                <Route path="mainmenu" element={<Protected><MainMenuPage/></Protected>}/>
+                <Route path="profile" element={<Profile />}/>
+                <Route path="leaderboard" element={<Leaderboard />}/>
+                <Route path="tutorial" element={<HowToPlayPage />}/>
+                <Route path="setting" element={<SettingsPage />}/>
+                <Route path="lobby" element={<LobbyPage />}/>
+                <Route path="browsegame" element={<BrowseGamePage/>}/>
+                <Route path="game" element={<GamePage />}/>
+                <Route path="/:roomId/*" element={<GameWithPlayer />}/>
+                <Route path="review" element={<ReviewYourAnswer />}/>
             </Route>
         )
     )

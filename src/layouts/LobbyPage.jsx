@@ -28,7 +28,7 @@ const lobbypage = () => {
         catch (e) {
             console.log(e.message)
         }
-        navigate("/gamewithplayer");
+        navigate("/gamewithplayer/");
     }
 
     const handleBrowseRoom = () => {
