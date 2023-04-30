@@ -1,20 +1,23 @@
 import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
-import {useNavigate, useLocation, Route, Routes} from "react-router-dom";
+import {useNavigate, useLocation, Route, Routes, useParams} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
-import {onValue, ref, remove} from "firebase/database";
+import {get, onValue, ref, remove, child} from "firebase/database";
 import {db} from "../firebase-config.jsx";
-
 const gamepage = () => {
-    const [showModal, setShowModal] = React.useState(false);
-    const navigate = useNavigate();
 
-    const [playerX, setPlayerX] = useState(null);
-    const [playerO, setPlayerO] = useState(null);
-    const { currentUser, userName, roomPlayerRef } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const params = useParams();
+    const [showModal, setShowModal] = useState(false);
     const [roomList, setRoomList] = useState([]);
-    const [playerInRoom, setPlayerInRoom] = useState([]);
+    const [playerX, setPlayerX] = useState([]);
+    const [playerO, setPlayerO] = useState([]);
+    const { currentUser, userName, roomPlayerRef } = useAuth();
+
+    //const urlRoom = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+    const gameRoomsRef = ref(db, 'playerRoom');
 
     var human = "X";
     var ai = "O"
@@ -24,7 +27,7 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
-    const location = useLocation();
+
     
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
@@ -40,20 +43,37 @@ const gamepage = () => {
     }, [])
 
     useEffect(() => {
-        const gameRoomsRef = ref(db, 'playerRoom');
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();
             setRoomList(gameRooms);
+            // console.log(location);
+            // console.log(params["*"]);
         })
     }, []);
 
+    useEffect(() => {
+        Object.keys(roomList).map((room) => {
+            if(params["*"] === location.state.roomJoinUrl){
+                console.log(roomList[room].roomId);
+                if(params["*"] === roomList[room].roomId){
+                    setPlayerX(Array.of(roomList[room].playerX));
+                    setPlayerO(Array.of(roomList[room].playerO));
+                }
+            } else if(params["*"] === roomList[room].playerX.uid){
+                setPlayerX(Array.of(roomList[room].playerX));
+            }
+        })
+    }, [roomList]);
+
     const handleName = () => {
-        const gameRoomsRef = ref(db, 'playerRoom');
         onValue(gameRoomsRef, (snapshot) => {
-            const gameRooms = snapshot.val();
             Object.keys(roomList).map((room) => {
-                console.log(roomList[room]);
-                console.log(location);
+                if(params["*"] === location.state.roomJoinUrl){
+                    if(params["*"] === roomList[room].roomId){
+                        console.log(location.state.roomJoinUrl);
+                        console.log(location)
+                    }
+                }
             })
         })
     }
@@ -162,9 +182,6 @@ const gamepage = () => {
 
     return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
-            <Routes>
-                <Route></Route>
-            </Routes>
             <div className="absolute text-2xl ml-6 mt-6">
                 <button onClick={handleDeletePlayerRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
@@ -175,7 +192,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerX ? playerX : "Waiting..."}</div>
+                <div className="text-center text-3xl font-bold mb-4">{playerX.map((attr) => attr.name) ? playerX.map((attr) => attr.name) : "Waiting..."}</div>
 
                 <div className="text-center text-5xl font-bold">X</div>
 
@@ -201,7 +218,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerO ? playerO : "Waiting..."}</div>
+                <div className="text-center text-3xl font-bold mb-4">{playerO.map((attr) => attr.name) ? playerO.map((attr) => attr.name) : "Waiting..."}</div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 

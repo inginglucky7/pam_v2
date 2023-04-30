@@ -12,6 +12,7 @@ const browsegame = () => {
     const [roomNumber, setRoomNumber] = useState(0);
     const [roomList, setRoomList] = useState([]);
     const location = useLocation();
+    const gameRoomsRef = ref(db, 'playerRoom');
 
     const handleJoinRoom = (roomId) => {
         navigate(`/gamewithplayer/${roomId}`, {
@@ -22,7 +23,6 @@ const browsegame = () => {
     }
 
     useEffect(() => {
-        const gameRoomsRef = ref(db, 'playerRoom');
         const number = roomNumber + 1;
         setRoomNumber(number);
         onValue(gameRoomsRef, (snapshot) => {

@@ -9,9 +9,6 @@ const lobbypage = () => {
     const navigate = useNavigate();
     const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom} = useAuth();
     const [roomList, setRoomList] = useState([]);
-    const handleCreateRoom = (roomId) => {
-        navigate(`/gamewithplayer/${roomId}`);
-    }
 
     const handleCreateBotRoom = async (user, email) => {
         try {
@@ -36,7 +33,11 @@ const lobbypage = () => {
         catch (e) {
             console.log(e.message)
         }
-        navigate(`/gamewithplayer/${currentUser.uid}`);
+        navigate(`/gamewithplayer/${currentUser.uid}`, {
+            state: {
+                roomJoinUrl: location.pathname,
+            }
+        });
     }
 
     const handleBrowseRoom = () => {
