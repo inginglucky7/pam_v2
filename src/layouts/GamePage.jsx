@@ -3,6 +3,7 @@ import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
+import {QA} from "./Question.jsx";
 import {ref, set, onValue, update, get, remove} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 
@@ -12,6 +13,7 @@ const gamepage = () => {
     const { currentUser, setCurrentUser, userName } = useAuth();
     const dbRef = ref(db);
     const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
+    console.log(QA[0]);
 
     const handleDeleteBotRoom = async (e) => {
         e.preventDefault();
