@@ -6,24 +6,15 @@ import {Oimg, Ximg} from "../img/exportImage";
 import {QA} from "./Question.jsx";
 import {ref, set, onValue, update, get, remove} from "firebase/database";
 import {db} from "../firebase-config.jsx";
+
 var TrueAns;
+
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
     const navigate = useNavigate();
     const { currentUser, setCurrentUser, userName } = useAuth();
     const dbRef = ref(db);
     const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
-    // const [correctAns, setCorrectAns] = useState("");
-    var human = "X"; // Santakorn Change humen -> human //
-    var ai = "O"
-    var tie = false;
-    var playable = false;
-    var win = false;
-    var winner = "";
-    var turn = false;
-    var row = [[],[],[],[],[]];
-    var ready = false;
-    var alreadymove = false;
 
     const handleDeleteBotRoom = async (e) => {
         e.preventDefault();
@@ -35,7 +26,16 @@ const gamepage = () => {
             console.log(e.message);
         }
     };
-
+    var human = "X"; // Santakorn Change humen -> human //
+    var ai = "O"
+    var tie = false;
+    var playable = false;
+    var win = false;
+    var winner = "";
+    var turn = false;
+    var row = [[],[],[],[],[]];
+    var ready = false;
+    var alreadymove = false;
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
         document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
@@ -53,19 +53,15 @@ const gamepage = () => {
     })
 
     function SetQuestion(){
-        const Qarray = QA[Math.floor(Math.random() * 2)]
-        if(Qarray.True === "A"){
+        const Qarray = QA[Math.floor(Math.random() * 35)]
+        if(Qarray.True == "A"){
             TrueAns = "A";
-            // setCorrectAns("A");
-        } else if(Qarray.True === "B"){
+        } else if(Qarray.True == "B"){
             TrueAns = "B";
-            // setCorrectAns("B");
-        }else if(Qarray.True === "C"){
+        }else if(Qarray.True == "C"){
             TrueAns = "C";
-            // setCorrectAns("C");
         }else{
             TrueAns = "D";
-            // setCorrectAns("D");
         }
         console.log(TrueAns);
         const question = document.getElementById("question");
@@ -81,14 +77,15 @@ const gamepage = () => {
     }
 
     function CheckQuestion(button){
-        if(TrueAns === button){
+        console.log(TrueAns + " " + button);
+        if(TrueAns == button){
             console.log("True");
             setShowModal(false);
         } else{
             turn = true;
             setShowModal(false);
             setTimeout(() => {
-                if(alreadymove === false && turn === true){
+                if(alreadymove == false && turn == true){
                     AiMove();
                     alreadymove = true;
                     setTimeout(() => {
@@ -100,7 +97,6 @@ const gamepage = () => {
                 }
             }, 1500);
         }
-        console.log(TrueAns + " " + button);
     }
 
     function playerready(){
@@ -220,7 +216,10 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
+
                 <div className="text-center text-3xl font-bold mb-4">{userName?.name}</div>
+
+                <div className="text-center text-3xl font-bold mb-4">{userName.name}855</div>
 
                 <div className="text-center text-5xl font-bold">X</div>
 
