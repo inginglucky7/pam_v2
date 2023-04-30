@@ -18,6 +18,7 @@ const browsegame = () => {
         navigate(`/gamewithplayer/${roomId}`, {
             state: {
                 roomJoinUrl: roomId,
+                from: "browsegame",
             }
         });
     }
@@ -79,8 +80,8 @@ const browsegame = () => {
                                     <tr key={room}  className="bg-kiddolightyellow">
                                         <th scope="row" className="py-6">{room.length}</th>
                                         <th className="">{roomList[room].roomName}</th>
-                                        <th className="">{roomList[room].playerX.name ? "1/2" : roomList[room].playerO.name ? "1/2" :
-                                            roomList[room].playerX.name && roomList[room].playerO.name ? "2/2" : ""
+                                        <th className="">{roomList[room]?.playerX?.name && roomList[room]?.playerO?.name === "" ? "1/2" : roomList[room]?.playerO?.name && roomList[room]?.playerX?.name === "" ? "1/2" :
+                                            roomList[room]?.playerX?.name && roomList[room]?.playerO?.name ? "2/2" : ""
                                         }</th>
                                         <th id="${room[0]}-joinBtn" className="text-xl text-red-800">
                                             <button onClick={() => handleJoinRoom(roomList[room].roomId)}>JOIN</button>

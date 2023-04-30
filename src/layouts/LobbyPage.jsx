@@ -35,7 +35,7 @@ const lobbypage = () => {
         }
         navigate(`/gamewithplayer/${currentUser.uid}`, {
             state: {
-                roomJoinUrl: location.pathname,
+                roomJoinUrl: location.pathname // /lobby,
             }
         });
     }

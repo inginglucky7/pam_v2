@@ -3,8 +3,10 @@ import "./Kiddo.css"
 import {useNavigate, useLocation, Route, Routes, useParams} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {Oimg, Ximg} from "../img/exportImage";
-import {get, onValue, ref, remove, child} from "firebase/database";
+import {get, onValue, ref, remove, update} from "firebase/database";
 import {db} from "../firebase-config.jsx";
+
+var pO;
 const gamepage = () => {
 
     const navigate = useNavigate();
@@ -27,7 +29,6 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
-
     
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
@@ -53,15 +54,38 @@ const gamepage = () => {
 
     useEffect(() => {
         Object.keys(roomList).map((room) => {
-            if(params["*"] === location.state.roomJoinUrl){
-                console.log(roomList[room].roomId);
-                if(params["*"] === roomList[room].roomId){
-                    setPlayerX(Array.of(roomList[room].playerX));
-                    setPlayerO(Array.of(roomList[room].playerO));
-                }
-            } else if(params["*"] === roomList[room].playerX.uid){
-                setPlayerX(Array.of(roomList[room].playerX));
+            if(location.state?.roomJoinUrl === "/lobby"){
+                setPlayerO(Array.of(roomList[room].playerO));
             }
+            if(params["*"] === location.state?.roomJoinUrl){
+                if(params["*"] === roomList[room].roomId){
+                    setPlayerX(Array.of(roomList[room]?.playerX));
+                    // setPlayerO(Array.of(roomList[room].playerO));
+                }
+            }
+            if(location.state?.from === "browsegame"){
+                //console.log("From Browse Page");
+                if(roomList[room]?.playerX?.uid !== currentUser?.uid){ // "" != uid.current
+                    if(params["*"] === roomList[room].roomId){
+                        update(ref(db, "playerRoom/" + room + "/playerO"), {
+                            name: userName?.name,
+                            uid: currentUser?.uid,
+                        })
+                        setPlayerO(Array.of(roomList[room].playerO));
+                    }
+                    if(roomList[room]?.playerX?.uid === ""){
+                        update(ref(db, "playerRoom/" + room + "/playerX"), {
+                            name: userName?.name,
+                            uid: currentUser?.uid,
+                        })
+                    }
+                }
+            }
+            else if(params["*"] === roomList[room]?.playerX?.uid){
+                setPlayerX(Array.of(roomList[room]?.playerX));
+            }
+            // console.log(roomList[room]);
+            // console.log(params["*"]);
         })
     }, [roomList]);
 
@@ -85,6 +109,27 @@ const gamepage = () => {
                     previousUrl: location.pathname,
                 },
             });
+
+            Object.keys(roomList).map((room) => {
+                if(currentUser?.uid === roomList[room]?.playerX?.uid){ //
+                    update(ref(db, "playerRoom/" + room + "/playerX"), {
+                        name: "",
+                        uid: "",
+                        isOwner: false,
+                    })
+                    if(roomList[room]?.playerO?.uid !== ""){ //
+                        update(ref(db, "playerRoom/" + room + "/playerO"), {
+                            isOwner: true,
+                        })
+                        update(ref(db, "playerRoom/" + room), {
+                            roomId: roomList[room]?.playerO?.uid,
+                        })
+                    }
+                }
+                // console.log(roomList[room]);
+                // console.log(params["*"]);
+            })
+
             await remove(roomPlayerRef);
             console.log("delete room")
         }catch (e) {
@@ -192,7 +237,8 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerX.map((attr) => attr.name) ? playerX.map((attr) => attr.name) : "Waiting..."}</div>
+                <div className="text-center text-3xl font-bold mb-4">{playerX.map((attr) => attr.name === "") ? playerX.map((attr) => attr.name) : "Waiting..."}</div>
+                {/*playerX.map((attr) => attr.name === "") ? playerX.map((attr) => attr.name) : "Waiting..."*/}
 
                 <div className="text-center text-5xl font-bold">X</div>
 
@@ -218,7 +264,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerO.map((attr) => attr.name) ? playerO.map((attr) => attr.name) : "Waiting..."}</div>
+                <div className="text-center text-3xl font-bold mb-4">{playerO.map((attr) => attr.name === "") ? playerO.map((attr) => attr.name) : "Waiting..."}</div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 
