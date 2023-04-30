@@ -13,7 +13,6 @@ const gamepage = () => {
     const { currentUser, setCurrentUser, userName } = useAuth();
     const dbRef = ref(db);
     const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
-    console.log(QA[0]);
 
     const handleDeleteBotRoom = async (e) => {
         e.preventDefault();
@@ -34,6 +33,8 @@ const gamepage = () => {
     var turn = false;
     var row = [[],[],[],[],[]];
     var ready = false;
+    var TrueAns;
+    var alreadymove = false;
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
         document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
@@ -50,11 +51,63 @@ const gamepage = () => {
         PlayerReady.addEventListener("click", playerready);
     })
 
+    function SetQuestion(){
+        const Qarray = QA[Math.floor(Math.random() * 2)]
+        TrueAns = "A";
+        // if(Qarray.True == "A"){
+        //     TrueAns = "A";
+        // } else if(Qarray.True == "B"){
+        //     TrueAns = "B";
+        // }else if(Qarray.True == "C"){
+        //     TrueAns = "C";
+        // }else{
+        //     TrueAns = "D";
+        // }
+        console.log(TrueAns);
+        const question = document.getElementById("question");
+        const btnA = document.getElementById("A");
+        const btnB = document.getElementById("B");
+        const btnC = document.getElementById("C");
+        const btnD = document.getElementById("D");
+        question.innerText = Qarray.Q;
+        btnA.innerText = "A: " + Qarray.A;
+        btnB.innerText = "B: " + Qarray.B;
+        btnC.innerText = "C: " + Qarray.C;
+        btnD.innerText = "D: " + Qarray.D;
+    }
+
+    function CheckQuestion(button){
+        console.log(TrueAns + " " + button);
+        if(TrueAns == button){
+            console.log("True");
+            setShowModal(false);
+        } else{
+            turn = true;
+            setShowModal(false);
+            setTimeout(() => {
+                if(alreadymove == false && turn == true){
+                    AiMove();
+                    alreadymove = true;
+                    setTimeout(() => {
+                        setShowModal(true);
+                        setTimeout(() => {
+                            SetQuestion();
+                        }, 1);
+                    }, 1500);
+                }
+            }, 1500);
+        }
+    }
+
     function playerready(){
         PlayerReady.disabled = true;
         PlayerReady.style.opacity = 0.5;
         ready = true;
+        console.log("inplayer Ready");
         setShowModal(true);
+        setTimeout(() => {
+            SetQuestion();
+        }, 1);
     }
 
     /// Santakorn change comparison ///
@@ -127,7 +180,12 @@ const gamepage = () => {
             checkWinner(row);
             if(win === false && tie === false){
                 AiMove();
-                setShowModal(true);
+                setTimeout(() => {
+                    setShowModal(true);
+                    setTimeout(() => {
+                        SetQuestion();
+                    }, 1);
+                }, 1500);
             }
         }
     }
@@ -261,27 +319,27 @@ const gamepage = () => {
 
                         <div className="flex justify-center items-center p-6 border-b">
                             
-                            <h3 className="text-2xl font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quasi delectus deserunt.</h3>
+                            <h3 id="question" className="text-2xl font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quasi delectus deserunt.</h3>
 
                         </div>
 
                         <div className="flex items-center justify-center p-6 border-t">
 
-                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => setShowModal(false)}>A) ...</button>
+                            <button id="A" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("A")}>A) ...</button>
 
-                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => setShowModal(false)}>B) ...</button>
+                            <button id="B" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("B")}>B) ...</button>
 
                         </div>
 
                         <div className="flex justify-center p-6">
 
-                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => setShowModal(false)}>C) ...</button>
+                            <button id="C" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("C")}>C) ...</button>
 
-                            <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => setShowModal(false)}>D) ...</button>
+                            <button id="D" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("D")}>D) ...</button>
 
                         </div>
                     </div>
