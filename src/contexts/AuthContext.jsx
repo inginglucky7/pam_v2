@@ -17,7 +17,7 @@ export const AuthProvider = ({children}) => {
     const [userName, setUserName] = useState({name: "", email: "", photo: ""});
     const [loading, setLoading] = useState(true);
     const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
-    const roomPlayerRef = ref(db, "playerRoom/" + userName?.name + "'sGame");
+    const roomPlayerRef = ref(db, "playerRoom/" + currentUser?.uid);
     const userListRef = ref(db, `userList/${userName.name}`);
     useEffect(() => {
         if(currentUser?.isAnonymous){
@@ -87,6 +87,8 @@ export const AuthProvider = ({children}) => {
 
     const createPlayerRoom = (user, userUid) => {
         return set(roomPlayerRef, {
+            roomName: user + "'s Game",
+            roomId: userUid,
             "playerX": {
                 name: user,
                 uid: userUid,

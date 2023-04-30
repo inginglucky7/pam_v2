@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
 import {useNavigate, useLocation} from "react-router-dom";
 import {db} from "../firebase-config.jsx";
@@ -8,6 +8,10 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 const lobbypage = () => {
     const navigate = useNavigate();
     const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom} = useAuth();
+    const [roomList, setRoomList] = useState([]);
+    const handleCreateRoom = (roomId) => {
+        navigate(`/gamewithplayer/${roomId}`);
+    }
 
     const handleCreateBotRoom = async (user, email) => {
         try {
@@ -18,8 +22,12 @@ const lobbypage = () => {
     };
 
     useEffect(() => {
-        console.log(location.pathname, location?.state?.previousUrl)
-    })
+        const gameRoomsRef = ref(db, 'playerRoom');
+        onValue(gameRoomsRef, (snapshot) => {
+            const gameRooms = snapshot.val();
+            setRoomList(gameRooms);
+        })
+    }, [])
 
     const handleCreatePlayerRoom = async (user, userUid) => {
         try {
@@ -28,7 +36,7 @@ const lobbypage = () => {
         catch (e) {
             console.log(e.message)
         }
-        navigate("/gamewithplayer/");
+        navigate(`/gamewithplayer/${currentUser.uid}`);
     }
 
     const handleBrowseRoom = () => {

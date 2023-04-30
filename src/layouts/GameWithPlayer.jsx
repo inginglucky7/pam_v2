@@ -14,8 +14,9 @@ const gamepage = () => {
     const [playerO, setPlayerO] = useState(null);
     const { currentUser, userName, roomPlayerRef } = useAuth();
     const [roomList, setRoomList] = useState([]);
+    const [playerInRoom, setPlayerInRoom] = useState([]);
 
-    var human = "X"; // Santakorn Change humen -> human //
+    var human = "X";
     var ai = "O"
     var tie = false;
     var playable = false;
@@ -44,8 +45,18 @@ const gamepage = () => {
             const gameRooms = snapshot.val();
             setRoomList(gameRooms);
         })
-    }, [])
+    }, []);
 
+    const handleName = () => {
+        const gameRoomsRef = ref(db, 'playerRoom');
+        onValue(gameRoomsRef, (snapshot) => {
+            const gameRooms = snapshot.val();
+            Object.keys(roomList).map((room) => {
+                console.log(roomList[room]);
+                console.log(location);
+            })
+        })
+    }
     const handleDeletePlayerRoom = async (e) => {
         e.preventDefault();
         try {
@@ -60,11 +71,6 @@ const gamepage = () => {
             console.log(e.message);
         }
     };
-
-    const handlePlayerName = () => {
-        console.log(playerX)
-        console.log(playerO)
-    }
 
     /// Santakorn change comparison ///
     function checkWinner(board) {
@@ -165,7 +171,7 @@ const gamepage = () => {
 
             <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black lg:mb-[3%] xl:mb-[6%]">
 
-                <div className="text-center text-4xl font-bold">TIME</div>
+                <div onClick={handleName} className="text-center text-4xl font-bold">TIME</div>
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
