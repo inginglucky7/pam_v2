@@ -7,6 +7,8 @@ import {QA} from "./Question.jsx";
 import {ref, set, onValue, update, get, remove} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 
+var TrueAns;
+
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
     const navigate = useNavigate();
@@ -33,7 +35,6 @@ const gamepage = () => {
     var turn = false;
     var row = [[],[],[],[],[]];
     var ready = false;
-    var TrueAns;
     var alreadymove = false;
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
@@ -53,16 +54,15 @@ const gamepage = () => {
 
     function SetQuestion(){
         const Qarray = QA[Math.floor(Math.random() * 2)]
-        TrueAns = "A";
-        // if(Qarray.True == "A"){
-        //     TrueAns = "A";
-        // } else if(Qarray.True == "B"){
-        //     TrueAns = "B";
-        // }else if(Qarray.True == "C"){
-        //     TrueAns = "C";
-        // }else{
-        //     TrueAns = "D";
-        // }
+        if(Qarray.True == "A"){
+            TrueAns = "A";
+        } else if(Qarray.True == "B"){
+            TrueAns = "B";
+        }else if(Qarray.True == "C"){
+            TrueAns = "C";
+        }else{
+            TrueAns = "D";
+        }
         console.log(TrueAns);
         const question = document.getElementById("question");
         const btnA = document.getElementById("A");
