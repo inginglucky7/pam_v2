@@ -9,6 +9,9 @@ import {db} from "../firebase-config.jsx";
 
 var TrueAns;
 var click = false;
+var clickmark = false;
+var row = [[],[],[],[],[]];
+var timebreak = false;
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
@@ -34,7 +37,6 @@ const gamepage = () => {
     var win = false;
     var winner = "";
     var turn = false;
-    var row = [[],[],[],[],[]];
     var ready = false;
     var alreadymove = false;
     useEffect(() => {
@@ -121,13 +123,56 @@ const gamepage = () => {
         function barCount(){
             if(click == true){
                 clearInterval(startTimer);
+                timebreak = true;
+                console.log("TimeBreak");
             }
             if(divTimeLeft.clientWidth < divCountdownBar.clientWidth){
                 divTimeLeft.style.width = divTimeLeft.clientWidth + 1 + "px";
-            } else{
+            } 
+            else if(divTimeLeft.clientWidth == divCountdownBar.clientWidth && timebreak == false){
                 divTimeLeft.style.width = divCountdownBar.clientWidth;
                 clearInterval(startTimer);
-                CheckQuestion("");
+                CheckQuestion("nah");
+            }
+        }
+    }
+
+    function TimeMark(){
+        var divtime = document.getElementById("playertime");
+        var timeremain = 10;
+        divtime.innerText = timeremain;
+        var countdown = setInterval(minustime, 1000);
+        console.log("in timemark");
+        function minustime(){
+            if(timeremain > 0){
+                timeremain--;
+                var divtime = document.getElementById("playertime");
+                divtime.innerText = timeremain;
+                console.log("in minus time");
+            }
+            else{
+                clearInterval(countdown);
+                turn = true;
+                var divtime = document.getElementById("playertime");
+                divtime.innerText = "TIME";
+                AiMove();
+                console.log("inelse");
+                setTimeout(() => {
+                    setShowModal(true);
+                    setTimeout(() => {
+                        SetQuestion();
+                        console.log("from click");
+                        turn = false;
+                        timebreak = false;
+                    }, 1);
+                }, 1500);
+            }
+            if(clickmark == true){
+                var divtime = document.getElementById("playertime");
+                divtime.innerText = "TIME";
+                clearInterval(countdown);
+                clickmark = false;
+                console.log("inclick");
             }
         }
     }
@@ -136,22 +181,30 @@ const gamepage = () => {
         click = true;
         console.log(TrueAns + " " + button);
         if(TrueAns == button){
-            click = false;
+            timebreak = true;
             console.log("True");
             setShowModal(false);
-        } else{
-            click = false;
+            TimeMark();
+            setTimeout(() => {
+                click = false;
+            }, 50);
+        } else {
             turn = true;
             setShowModal(false);
             setTimeout(() => {
                 if(alreadymove == false && turn == true && win == false){
                     AiMove();
+                    setTimeout(() => {
+                        click = false;
+                    }, 50);
                     alreadymove = true;
                     setTimeout(() => {
                         setShowModal(true);
                         setTimeout(() => {
                             SetQuestion();
                             console.log("from check");
+                            turn = false;
+                            timebreak = false;
                         }, 1);
                     }, 1500);
                 } else if(turn == true && alreadymove == false){
@@ -159,6 +212,7 @@ const gamepage = () => {
                 }
             }, 1500);
         }
+        // click = false;
     }
 
     function playerready(){
@@ -171,6 +225,8 @@ const gamepage = () => {
         setTimeout(() => {
             SetQuestion();
             console.log("from ready");
+            turn = false;
+            timebreak = false;
         }, 1);
     }
 
@@ -184,6 +240,7 @@ const gamepage = () => {
                 winner = board[i][0].innerHTML;
                 var divwin = document.getElementById("winner");
                 divwin.innerHTML = "Winner is: " + winner;
+                ReadyPlayerReset();
                 console.log(winner);
                 console.log("Win row");
                 console.log(win);
@@ -197,6 +254,7 @@ const gamepage = () => {
                 winner = board[0][i].innerHTML;
                 var divwin = document.getElementById("winner");
                 divwin.innerHTML = "Winner is: " + winner;
+                ReadyPlayerReset();
                 console.log(winner);
                 console.log("Win col");
                 console.log(win);
@@ -209,6 +267,7 @@ const gamepage = () => {
             winner = board[0][0].innerHTML;
             var divwin = document.getElementById("winner");
             divwin.innerHTML = "Winner is: " + winner;
+            ReadyPlayerReset();
             console.log("Win di");
         }
 
@@ -217,6 +276,7 @@ const gamepage = () => {
             winner = board[0][4].innerHTML;
             var divwin = document.getElementById("winner");
             divwin.innerHTML = "Winner is: " + winner;
+            ReadyPlayerReset();
         }
         for (let i = 0; i < 5; i++){
             if(playable === false){
@@ -249,7 +309,8 @@ const gamepage = () => {
     function clickCol(event) {
         checkWinner(row); /// Santakorn Add Here ///
         console.log(event.currentTarget);
-        if (win === false && tie === false && event.currentTarget.innerHTML === "" && ready === true){
+        if (win === false && tie === false && event.currentTarget.innerHTML === "" && ready === true && turn == false){
+            clickmark = true;
             event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
             turn = true;
             checkWinner(row);
@@ -261,6 +322,8 @@ const gamepage = () => {
                     setTimeout(() => {
                         SetQuestion();
                         console.log("from click");
+                        turn = false;
+                        timebreak = false;
                     }, 1);
                 }, 1500);
             }
@@ -275,7 +338,6 @@ const gamepage = () => {
             let num2 = Math.floor(Math.random() * 5);
             if(row[num1][num2].innerHTML === ""){
                 row[num1][num2].innerHTML = `<img src="${Oimg}"></img>`
-                turn = false;
                 checkWinner(row);
             } else{
                 AiMove();
@@ -291,7 +353,7 @@ const gamepage = () => {
 
             <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black lg:mb-[8%] xl:mb-[10%]">
 
-                <div className="text-center text-4xl font-bold">TIME</div>
+                <div id="playertime" className="text-center text-4xl font-bold">TIME</div>
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
