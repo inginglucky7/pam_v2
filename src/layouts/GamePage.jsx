@@ -8,6 +8,7 @@ import {ref, set, onValue, update, get, remove} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 
 var TrueAns;
+var click = false;
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
@@ -50,7 +51,42 @@ const gamepage = () => {
 
         var PlayerReady = document.getElementById("PlayerReady");
         PlayerReady.addEventListener("click", playerready);
-    })
+    }, [])
+
+    function ReadyPlayerReset(){
+        PlayerReady.disabled = false;
+        PlayerReady.style.opacity = 1;
+    }
+
+    function reset(){
+        tie = false;
+        playable = false;
+        win = false;
+        ready = false;
+        alreadymove = false;
+        PlayerReady.disabled = false;
+        click = false;
+        PlayerReady.style.opacity = 1;
+        winner = "";
+        var divwin = document.getElementById("winner");
+        divwin.innerText = ""
+        row = [[],[],[],[],[]];
+        document.querySelector("#row1").childNodes.forEach((row1) => row1.innerHTML = "");
+        document.querySelector("#row2").childNodes.forEach((row2) => row2.innerHTML = "");
+        document.querySelector("#row3").childNodes.forEach((row3) => row3.innerHTML = "");
+        document.querySelector("#row4").childNodes.forEach((row4) => row4.innerHTML = "");
+        document.querySelector("#row5").childNodes.forEach((row5) => row5.innerHTML = "");
+        document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
+        document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
+        document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
+        document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
+        document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
+        row[0].forEach((block) => block.addEventListener("click",clickCol));
+        row[1].forEach((block) => block.addEventListener("click",clickCol));
+        row[2].forEach((block) => block.addEventListener("click",clickCol));
+        row[3].forEach((block) => block.addEventListener("click",clickCol));
+        row[4].forEach((block) => block.addEventListener("click",clickCol));
+        }
 
     function SetQuestion(){
         const Qarray = QA[Math.floor(Math.random() * 35)]
@@ -74,32 +110,59 @@ const gamepage = () => {
         btnB.innerText = "B: " + Qarray.B;
         btnC.innerText = "C: " + Qarray.C;
         btnD.innerText = "D: " + Qarray.D;
+        initBarCount();
+        console.log("bar");
+    }
+
+    function initBarCount(){
+        var divTimeLeft = document.getElementById("TimeLeft");
+        var divCountdownBar = document.getElementById("Countdownbar");
+        var startTimer = setInterval(barCount, 30);
+        function barCount(){
+            if(click == true){
+                clearInterval(startTimer);
+            }
+            if(divTimeLeft.clientWidth < divCountdownBar.clientWidth){
+                divTimeLeft.style.width = divTimeLeft.clientWidth + 1 + "px";
+            } else{
+                divTimeLeft.style.width = divCountdownBar.clientWidth;
+                clearInterval(startTimer);
+                CheckQuestion("");
+            }
+        }
     }
 
     function CheckQuestion(button){
+        click = true;
         console.log(TrueAns + " " + button);
         if(TrueAns == button){
+            click = false;
             console.log("True");
             setShowModal(false);
         } else{
+            click = false;
             turn = true;
             setShowModal(false);
             setTimeout(() => {
-                if(alreadymove == false && turn == true){
+                if(alreadymove == false && turn == true && win == false){
                     AiMove();
                     alreadymove = true;
                     setTimeout(() => {
                         setShowModal(true);
                         setTimeout(() => {
                             SetQuestion();
+                            console.log("from check");
                         }, 1);
                     }, 1500);
+                } else if(turn == true && alreadymove == false){
+                    ReadyPlayerReset();
                 }
             }, 1500);
         }
     }
 
     function playerready(){
+        reset();
         PlayerReady.disabled = true;
         PlayerReady.style.opacity = 0.5;
         ready = true;
@@ -107,6 +170,7 @@ const gamepage = () => {
         setShowModal(true);
         setTimeout(() => {
             SetQuestion();
+            console.log("from ready");
         }, 1);
     }
 
@@ -118,6 +182,9 @@ const gamepage = () => {
                 console.log(board[i][0].innerHTML);
                 win = true;
                 winner = board[i][0].innerHTML;
+                var divwin = document.getElementById("winner");
+                divwin.innerHTML = "Winner is: " + winner;
+                console.log(winner);
                 console.log("Win row");
                 console.log(win);
             }
@@ -128,6 +195,9 @@ const gamepage = () => {
             if (board[0][i].innerHTML !== "" && board[0][i].innerHTML === board[1][i].innerHTML && board[1][i].innerHTML === board[2][i].innerHTML && board[2][i].innerHTML === board[3][i].innerHTML && board[3][i].innerHTML === board[4][i].innerHTML) {
                 win = true;
                 winner = board[0][i].innerHTML;
+                var divwin = document.getElementById("winner");
+                divwin.innerHTML = "Winner is: " + winner;
+                console.log(winner);
                 console.log("Win col");
                 console.log(win);
             }
@@ -137,12 +207,16 @@ const gamepage = () => {
         if (board[0][0].innerHTML !== "" && board[0][0].innerHTML === board[1][1].innerHTML && board[1][1].innerHTML === board[2][2].innerHTML && board[2][2].innerHTML === board[3][3].innerHTML && board[3][3].innerHTML === board[4][4].innerHTML) {
             win = true;
             winner = board[0][0].innerHTML;
+            var divwin = document.getElementById("winner");
+            divwin.innerHTML = "Winner is: " + winner;
             console.log("Win di");
         }
 
         if (board[0][4].innerHTML !== "" && board[0][4].innerHTML === board[1][3].innerHTML && board[1][3].innerHTML === board[2][2].innerHTML && board[2][2].innerHTML === board[3][1].innerHTML && board[3][1].innerHTML === board[4][0].innerHTML) {
             win = true;
             winner = board[0][4].innerHTML;
+            var divwin = document.getElementById("winner");
+            divwin.innerHTML = "Winner is: " + winner;
         }
         for (let i = 0; i < 5; i++){
             if(playable === false){
@@ -174,19 +248,24 @@ const gamepage = () => {
 
     function clickCol(event) {
         checkWinner(row); /// Santakorn Add Here ///
+        console.log(event.currentTarget);
         if (win === false && tie === false && event.currentTarget.innerHTML === "" && ready === true){
             event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
             turn = true;
             checkWinner(row);
+            console.log(win);
             if(win === false && tie === false){
                 AiMove();
                 setTimeout(() => {
                     setShowModal(true);
                     setTimeout(() => {
                         SetQuestion();
+                        console.log("from click");
                     }, 1);
                 }, 1500);
             }
+        } else if(win == true){
+            ReadyPlayerReset();
         }
     }
 
@@ -252,7 +331,9 @@ const gamepage = () => {
             </div>
 
             <div className="flex justify-center">
-                <div className="absolute top-0 lg:mt-8 xl:mt-16">
+            
+                <div id="table" className="absolute top-0 lg:mt-8 xl:mt-16">
+                    
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
                         <div className="flex justify-center" id="row1">
@@ -292,12 +373,13 @@ const gamepage = () => {
                         </div>
                     
                     </div>
+                    
                 </div>
+                <div id="winner" className="absolute text-center text-3xl font-bold mt-[30vh]"></div>
             </div>
 
             <div className="flex justify-center">
                 <div className="absolute bottom-0 lg:mb-4 xl:mb-12">
-                    <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-4 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">START</button>
                     
                     {/* Modal test */}
                     <button onClick={() => setShowModal(true)} className="rounded-2xl text-black font-bold bg-white px-4 py-4 text-2xl">MODAL</button>
@@ -312,8 +394,12 @@ const gamepage = () => {
                     <div className="rounded-2xl shadow-xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
 
                         <div className="flex justify-center items-center p-6">
-                            
-                            <h3 className="text-3xl font-bold">Question:</h3>
+                        <div id="Countdownbar" style={{position: "relative", height: "5vh", width: "50vw", border: "2px black solid", background: "linear-gradient(to right, #D14545, #FFD045)"}}>
+                                <div id="TimeLeft" style={{position: "relative", float: "right", background: "lightgray", height: "4.7vh", width: "0vw"}}>
+                                    
+                                </div>
+                            </div>
+                            <h3 className="text-3xl font-bold" style={{position: "absolute"}}>Question:</h3>
 
                         </div>
 
