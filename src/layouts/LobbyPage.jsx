@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import "./Kiddo.css"
 import {useNavigate, useLocation} from "react-router-dom";
 import {db} from "../firebase-config.jsx";
-import {ref, set, onValue, update, get, remove} from "firebase/database";
+import {ref, set, onValue, update, get, remove, push} from "firebase/database";
 import {useAuth} from "../contexts/AuthContext.jsx";
 
 const lobbypage = () => {
     const navigate = useNavigate();
-    const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom} = useAuth();
+    const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom, roomId, setRoomId} = useAuth();
     const [roomList, setRoomList] = useState([]);
 
     const handleCreateBotRoom = async (user, email) => {
@@ -33,7 +33,8 @@ const lobbypage = () => {
         catch (e) {
             console.log(e.message)
         }
-        navigate(`/gamewithplayer/${currentUser.uid}`, {
+        console.log(roomId);
+        navigate(`/gamewithplayer/${roomId}`, {
             state: {
                 roomJoinUrl: location.pathname // /lobby,
             }

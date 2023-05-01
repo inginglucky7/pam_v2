@@ -65,10 +65,6 @@ const gamepage = () => {
                 // useLocation() hook from browse
                 // this is check player in room is correct
                 if(params["*"] === roomList[room].roomId){
-                    // Must Check from here if O or X are fulled
-                    // if(Must Check from here if O or X are fulled){
-                    //
-                    // }
                     if(roomList[room]?.playerX?.uid !== " "){
                         if(currentUser.uid !== roomList[room].playerX.uid &&
                             params["*"] === roomList[room].roomId && roomList[room].playerO.name === ""){
@@ -90,10 +86,16 @@ const gamepage = () => {
                     setPlayerO(Array.of(roomList[room].playerO));
                 }
             } // I think it's not has any problem here ???
-            console.log("playerO : " + roomList[room]?.playerO?.name);
-            console.log("playerX : " + roomList[room]?.playerX?.name);
-            console.log("roomId : " + roomList[room]?.roomId);
-            console.log("roomName : " + roomList[room]?.roomName);
+            // navigate(`/gamewithplayer/${roomList[room].roomId}`, {
+            //     state: {
+            //         oldOwner: "ARCCC"
+            //     }
+            // })
+            console.log(roomList[room]);
+            // console.log("playerO : " + roomList[room]?.playerO?.name);
+            // console.log("playerX : " + roomList[room]?.playerX?.name);
+            // console.log("roomId : " + roomList[room]?.roomId);
+            // console.log("roomName : " + roomList[room]?.roomName);
         })
     }, [roomList]);
 
@@ -113,6 +115,7 @@ const gamepage = () => {
         e.preventDefault();
         Object.keys(roomList).map((room) => {
             if(params["*"] === roomList[room]?.roomId) {
+                // X Leave !!!
                 if (currentUser?.uid === roomList[room]?.playerX?.uid) { //
                     //console.log("X Leave");
                     if(roomList[room]?.playerX?.name){ //"test" -> !null
@@ -129,6 +132,7 @@ const gamepage = () => {
                         readyStatus: false,
                     })
                 }
+                // O Leave !!!!!!!
                 if (currentUser?.uid === roomList[room]?.playerO?.uid) { //
                     //console.log("X Leave");
                     if(roomList[room]?.playerO?.name){ //"test" -> !null
@@ -146,7 +150,6 @@ const gamepage = () => {
                     })
                 }
             }
-
             // console.log(roomList[room]);
             // console.log(params["*"]);
         })
@@ -157,7 +160,7 @@ const gamepage = () => {
                     previousUrl: location.pathname,
                 },
             });
-            // await remove(roomPlayerRef);
+            //await remove(roomPlayerRef);
             // console.log("delete room")
         }catch (e) {
             console.log(e.message);
