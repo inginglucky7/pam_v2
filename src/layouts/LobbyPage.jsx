@@ -7,16 +7,8 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 
 const lobbypage = () => {
     const navigate = useNavigate();
-    const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom, roomId, setRoomId} = useAuth();
+    const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom, roomIdPath, setRoomIdPath} = useAuth();
     const [roomList, setRoomList] = useState([]);
-
-    const handleCreateBotRoom = async (user, email) => {
-        try {
-            await createBotRoom(user, email);
-        } catch (e) {
-            console.log(e.message);
-        }
-    };
 
     useEffect(() => {
         const gameRoomsRef = ref(db, 'playerRoom');
@@ -26,19 +18,28 @@ const lobbypage = () => {
         })
     }, [])
 
+    const handleCreateBotRoom = async (user, email) => {
+        try {
+            await createBotRoom(user, email);
+        } catch (e) {
+            console.log(e.message);
+        }
+    };
+
     const handleCreatePlayerRoom = async (user, userUid) => {
         try {
             await createPlayerRoom(user, userUid);
+            console.log(roomId);
         }
         catch (e) {
             console.log(e.message)
         }
-        console.log(roomId);
-        navigate(`/gamewithplayer/${roomId}`, {
+        navigate(`/gamewithplayer/${roomIdPath}`, {
             state: {
                 roomJoinUrl: location.pathname // /lobby,
             }
         });
+        console.log(roomIdPath);
     }
 
     const handleBrowseRoom = () => {

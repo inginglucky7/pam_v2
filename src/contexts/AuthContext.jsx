@@ -1,10 +1,11 @@
-import React, {useContext, useEffect, useState, createContext, useRef, useCallback} from "react";
+import React, {useContext, useEffect, useState, createContext, useCallback} from "react";
 import {auth, db} from "../firebase-config.jsx";
 import {
     createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously,
     signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
 import {ref, set, push} from "firebase/database";
+import {useLocation} from "react-router-dom";
 
 const AuthContext = createContext(null);
 
@@ -16,10 +17,34 @@ export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userName, setUserName] = useState({name: "", email: "", photo: ""});
     const [loading, setLoading] = useState(true);
-    const [roomId, setRoomId] = useState(null);
+    const [roomIdPath, setRoomIdPath] = useState(null);
     const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
     const roomPlayerRef = ref(db, "playerRoom/" + userName?.name + "'s game");
     const userListRef = ref(db, `userList/${userName.name}`);
+
+    const createPlayerRoom = useCallback((user, userUid) => {
+        const newRoomRef = push(ref(db, "playerRoom")); // generate a new unique key for the room by ing
+        const roomId = newRoomRef.key;
+        setRoomIdPath(roomId);
+        set(roomPlayerRef, {
+            roomName: user + "'s game",
+            roomId: roomIdPath,
+            "playerX": {
+                name: user,
+                uid: userUid,
+                role: "X",
+                isOwner: true,
+                readyStatus: false,
+            },
+            "playerO": {
+                name: "",
+                uid: "",
+                role: "O",
+                isOwner: false,
+                readyStatus: false,
+            }
+        })
+    }, [setRoomIdPath, set, roomIdPath, roomPlayerRef]);
 
     useEffect(() => {
         if(currentUser?.isAnonymous){
@@ -87,31 +112,6 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    const createPlayerRoom = (user, userUid) => {
-        const newRoomRef = push(ref(db, "playerRoom")); // generate a new unique key for the room
-        const roomId = newRoomRef.key;
-        return () => {
-            set(roomPlayerRef, {
-                roomName: user + "'s game",
-                roomId: roomId,
-                "playerX": {
-                    name: user,
-                    uid: userUid,
-                    role: "X",
-                    isOwner: true,
-                    readyStatus: false,
-                },
-                "playerO": {
-                    name: "",
-                    uid: "",
-                    role: "O",
-                    isOwner: false,
-                    readyStatus: false,
-                }
-            })
-        }
-    }
-
     const createBotRoom = (user, email) => {
         return set(roomBotRef, {
             username: user,
@@ -131,8 +131,8 @@ export const AuthProvider = ({children}) => {
         signInAnonymous,
         signInGoogle,
         setUserList,
-        roomId,
-        setRoomId,
+        roomIdPath,
+        setRoomIdPath,
         userLoggedIn,
         setUserLoggedIn,
         userName,
