@@ -54,38 +54,46 @@ const gamepage = () => {
 
     useEffect(() => {
         Object.keys(roomList).map((room) => {
-            if(location.state?.roomJoinUrl === "/lobby"){
-                setPlayerO(Array.of(roomList[room].playerO));
-            }
-            if(params["*"] === location.state?.roomJoinUrl){
+            if(location.state?.roomJoinUrl === "/lobby"){ //from lobby and choose create room
+                // current url room id === roomId --> Check is correct room and loop player from this.
                 if(params["*"] === roomList[room].roomId){
+                    setPlayerO(Array.of(roomList[room].playerO));
                     setPlayerX(Array.of(roomList[room]?.playerX));
-                    // setPlayerO(Array.of(roomList[room].playerO));
                 }
             }
-            if(location.state?.from === "browsegame"){
-                //console.log("From Browse Page");
-                if(roomList[room]?.playerX?.uid !== currentUser?.uid){ // "" != uid.current
-                    if(params["*"] === roomList[room].roomId){
-                        update(ref(db, "playerRoom/" + room + "/playerO"), {
-                            name: userName?.name,
-                            uid: currentUser?.uid,
-                        })
-                        setPlayerO(Array.of(roomList[room].playerO));
+            if(params["*"] === location.state?.roomJoinUrl){ // Check previous url and current (roomJoinId -> see Browsegame join room )
+                // useLocation() hook from browse
+                // this is check player in room is correct
+                if(params["*"] === roomList[room].roomId){
+                    // Must Check from here if O or X are fulled
+                    // if(Must Check from here if O or X are fulled){
+                    //
+                    // }
+                    if(roomList[room]?.playerX?.uid !== " "){
+                        if(currentUser.uid !== roomList[room].playerX.uid &&
+                            params["*"] === roomList[room].roomId && roomList[room].playerO.name === ""){
+                            update(ref(db, "playerRoom/" + room + "/playerO"), {
+                                name: userName?.name,
+                                uid: currentUser?.uid,
+                            })
+                        }
+                        if(currentUser.uid !== roomList[room].playerO.uid &&
+                            params["*"] === roomList[room].roomId && roomList[room].playerX.name === ""){
+                            update(ref(db, "playerRoom/" + room + "/playerX"), {
+                                name: userName?.name,
+                                uid: currentUser?.uid,
+                            })
+                            console.log("In");
+                        }
                     }
-                    if(roomList[room]?.playerX?.uid === ""){
-                        update(ref(db, "playerRoom/" + room + "/playerX"), {
-                            name: userName?.name,
-                            uid: currentUser?.uid,
-                        })
-                    }
+                    setPlayerX(Array.of(roomList[room]?.playerX));
+                    setPlayerO(Array.of(roomList[room].playerO));
                 }
-            }
-            else if(params["*"] === roomList[room]?.playerX?.uid){
-                setPlayerX(Array.of(roomList[room]?.playerX));
-            }
-            // console.log(roomList[room]);
-            // console.log(params["*"]);
+            } // I think it's not has any problem here ???
+            console.log("playerO : " + roomList[room]?.playerO?.name);
+            console.log("playerX : " + roomList[room]?.playerX?.name);
+            console.log("roomId : " + roomList[room]?.roomId);
+            console.log("roomName : " + roomList[room]?.roomName);
         })
     }, [roomList]);
 
@@ -103,35 +111,54 @@ const gamepage = () => {
     }
     const handleDeletePlayerRoom = async (e) => {
         e.preventDefault();
+        Object.keys(roomList).map((room) => {
+            if(params["*"] === roomList[room]?.roomId) {
+                if (currentUser?.uid === roomList[room]?.playerX?.uid) { //
+                    //console.log("X Leave");
+                    if(roomList[room]?.playerX?.name){ //"test" -> !null
+                        //console.log(roomList[room].playerX.name);
+                        update(ref(db, "playerRoom/" + room + "/playerX"), {
+                            name: "", // "" --> playerO's name // " "
+                            uid: "", // "" --> playerO's uid // " "
+                            isOwner: false,
+                            readyStatus: false,
+                        })
+                    }
+                    update(ref(db, "playerRoom/" + room + "/playerO"), {
+                        isOwner: true,
+                        readyStatus: false,
+                    })
+                }
+                if (currentUser?.uid === roomList[room]?.playerO?.uid) { //
+                    //console.log("X Leave");
+                    if(roomList[room]?.playerO?.name){ //"test" -> !null
+                        //console.log(roomList[room].playerX.name);
+                        update(ref(db, "playerRoom/" + room + "/playerO"), {
+                            name: "", // "" --> playerO's name // " "
+                            uid: "", // "" --> playerO's uid // " "
+                            isOwner: false,
+                            readyStatus: false,
+                        })
+                    }
+                    update(ref(db, "playerRoom/" + room + "/playerX"), {
+                        isOwner: true,
+                        readyStatus: false,
+                    })
+                }
+            }
+
+            // console.log(roomList[room]);
+            // console.log(params["*"]);
+        })
+
         try {
             navigate("/browsegame", {
                 state: {
                     previousUrl: location.pathname,
                 },
             });
-
-            Object.keys(roomList).map((room) => {
-                if(currentUser?.uid === roomList[room]?.playerX?.uid){ //
-                    update(ref(db, "playerRoom/" + room + "/playerX"), {
-                        name: "",
-                        uid: "",
-                        isOwner: false,
-                    })
-                    if(roomList[room]?.playerO?.uid !== ""){ //
-                        update(ref(db, "playerRoom/" + room + "/playerO"), {
-                            isOwner: true,
-                        })
-                        update(ref(db, "playerRoom/" + room), {
-                            roomId: roomList[room]?.playerO?.uid,
-                        })
-                    }
-                }
-                // console.log(roomList[room]);
-                // console.log(params["*"]);
-            })
-
-            await remove(roomPlayerRef);
-            console.log("delete room")
+            // await remove(roomPlayerRef);
+            // console.log("delete room")
         }catch (e) {
             console.log(e.message);
         }
@@ -237,7 +264,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerX.map((attr) => attr.name === "") ? playerX.map((attr) => attr.name) : "Waiting..."}</div>
+                <div className="text-center text-3xl font-bold mb-4">{playerX.map((attr) => attr.name !== "") ? playerX.map((attr) => attr.name) : "Waiting..."}</div>
                 {/*playerX.map((attr) => attr.name === "") ? playerX.map((attr) => attr.name) : "Waiting..."*/}
 
                 <div className="text-center text-5xl font-bold">X</div>
@@ -264,7 +291,7 @@ const gamepage = () => {
 
                 <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerO.map((attr) => attr.name === "") ? playerO.map((attr) => attr.name) : "Waiting..."}</div>
+                <div className="text-center text-3xl font-bold mb-4">{playerO.map((attr) => attr.name !== "") ? playerO.map((attr) => attr.name) : "Waiting..."}</div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 

@@ -46,7 +46,7 @@ export const AuthProvider = ({children}) => {
                 setCurrentUser(user);
                 setUserLoggedIn(true);
                 setLoading(false);
-                console.log(currentUser);
+                //console.log(currentUser);
             }
             else{
                 setCurrentUser(null);
