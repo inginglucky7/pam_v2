@@ -21,6 +21,9 @@ var win = false;
 var winner = "";
 var turn = false;
 var ready = false;
+var clickqte = false;
+var isclicktimetrue = false;
+var onevent = false;
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
@@ -91,6 +94,106 @@ const gamepage = () => {
         row[4].forEach((block) => block.addEventListener("click",clickCol));
         }
 
+    function clickforqte(){
+        clickqte = true;
+    }
+
+    function SetHelpBar(){
+        onevent = true;
+        isclicktimetrue = false;
+        clickqte = false;
+        const truebar = document.getElementById("truebar");
+        const quick = document.getElementById("quick");
+        const checkbar = document.getElementById("checkbar");
+        const buttonqte = document.getElementById("buttonqte");
+        const starttime = (Math.floor(Math.random() * 85) + 15);
+        quick.hidden = false;
+        buttonqte.hidden = false;
+        console.log(starttime);
+        console.log(-quick.clientWidth + (quick.clientWidth * starttime) / 100);
+        truebar.style.width = "15%";
+        truebar.style.transform = `translateX(${-quick.clientWidth + (quick.clientWidth * starttime) / 100}px)`;
+        var percentNow = 0;
+        var startqte = setInterval(qte, 1);
+        function qte(){
+            if(clickqte == true){
+                clearInterval(startqte);
+                if(percentNow <= starttime && percentNow >= starttime - 15){
+                    isclicktimetrue = true;
+                    console.log(isclicktimetrue);
+                    checkdis();
+                    function checkdis(){
+                        if(Math.floor(Math.random() * 4) == 0 && TrueAns != "A"){
+                            const btnA = document.getElementById("A");
+                            btnA.style.opacity = 0.25;
+                            btnA.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else if(Math.floor(Math.random() * 4) == 1 && TrueAns != "B"){
+                            const btnB = document.getElementById("B");
+                            btnB.style.opacity = 0.25;
+                            btnB.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else if(Math.floor(Math.random() * 4) == 2  && TrueAns != "C"){
+                            const btnC = document.getElementById("C");
+                            btnC.style.opacity = 0.25;
+                            btnC.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else if(Math.floor(Math.random() * 4) == 3 && TrueAns != "D"){
+                            const btnD = document.getElementById("D");
+                            btnD.style.opacity = 0.25;
+                            btnD.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else{
+                            checkdis();
+                        }
+                    }
+                    
+                    
+                } else{
+                    onevent = false;
+                    console.log(isclicktimetrue);
+                    setTimeout(() => {
+                        const quick = document.getElementById("quick");
+                        const buttonqte = document.getElementById("buttonqte");
+                        quick.hidden = true;
+                        buttonqte.hidden = true;
+                    }, 1500);
+                }
+            } else if(percentNow >= 99){
+                clearInterval(startqte);
+            } else{
+                percentNow += 0.1;
+                const checkbar = document.getElementById("checkbar");
+                checkbar.style.transform = `translateX(${(quick.clientWidth * percentNow) / 100}px)`;
+            }
+        }
+
+    }
+
     function SetQuestion(){
         const Qarray = QA[Math.floor(Math.random() * 35)]
         if(Qarray.True == "A"){
@@ -118,6 +221,7 @@ const gamepage = () => {
     }
 
     function initBarCount(){
+        var alreadyhelp = false;
         var divTimeLeft = document.getElementById("TimeLeft");
         var divCountdownBar = document.getElementById("Countdownbar");
         var startTimer = setInterval(barCount, 30);
@@ -128,7 +232,7 @@ const gamepage = () => {
                 timebreak = true;
                 console.log("TimeBreak");
             }
-            if(divTimeLeft.clientWidth < divCountdownBar.clientWidth){
+            if(divTimeLeft.clientWidth < divCountdownBar.clientWidth && onevent == false){
                 divTimeLeft.style.width = (countp + 0.2)+"%"
                 countp += 0.2;
             } 
@@ -136,6 +240,10 @@ const gamepage = () => {
                 divTimeLeft.style.width = divCountdownBar.clientWidth;
                 clearInterval(startTimer);
                 CheckQuestion("nah");
+            }
+            if(countp > 50 && alreadyhelp == false){
+                SetHelpBar();
+                alreadyhelp = true;
             }
         }
     }
@@ -498,6 +606,21 @@ const gamepage = () => {
                         </div>
                     </div>
                 </div>
+                    <div hidden id="quick" style={{position: "relative", height: "5vh", width: "50vw", border: "2px black solid", background: "lightgray"}}>
+                    
+                                <div id="truebar" style={{position: "relative", float: "right", background: "green", height: "4.7vh", width: "0%"}}>
+                                    
+                                </div>
+                                <div id="checkbar" style={{position: "relative", float: "left", background: "red", height: "4.7vh", width: "1%"}}>
+                                    
+                                    </div>
+                    </div>
+                    <div hidden id="buttonqte">
+                    <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => clickforqte()}>Click</button>
+
+                    </div>
+                    
             </div>
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
             </>
