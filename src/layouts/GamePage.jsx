@@ -21,6 +21,9 @@ var win = false;
 var winner = "";
 var turn = false;
 var ready = false;
+var clickqte = false;
+var isclicktimetrue = false;
+var onevent = false;
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
@@ -91,6 +94,114 @@ const gamepage = () => {
         row[4].forEach((block) => block.addEventListener("click",clickCol));
         }
 
+    function clickforqte(){
+        clickqte = true;
+    }
+
+    function SetHelpBar(){
+        onevent = true;
+        isclicktimetrue = false;
+        clickqte = false;
+        const truebar = document.getElementById("truebar");
+        const quick = document.getElementById("quick");
+        const checkbar = document.getElementById("checkbar");
+        const buttonqte = document.getElementById("buttonqte");
+        const starttime = (Math.floor(Math.random() * 85) + 15);
+        quick.hidden = false;
+        buttonqte.hidden = false;
+        console.log(starttime);
+        console.log(-quick.clientWidth + (quick.clientWidth * starttime) / 100);
+        truebar.style.width = "15%";
+        truebar.style.transform = `translateX(${-quick.clientWidth + (quick.clientWidth * starttime) / 100}px)`;
+        var percentNow = 0;
+        var startqte = setInterval(qte, 1);
+        function qte(){
+            if(clickqte == true){
+                clearInterval(startqte);
+                if(percentNow <= starttime && percentNow >= starttime - 15){
+                    isclicktimetrue = true;
+                    console.log(isclicktimetrue);
+                    checkdis();
+                    function checkdis(){
+                        if(Math.floor(Math.random() * 4) == 0 && TrueAns != "A"){
+                            const btnA = document.getElementById("A");
+                            btnA.style.opacity = 0.25;
+                            btnA.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else if(Math.floor(Math.random() * 4) == 1 && TrueAns != "B"){
+                            const btnB = document.getElementById("B");
+                            btnB.style.opacity = 0.25;
+                            btnB.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else if(Math.floor(Math.random() * 4) == 2  && TrueAns != "C"){
+                            const btnC = document.getElementById("C");
+                            btnC.style.opacity = 0.25;
+                            btnC.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else if(Math.floor(Math.random() * 4) == 3 && TrueAns != "D"){
+                            const btnD = document.getElementById("D");
+                            btnD.style.opacity = 0.25;
+                            btnD.disabled = true;
+                            onevent = false;
+                            setTimeout(() => {
+                                const quick = document.getElementById("quick");
+                                const buttonqte = document.getElementById("buttonqte");
+                                quick.hidden = true;
+                                buttonqte.hidden = true;
+                            }, 1500);
+                        } else{
+                            checkdis();
+                        }
+                    }
+                    
+                    
+                } else{
+                    onevent = false;
+                    console.log(isclicktimetrue);
+                    setTimeout(() => {
+                        const quick = document.getElementById("quick");
+                        const buttonqte = document.getElementById("buttonqte");
+                        quick.hidden = true;
+                        buttonqte.hidden = true;
+                    }, 1500);
+                }
+            } else if(percentNow >= 99){
+                clearInterval(startqte);
+                onevent = false;
+                    console.log(isclicktimetrue);
+                    setTimeout(() => {
+                        const quick = document.getElementById("quick");
+                        const buttonqte = document.getElementById("buttonqte");
+                        quick.hidden = true;
+                        buttonqte.hidden = true;
+                    }, 1500);
+            } else{
+                percentNow += 0.1;
+                const checkbar = document.getElementById("checkbar");
+                checkbar.style.transform = `translateX(${(quick.clientWidth * percentNow) / 100}px)`;
+            }
+        }
+
+    }
+
     function SetQuestion(){
         const Qarray = QA[Math.floor(Math.random() * 35)]
         if(Qarray.True == "A"){
@@ -118,6 +229,7 @@ const gamepage = () => {
     }
 
     function initBarCount(){
+        var alreadyhelp = false;
         var divTimeLeft = document.getElementById("TimeLeft");
         var divCountdownBar = document.getElementById("Countdownbar");
         var startTimer = setInterval(barCount, 30);
@@ -128,7 +240,7 @@ const gamepage = () => {
                 timebreak = true;
                 console.log("TimeBreak");
             }
-            if(divTimeLeft.clientWidth < divCountdownBar.clientWidth){
+            if(divTimeLeft.clientWidth < divCountdownBar.clientWidth && onevent == false){
                 divTimeLeft.style.width = (countp + 0.2)+"%"
                 countp += 0.2;
             } 
@@ -136,6 +248,10 @@ const gamepage = () => {
                 divTimeLeft.style.width = divCountdownBar.clientWidth;
                 clearInterval(startTimer);
                 CheckQuestion("nah");
+            }
+            if(countp > 50 && alreadyhelp == false){
+                SetHelpBar();
+                alreadyhelp = true;
             }
         }
     }
@@ -181,42 +297,44 @@ const gamepage = () => {
     }
 
     function CheckQuestion(button){
-        click = true;
-        console.log(TrueAns + " " + button);
-        if(TrueAns == button){
-            timebreak = true;
-            console.log("True");
-            setShowModal(false);
-            alreadymove = true;
-            TimeMark();
-            setTimeout(() => {
-                click = false;
-            }, 50);
-        } else {
-            turn = true;
-            setShowModal(false);
-            alreadymove = false;
-            setTimeout(() => {
-                if(alreadymove == false && turn == true && win == false){
-                    AiMove();
-                    setTimeout(() => {
-                        click = false;
-                    }, 50);
-                    setTimeout(() => {
-                        setShowModal(true);
+        if (onevent == false){
+            click = true;
+            console.log(TrueAns + " " + button);
+            if (TrueAns == button){
+                timebreak = true;
+                console.log("True");
+                setShowModal(false);
+                alreadymove = true;
+                TimeMark();
+                setTimeout(() => {
+                    click = false;
+                }, 50);
+            } else {
+                turn = true;
+                setShowModal(false);
+                alreadymove = false;
+                setTimeout(() => {
+                    if(alreadymove == false && turn == true && win == false){
+                        AiMove();
                         setTimeout(() => {
-                            SetQuestion();
-                            console.log("from check");
-                            turn = false;
-                            timebreak = false;
-                        }, 1);
-                    }, 1500);
-                } else if(turn == true && alreadymove == false){
-                    ReadyPlayerReset();
-                }
-            }, 1500);
+                            click = false;
+                        }, 50);
+                        setTimeout(() => {
+                            setShowModal(true);
+                            setTimeout(() => {
+                                SetQuestion();
+                                console.log("from check");
+                                turn = false;
+                                timebreak = false;
+                            }, 1);
+                        }, 1500);
+                    } else if(turn == true && alreadymove == false){
+                        ReadyPlayerReset();
+                    }
+                }, 1500);
+            }
+            // click = false;
         }
-        // click = false;
     }
 
     function playerready(){
@@ -243,7 +361,7 @@ const gamepage = () => {
                 win = true;
                 winner = board[i][0].innerHTML;
                 var divwin = document.getElementById("winner");
-                divwin.innerHTML = "Winner is: " + winner;
+                divwin.innerHTML = "THE WINNER IS:" + winner;
                 ReadyPlayerReset();
                 console.log(winner);
                 console.log("Win row");
@@ -257,7 +375,7 @@ const gamepage = () => {
                 win = true;
                 winner = board[0][i].innerHTML;
                 var divwin = document.getElementById("winner");
-                divwin.innerHTML = "Winner is: " + winner;
+                divwin.innerHTML = "THE WINNER IS:" + winner;
                 ReadyPlayerReset();
                 console.log(winner);
                 console.log("Win col");
@@ -270,7 +388,7 @@ const gamepage = () => {
             win = true;
             winner = board[0][0].innerHTML;
             var divwin = document.getElementById("winner");
-            divwin.innerHTML = "Winner is: " + winner;
+            divwin.innerHTML = "THE WINNER IS:" + winner;
             ReadyPlayerReset();
             console.log("Win di");
         }
@@ -279,7 +397,7 @@ const gamepage = () => {
             win = true;
             winner = board[0][4].innerHTML;
             var divwin = document.getElementById("winner");
-            divwin.innerHTML = "Winner is: " + winner;
+            divwin.innerHTML = "THE WINNER IS:" + winner;
             ReadyPlayerReset();
         }
         for (let i = 0; i < 5; i++){
@@ -357,24 +475,21 @@ const gamepage = () => {
                 <button onClick={handleDeleteBotRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
-            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black lg:mb-[8%] xl:mb-[10%]">
+            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black md:mb-[16vh] lg:mb-[18vh]">
 
                 <div id="playertime" className="text-center text-4xl font-bold">TIME</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-
-                <div className="text-center text-3xl font-bold mb-4">{userName?.name}</div>
-
-                <div className="text-center text-3xl font-bold mb-4">{userName.name}855</div>
+                <div className="text-center text-2xl font-bold mb-4">{userName?.name}</div>
 
                 <div className="text-center text-5xl font-bold">X</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold">Your Turn...</div>
+                <div className="text-center text-2xl font-bold">Your Turn...</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
                 <div className="flex items-center justify-center">
                     <button id="PlayerReady" className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover">READY</button>
@@ -382,25 +497,25 @@ const gamepage = () => {
 
             </div>
 
-            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 bottom-0 rounded-l-3xl border-4 border-white text-white lg:mb-[14%] xl:mb-[14%]">
+            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 bottom-0 rounded-l-3xl border-4 border-white text-white md:mb-[24vh] lg:mb-[26vh]">
 
                 <div className="text-center text-4xl font-bold">TIME</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">Opponent</div>
+                <div className="text-center text-2xl font-bold mb-4">Opponent</div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold">Ready!</div>
+                <div className="text-center text-2xl font-bold">Ready!</div>
 
             </div>
 
             <div className="flex justify-center">
             
-                <div id="table" className="absolute top-0 lg:mt-8 xl:mt-16">
+                <div id="table" className="absolute top-0 md:mt-[20vh] lg:mt-[10vh]">
                     
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
@@ -443,31 +558,22 @@ const gamepage = () => {
                     </div>
                     
                 </div>
-                <div id="winner" className="absolute text-center text-3xl font-bold mt-[30vh]"></div>
-            </div>
-
-            <div className="flex justify-center">
-                <div className="absolute bottom-0 lg:mb-4 xl:mb-12">
-                    
-                    {/* Modal test */}
-                    <button onClick={() => setShowModal(true)} className="rounded-2xl text-black font-bold bg-white px-4 py-4 text-2xl">MODAL</button>
-                    {/* Modal test */}
-                </div>
+                <div id="winner" className="absolute text-center text-3xl text-white font-bold mt-[30vh]"></div>
             </div>
 
             {showModal ? (
             <>
-            <div className="flex justify-center items-center fixed inset-0 z-50">
+            <div className="flex flex-col justify-center items-center fixed inset-0 z-50">
                 <div className="relative w-auto max-w-2xl drop-shadow-kiddodropshadowtwo">
                     <div className="rounded-2xl shadow-xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
 
                         <div className="flex justify-center items-center p-6">
-                        <div id="Countdownbar" style={{position: "relative", height: "5vh", width: "50vw", border: "2px black solid", background: "linear-gradient(to right, #D14545, #FFD045)"}}>
+
+                            <div id="Countdownbar" style={{position: "relative", height: "5vh", width: "50vw", border: "2px black solid", background: "linear-gradient(to right, #D14545, #FFD045)"}}>
                                 <div id="TimeLeft" style={{position: "relative", float: "right", background: "lightgray", height: "4.7vh", width: "0%"}}>
                                     
                                 </div>
                             </div>
-                            <h3 className="text-3xl font-bold" style={{position: "absolute"}}>Question:</h3>
 
                         </div>
 
@@ -479,25 +585,40 @@ const gamepage = () => {
 
                         <div className="flex items-center justify-center p-6 border-t">
 
-                            <button id="A" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => CheckQuestion("A")}>A) ...</button>
+                            <button id="A" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("A")}>A) .........</button>
 
-                            <button id="B" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => CheckQuestion("B")}>B) ...</button>
+                            <button id="B" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("B")}>B) .........</button>
 
                         </div>
 
                         <div className="flex justify-center p-6">
 
-                            <button id="C" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => CheckQuestion("C")}>C) ...</button>
+                            <button id="C" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("C")}>C) .........</button>
 
-                            <button id="D" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
-                            onClick={() => CheckQuestion("D")}>D) ...</button>
+                            <button id="D" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                            onClick={() => CheckQuestion("D")}>D) .........</button>
 
                         </div>
                     </div>
                 </div>
+
+                <div className="mt-6" hidden id="quick" style={{position: "relative", height: "5vh", width: "50vw", border: "2px black solid", background: "lightgray"}}>
+                    
+                    <div id="truebar" style={{position: "relative", float: "right", background: "green", height: "4.7vh", width: "0%"}}>
+                                    
+                    </div>
+                    <div id="checkbar" style={{position: "relative", float: "left", background: "red", height: "4.7vh", width: "1%"}}>
+                                    
+                    </div>
+                </div>
+                <div className="mt-6" hidden id="buttonqte">
+                    <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                        onClick={() => clickforqte()}>Click</button>
+                </div>
+                    
             </div>
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
             </>

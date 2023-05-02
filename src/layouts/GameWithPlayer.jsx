@@ -259,22 +259,22 @@ const gamepage = () => {
                 <button onClick={handleDeletePlayerRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
-            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black lg:mb-[3%] xl:mb-[6%]">
+            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black md:mb-[vh] lg:mb-[vh]">
 
                 <div onClick={handleName} className="text-center text-4xl font-bold">TIME</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerX.map((attr) => attr.name !== "") ? playerX.map((attr) => attr.name) : "Waiting..."}</div>
+                <div className="text-center text-2xl font-bold mb-4">{playerX.map((attr) => attr.name !== "") ? playerX.map((attr) => attr.name) : "Waiting..."}</div>
                 {/*playerX.map((attr) => attr.name === "") ? playerX.map((attr) => attr.name) : "Waiting..."*/}
 
                 <div className="text-center text-5xl font-bold">X</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold">Your Turn...</div>
+                <div className="text-center text-2xl font-bold">Your Turn...</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
                 <div className="flex items-center justify-center">
                     <button className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover">READY</button>
@@ -286,21 +286,21 @@ const gamepage = () => {
 
             </div>
 
-            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 bottom-0 rounded-l-3xl border-4 border-white text-white lg:mb-[3%] xl:mb-[6%]">
+            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 bottom-0 rounded-l-3xl border-4 border-white text-white md:mb-[vh] lg:mb-[vh]">
 
                 <div className="text-center text-4xl font-bold">TIME</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold mb-4">{playerO.map((attr) => attr.name !== "") ? playerO.map((attr) => attr.name) : "Waiting..."}</div>
+                <div className="text-center text-2xl font-bold mb-4">{playerO.map((attr) => attr.name !== "") ? playerO.map((attr) => attr.name) : "Waiting..."}</div>
 
                 <div className="text-center text-5xl font-bold">O</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-3xl font-bold">Waiting...</div>
+                <div className="text-center text-2xl font-bold">Waiting...</div>
 
-                <hr className="w-40 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
+                <hr className="w-28 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
                 <div className="flex items-center justify-center">
                     <button className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover">READY</button>
@@ -313,7 +313,7 @@ const gamepage = () => {
             </div>
 
             <div className="flex items-center justify-center">
-                <div className="absolute top-0 lg:mt-8 xl:mt-16">
+                <div className="absolute top-0 md:mt-[20vh] lg:mt-[10vh]">
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
                         <div className="flex justify-center" id="row1">
@@ -357,12 +357,8 @@ const gamepage = () => {
             </div>
 
             <div className="flex items-center justify-center">
-                <div className="absolute bottom-0 lg:mb-4 xl:mb-12">
+                <div className="absolute bottom-0 md:mb-[vh] lg:mb-[vh]">
                     <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-4 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">START</button>
-                    
-                    {/* Modal test */}
-                    <button onClick={() => setShowModal(true)} className="rounded-2xl text-black font-bold bg-white px-4 py-4 text-2xl">MODAL</button>
-                    {/* Modal test */}
                 </div>
             </div>
 
