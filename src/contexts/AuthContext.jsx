@@ -4,7 +4,7 @@ import {
     createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously,
     signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
-import {ref, set, push} from "firebase/database";
+import {ref, set, push, get} from "firebase/database";
 
 const AuthContext = createContext(null);
 
@@ -51,9 +51,9 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         return () => {
-            effect
+            get(roomPlayerRef)
         };
-    }, [input]);
+    }, []);
     
 
     useEffect(() => {
