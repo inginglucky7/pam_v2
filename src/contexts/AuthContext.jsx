@@ -5,7 +5,6 @@ import {
     signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
 import {ref, set, push} from "firebase/database";
-import {useLocation} from "react-router-dom";
 
 const AuthContext = createContext(null);
 
@@ -23,18 +22,16 @@ export const AuthProvider = ({children}) => {
     const roomPlayerRef = ref(db, "playerRoom");
     const userListRef = ref(db, `userList/${userName.name}`);
 
-    useEffect(() => {
+    const createPlayerRoom = useCallback(async (user, userUid) => {
         const newRoomForPlayerRef = push(ref(db, "playerRoom/")); // generate a new unique key for the room by ing
         const roomId = newRoomForPlayerRef.key;
-        setRoomIdPath(roomId);
-        setNewRoomsRef(newRoomForPlayerRef);
-    }, []);
-    
-    
-    const createPlayerRoom = useCallback(async (user, userUid) => {
-        set(newRoomsRef, {
+        await setRoomIdPath(roomId);
+        await setNewRoomsRef(newRoomForPlayerRef);
+        console.log(roomIdPath);
+        console.log(newRoomsRef);
+        return set(newRoomForPlayerRef, {
             roomName: user + "'s game",
-            roomId: roomIdPath,
+            roomId: roomId,
             "playerX": {
                 name: user,
                 uid: userUid,
@@ -50,7 +47,7 @@ export const AuthProvider = ({children}) => {
                 readyStatus: false,
             }
         })
-    }, [newRoomsRef, roomIdPath]);
+    }, [roomIdPath, newRoomsRef]);
 
     useEffect(() => {
         if(currentUser?.isAnonymous){

@@ -65,7 +65,7 @@ const gamepage = () => {
                 // useLocation() hook from browse
                 // this is check player in room is correct
                 if(params["*"] === roomList[room].roomId){
-                    if(roomList[room]?.playerX?.uid === ""){
+                    if(roomList[room]?.playerX?.uid !== ""){
                         if(currentUser.uid !== roomList[room].playerX.uid &&
                             params["*"] === roomList[room].roomId && roomList[room].playerO.name === ""){
                             update(ref(db, "playerRoom/" + room + "/playerO"), {
@@ -91,7 +91,6 @@ const gamepage = () => {
             //         oldOwner: "ARCCC"
             //     }
             // })
-            console.log(roomList[room]);
             // console.log("playerO : " + roomList[room]?.playerO?.name);
             // console.log("playerX : " + roomList[room]?.playerX?.name);
             // console.log("roomId : " + roomList[room]?.roomId);
@@ -153,7 +152,6 @@ const gamepage = () => {
             // console.log(roomList[room]);
             // console.log(params["*"]);
         })
-
         try {
             navigate("/browsegame", {
                 state: {
@@ -161,7 +159,6 @@ const gamepage = () => {
                 },
             });
             console.log(location.pathname)
-          //  await remove(`playerRoom${location.state}`);
             // console.log("delete room")
         }catch (e) {
             console.log(e.message);

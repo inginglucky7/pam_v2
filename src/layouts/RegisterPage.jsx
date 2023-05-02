@@ -26,12 +26,11 @@ const registerpage = () => {
             setLoading(true);
             console.log(emailRef);
             await signUp(userEmail, userPassword);
-            if(currentUser != null){
-                navigate("/mainmenu", {replace : true});
-            }
+            navigate("/mainmenu", {replace : true});
             console.log(auth.currentUser.email);
         } catch (e) {
             setError("Failed to create account");
+            alert("Please re-check your email and password")
             console.log(e.message);
         }
         setLoading(false);
