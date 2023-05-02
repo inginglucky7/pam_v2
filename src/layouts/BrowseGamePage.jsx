@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import "./Kiddo.css"
 import {useNavigate, useLocation, Link} from "react-router-dom";
-import {onValue, ref, get, set} from "firebase/database";
+import {onValue, ref, get, set, remove} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
 
@@ -22,6 +22,27 @@ const browsegame = () => {
         });
     }
 
+    useEffect(() => {
+        try {
+            Object.keys(roomList).map((room) => {
+                if (roomList[room]?.playerX?.uid === "") { // Check if playerX name is empty
+                    if (roomList[room]?.playerO?.uid === "") { // Check if playerO name is also empty
+                        remove(ref(db, `playerRoom/${room}`));// Remove the entire room if both names are empty// Exit the map function early since the room has been removed
+                    }
+                }
+
+                if (roomList[room]?.playerO?.uid === "") { // Check if playerO name is empty
+                    if (roomList[room]?.playerX?.uid === "") { // Check if playerX name is also empty
+                        remove(ref(db, `playerRoom/${room}`)); // Remove the entire room if both names are empty// Exit the map function early since the room has been removed
+                    }
+                }
+            })
+        } catch (e){
+            console.log(e.message);
+        }
+    }, [roomList]);
+    
+    
     useEffect(() => {
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();

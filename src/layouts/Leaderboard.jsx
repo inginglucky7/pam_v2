@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
@@ -7,8 +7,6 @@ const leaderboard = () => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const {usersList, userName, currentUser, usersListRef} = useAuth()
-
-
 
     return (
         
@@ -61,7 +59,7 @@ const leaderboard = () => {
 
             <div className="absolute text-2xl bottom-0 ml-6 mb-6">
                 <button onClick={(e) => {
-                    navigate(-1);
+                    navigate("/mainmenu");
                 }} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
