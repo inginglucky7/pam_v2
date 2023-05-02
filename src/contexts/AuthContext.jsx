@@ -31,7 +31,10 @@ export const AuthProvider = ({children}) => {
             roomId: roomId,
             Turn: "X",
             GameStart: false,
-            // board: [["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]],
+            board: [[" ", " ", " ", " ", " "],[" ", " ", " ", " ", " "],[" ", " ", " ", " ", " "],[" ", " ", " ", " ", " "],[" ", " ", " ", " ", " "]],
+            win: false,
+            winner: " ",
+            tie: false,
             "playerX": {
                 name: user,
                 uid: userUid,
