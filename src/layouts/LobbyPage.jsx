@@ -28,9 +28,9 @@ const lobbypage = () => {
 
     const handleCreatePlayerRoom = async (user, userUid) => {
         try {
-            await createPlayerRoom(user, userUid);
-            console.log(roomIdPath);
-            navigate(`/gamewithplayer/${roomIdPath}`, {
+            const roomId = await createPlayerRoom(user, userUid);
+            console.log(roomId);
+            navigate(`/gamewithplayer/${roomId}`, {
                 state: {
                     roomJoinUrl: location.pathname // /lobby,
                 }

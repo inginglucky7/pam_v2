@@ -21,15 +21,14 @@ export const AuthProvider = ({children}) => {
     const roomBotRef = ref(db, "botRooms/owners/" + userName?.name);
     const roomPlayerRef = ref(db, "playerRoom");
     const userListRef = ref(db, `userList/${userName.name}`);
+    const [roomNumber, setRoomNumber] = useState(0);
 
     const createPlayerRoom = useCallback(async (user, userUid) => {
         const newRoomForPlayerRef = push(ref(db, "playerRoom/")); // generate a new unique key for the room by ing
         const roomId = newRoomForPlayerRef.key;
         await setRoomIdPath(roomId);
         await setNewRoomsRef(newRoomForPlayerRef);
-        console.log(roomIdPath);
-        console.log(newRoomsRef);
-        return set(newRoomForPlayerRef, {
+        await set(newRoomForPlayerRef, {
             roomName: user + "'s game",
             roomId: roomId,
             "playerX": {
@@ -47,7 +46,15 @@ export const AuthProvider = ({children}) => {
                 readyStatus: false,
             }
         })
+        return roomId;
     }, [roomIdPath, newRoomsRef]);
+
+    useEffect(() => {
+        return () => {
+            effect
+        };
+    }, [input]);
+    
 
     useEffect(() => {
         if(currentUser?.isAnonymous){
@@ -121,7 +128,6 @@ export const AuthProvider = ({children}) => {
             userEmail: email
         })
     };
-
     // if(loading){
     //     return <p>Loading...</p>
     // }

@@ -9,7 +9,6 @@ const browsegame = () => {
     const navigate = useNavigate();
     const { currentUser, setUserName, userName} = useAuth();
     const roomlistRef = useRef(null);
-    const [roomNumber, setRoomNumber] = useState(0);
     const [roomList, setRoomList] = useState([]);
     const location = useLocation();
     const gameRoomsRef = ref(db, 'playerRoom');
@@ -24,8 +23,6 @@ const browsegame = () => {
     }
 
     useEffect(() => {
-        const number = roomNumber + 1;
-        setRoomNumber(number);
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();
             setRoomList(gameRooms);
@@ -78,7 +75,7 @@ const browsegame = () => {
                         <tbody ref={roomlistRef}>
                                 {roomList === null ? <></> : Object.keys(roomList).map((room) => (
                                     <tr key={room}  className="bg-kiddolightyellow">
-                                        <th scope="row" className="py-6">{room.length}</th>
+                                        <th scope="row" className="py-6">{room}</th>
                                         <th className="">{roomList[room].roomName}</th>
                                         <th className="">{roomList[room]?.playerX?.name && roomList[room]?.playerO?.name === "" ? "1/2" : roomList[room]?.playerO?.name && roomList[room]?.playerX?.name === "" ? "1/2" :
                                             roomList[room]?.playerX?.name && roomList[room]?.playerO?.name ? "2/2" : ""
