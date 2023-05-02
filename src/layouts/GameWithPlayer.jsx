@@ -7,6 +7,18 @@ import {get, onValue, ref, remove, update} from "firebase/database";
 import {db} from "../firebase-config.jsx";
 
 var pO;
+var readyO = false;
+var readyX = false;
+var giveupO = false;
+var giveupX = false;
+var human = "X";
+var ai = "O"
+var tie = false;
+var playable = false;
+var win = false;
+var winner = "";
+var turn = false;
+var row = [[],[],[],[],[]];
 const gamepage = () => {
 
     const navigate = useNavigate();
@@ -22,17 +34,19 @@ const gamepage = () => {
     //const urlRoom = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     const gameRoomsRef = ref(db, 'playerRoom');
 
-    var human = "X";
-    var ai = "O"
-    var tie = false;
-    var playable = false;
-    var win = false;
-    var winner = "";
-    var turn = false;
-    var row = [[],[],[],[],[]];
+
     
     useEffect(() => {
-        //wwws
+        document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
+        document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
+        document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
+        document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
+        document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
+        row[0].forEach((block) => block.addEventListener("click",clickCol));
+        row[1].forEach((block) => block.addEventListener("click",clickCol));
+        row[2].forEach((block) => block.addEventListener("click",clickCol));
+        row[3].forEach((block) => block.addEventListener("click",clickCol));
+        row[4].forEach((block) => block.addEventListener("click",clickCol));
     }, [])
 
     useEffect(() => {
@@ -88,7 +102,7 @@ const gamepage = () => {
             // console.log("roomId : " + roomList[room]?.roomId);
             // console.log("roomName : " + roomList[room]?.roomName);
         })
-        console.log(board);
+        // console.log(board);
     }, [roomList]);
 
     const handleDeletePlayerRoom = async (e) => {
@@ -132,6 +146,13 @@ const gamepage = () => {
             }
             // console.log(roomList[room]);
             // console.log(params["*"]);
+
+            //game func
+            if(params["*"] === roomList[room]?.roomId){
+                if(true){
+
+                }
+            }
         })
         try {
             navigate("/browsegame", {
@@ -146,93 +167,158 @@ const gamepage = () => {
             console.log(e.message);
         }
     };
-    /// Santakorn change comparison ///
-    function checkWinner(board) {
-        // Check rows
-        for (let i = 0; i < 5; i++) {
-            if (board[i][0].innerHTML !== "" && board[i][0].innerHTML === board[i][1].innerHTML && board[i][1].innerHTML === board[i][2].innerHTML && board[i][2].innerHTML === board[i][3].innerHTML && board[i][3].innerHTML === board[i][4].innerHTML) {
-                console.log(board[i][0].innerHTML);
-                win = true;
-                winner = board[i][0].innerHTML;
-                console.log("Win row");
-                console.log(win);
+
+    // UseEffect for update game mec
+    useEffect(() => {
+        Object.keys(roomList).map((room) => {
+            if(params["*"] === roomList[room]?.roomId){
+                //update ready state X
+                if(roomList[room]?.playerX?.readyStatus == true){
+                    var textx = document.getElementById("TextX");
+                    textx.innerText = "Ready!";
+                }else if(roomList[room]?.playerX?.readyStatus == false){
+                    var textx = document.getElementById("TextX");
+                    textx.innerText = "Not Ready";
+                }
+                //update ready state O
+                if(roomList[room]?.playerO?.readyStatus == true){
+                    var texto = document.getElementById("TextO");
+                    texto.innerText = "Ready!";
+                }else if(roomList[room]?.playerO?.readyStatus == false){
+                    var texto = document.getElementById("TextO");
+                    texto.innerText = "Not Ready";
+                }
+
+                // disable ready button when 2 player ready
+                if(roomList[room]?.playerX?.readyStatus == true && roomList[room]?.playerO?.readyStatus == true){
+                    update(ref(db, "playerRoom/" + room), {
+                        GameStart: true,
+                    })
+                    var readyO = document.getElementById("ReadyO");
+                    var readyX = document.getElementById("ReadyX");
+                    readyO.disabled = true;
+                    readyX.disabled = true;
+                    readyO.style.opacity = 0.25;
+                    readyX.style.opacity = 0.25;
+                    
+                }
+                // change word depen to Turn
+                if(roomList[room]?.Turn == roomList[room]?.playerX?.role){
+                    var textx = document.getElementById("TextX");
+                    textx.innerText = "Your Turn!";
+                    var texto = document.getElementById("TextO");
+                    texto.innerText = "Waiting...";
+                }else if(roomList[room]?.Turn == roomList[room]?.playerO?.role){
+                    var textx = document.getElementById("TextX");
+                    textx.innerText = "Waiting...";
+                    var texto = document.getElementById("TextO");
+                    texto.innerText = "Your Turn!";
+                }
             }
-        }
+        })
+    }, [roomList])
 
-        // Check columns
-        for (let i = 0; i < 5; i++) {
-            if (board[0][i].innerHTML !== "" && board[0][i].innerHTML === board[1][i].innerHTML && board[1][i].innerHTML === board[2][i].innerHTML && board[2][i].innerHTML === board[3][i].innerHTML && board[3][i].innerHTML === board[4][i].innerHTML) {
-                win = true;
-                winner = board[0][i].innerHTML;
-                console.log("Win col");
-                console.log(win);
-            }
-        }
-
-        // Check diagonals
-        if (board[0][0].innerHTML !== "" && board[0][0].innerHTML === board[1][1].innerHTML && board[1][1].innerHTML === board[2][2].innerHTML && board[2][2].innerHTML === board[3][3].innerHTML && board[3][3].innerHTML === board[4][4].innerHTML) {
-            win = true;
-            winner = board[0][0].innerHTML;
-            console.log("Win di");
-        }
-
-        if (board[0][4].innerHTML !== "" && board[0][4].innerHTML === board[1][3].innerHTML && board[1][3].innerHTML === board[2][2].innerHTML && board[2][2].innerHTML === board[3][1].innerHTML && board[3][1].innerHTML === board[4][0].innerHTML) {
-            win = true;
-            winner = board[0][4].innerHTML;
-        }
-        for (let i = 0; i < 5; i++){
-            if(playable === false){
-                for(let j = 0; j < 5; j++){
-                    if(board[i][j].innerHTML === ""){
-                        playable = true;
+    //Check ready
+    function setReady(button){
+        Object.keys(roomList).map((room) => {
+            if(params["*"] === roomList[room]?.roomId) {
+                if(currentUser?.uid === roomList[room]?.playerX?.uid){
+                    if(button === roomList[room]?.playerX?.role){
+                        if(roomList[room]?.playerX?.readyStatus == false){
+                            update(ref(db, "playerRoom/" + room + "/playerX"), {
+                                readyStatus: true,
+                            })
+                        } else{
+                            update(ref(db, "playerRoom/" + room + "/playerX"), {
+                                readyStatus: false,
+                            })
+                        }
+                        
+                    }
+                }else if(currentUser?.uid === roomList[room]?.playerO?.uid){
+                    if(button === roomList[room]?.playerO?.role){
+                        if(roomList[room]?.playerO?.readyStatus == false){
+                            update(ref(db, "playerRoom/" + room + "/playerO"), {
+                                readyStatus: true,
+                            })
+                        } else{
+                            update(ref(db, "playerRoom/" + room + "/playerO"), {
+                                readyStatus: false,
+                            })
+                        }
                     }
                 }
             }
-        }
-
-        /// Santakorn Fix here ///
-        if(win === false && playable === false){
-            tie = true;
-            console.log("Tie true");
-        } else {
-            playable = false;
-            tie = false;
-        }
-        // if(playable === false){
-        //     tie = true;
-        //     console.log("tie");
-        // }
-
-        // else{
-        //     playable = false;
-        // }
+            
+        })
     }
 
+    //Check giveup
+    function setGiveup(button){
+        Object.keys(roomList).map((room) => {
+            
+        })
+    }
+
+    //when player click board
     function clickCol(event) {
-        checkWinner(row); /// Santakorn Add Here ///
-        if (win === false && tie === false && event.currentTarget.innerHTML === ""){
-            event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
-            turn = true;
-            checkWinner(row);
-            if(win === false && tie === false){
-                AiMove();
+        console.log(roomList);
+        // Object.keys(roomList).map((room) => {
+        //     console.log(room);
+        // })
+
+        Object.keys(roomList).map((room) => {
+            console.log(room);
+            if(params["*"] === roomList[room]?.roomId) {
+                
+                if(currentUser?.uid === roomList[room]?.playerX?.uid){
+                    if(roomList[room]?.Turn == roomList[room]?.playerX?.role){
+                        // checkWinner(row);
+                        console.log(event.currentTarget);
+                        if (win === false && tie === false && event.currentTarget.innerHTML === ""){
+                            clickmark = true;
+                            event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
+                            turn = true;
+                            // checkWinner(row);
+                            console.log(win);
+                            if(win == false && tie == false){
+                                update(ref(db, "playerRoom/" + room), {
+                                    Turn: "O",
+                                })
+                            }
+
+                        } else if(win == true){
+                            // ReadyPlayerReset();
+                        }
+                    }
+                }else if(currentUser?.uid === roomList[room]?.playerO?.uid){
+                    if(roomList[room]?.Turn == roomList[room]?.playerO?.role){
+                        // checkWinner(row);
+                        console.log(event.currentTarget);
+                        if (win === false && tie === false && event.currentTarget.innerHTML === ""){
+                            clickmark = true;
+                            event.currentTarget.innerHTML = `<img src="${Oimg}"></img>`
+                            turn = true;
+                            // checkWinner(row);
+                            console.log(win);
+                            if(win == false && tie == false){
+                                update(ref(db, "playerRoom/" + room), {
+                                    Turn: "X",
+                                })
+                            }
+                        } else if(win == true){
+                            // ReadyPlayerReset();
+                        }
+                    }
+                }
             }
-        }
+        })
+    
+
+        
     }
 
-    function AiMove(){
-        if(turn === true && win === false && tie === false){
-            let num1 = Math.floor(Math.random() * 5);
-            let num2 = Math.floor(Math.random() * 5);
-            if(row[num1][num2].innerHTML === ""){
-                row[num1][num2].innerHTML = `<img src="${Oimg}"></img>`
-                turn = false;
-                checkWinner(row);
-            } else{
-                AiMove();
-            }
-        }
-    }
+
 
     return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
@@ -253,16 +339,18 @@ const gamepage = () => {
 
                 <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
-                <div className="text-center text-2xl font-bold">Your Turn...</div>
+                <div id="TextX" className="text-center text-2xl font-bold">Not Ready</div>
 
                 <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 
                 <div className="flex items-center justify-center">
-                    <button className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover">READY</button>
+                    <button id="ReadyX" className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover"
+                    onClick={() => setReady("X")}>READY</button>
                 </div>
 
                 <div className="flex items-center justify-center mt-4">
-                    <button className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">GIVE UP</button>
+                    <button id="GiveupX" className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover"
+                    onClick={() => setGiveup("X")}>GIVE UP</button>
                 </div>
 
             </div>
@@ -279,16 +367,18 @@ const gamepage = () => {
 
                 <hr className="w-28 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
-                <div className="text-center text-2xl font-bold">Waiting...</div>
+                <div id="TextO" className="text-center text-2xl font-bold">Not Ready</div>
 
                 <hr className="w-28 h-1 mx-auto bg-kiddoyellow border-0 rounded my-10" />
 
                 <div className="flex items-center justify-center">
-                    <button className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover">READY</button>
+                    <button id="ReadyO" className="rounded-2xl text-black bg-kiddogreen bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropgreen duration-200 hover:bg-kiddogreenhover"
+                    onClick={() => setReady("O")}>READY</button>
                 </div>
 
                 <div className="flex items-center justify-center mt-4">
-                    <button className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover">GIVE UP</button>
+                    <button id="GiveupO" className="rounded-2xl text-white bg-kiddored bg-opacity-90 px-6 py-4 text-xl font-bold shadow-xl drop-shadow-kiddodropred duration-200 hover:bg-kiddoredhover"
+                    onClick={() => setGiveup("O")}>GIVE UP</button>
                 </div>
 
             </div>
@@ -298,39 +388,39 @@ const gamepage = () => {
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
                         <div className="flex justify-center" id="row1">
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
+                            <div id="1-1" className="tdtd"></div>
+                            <div id="1-2" className="tdtd"></div>
+                            <div id="1-3" className="tdtd"></div>
+                            <div id="1-4" className="tdtd"></div>
+                            <div id="1-5" className="tdtd"></div>
                         </div>
                         <div className="flex justify-center" id="row2">
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
+                            <div id="2-1" className="tdtd"></div>
+                            <div id="2-2" className="tdtd"></div>
+                            <div id="2-3" className="tdtd"></div>
+                            <div id="2-4" className="tdtd"></div>
+                            <div id="2-5" className="tdtd"></div>
                         </div>
                             <div className="flex justify-center" id="row3">
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
+                            <div id="3-1" className="tdtd"></div>
+                            <div id="3-2" className="tdtd"></div>
+                            <div id="3-3" className="tdtd"></div>
+                            <div id="3-4" className="tdtd"></div>
+                            <div id="3-5" className="tdtd"></div>
                         </div>
                         <div className="flex justify-center" id="row4">
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
+                            <div id="4-1" className="tdtd"></div>
+                            <div id="4-2" className="tdtd"></div>
+                            <div id="4-3" className="tdtd"></div>
+                            <div id="4-4" className="tdtd"></div>
+                            <div id="4-5" className="tdtd"></div>
                         </div>
                         <div className="flex justify-center" id="row5">
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
-                            <div className="tdtd"></div>
+                            <div id="5-1" className="tdtd"></div>
+                            <div id="5-2" className="tdtd"></div>
+                            <div id="5-3" className="tdtd"></div>
+                            <div id="5-4" className="tdtd"></div>
+                            <div id="5-5" className="tdtd"></div>
                         </div>
 
                     </div>

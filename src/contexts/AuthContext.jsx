@@ -29,6 +29,8 @@ export const AuthProvider = ({children}) => {
         await set(newRoomForPlayerRef, {
             roomName: user + "'s game",
             roomId: roomId,
+            Turn: "X",
+            GameStart: false,
             // board: [["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]],
             "playerX": {
                 name: user,
@@ -37,6 +39,7 @@ export const AuthProvider = ({children}) => {
                 isOwner: true,
                 readyStatus: false,
                 xPlay: "",
+                xGiveup: false,
             },
             "playerO": {
                 name: "",
@@ -45,6 +48,7 @@ export const AuthProvider = ({children}) => {
                 isOwner: false,
                 readyStatus: false,
                 oPlay: "",
+                oGiveup: false,
             }
         })
         return roomId;
