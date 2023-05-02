@@ -16,7 +16,7 @@ const gamepage = () => {
     const [roomList, setRoomList] = useState([]);
     const [playerX, setPlayerX] = useState([]);
     const [playerO, setPlayerO] = useState([]);
-    const { currentUser, userName, roomPlayerRef } = useAuth();
+    const { currentUser, userName, roomPlayerRef, newRoomsForPlayerRef } = useAuth();
 
     //const urlRoom = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     const gameRoomsRef = ref(db, 'playerRoom');
@@ -65,7 +65,7 @@ const gamepage = () => {
                 // useLocation() hook from browse
                 // this is check player in room is correct
                 if(params["*"] === roomList[room].roomId){
-                    if(roomList[room]?.playerX?.uid !== " "){
+                    if(roomList[room]?.playerX?.uid === ""){
                         if(currentUser.uid !== roomList[room].playerX.uid &&
                             params["*"] === roomList[room].roomId && roomList[room].playerO.name === ""){
                             update(ref(db, "playerRoom/" + room + "/playerO"), {
@@ -160,7 +160,8 @@ const gamepage = () => {
                     previousUrl: location.pathname,
                 },
             });
-            //await remove(roomPlayerRef);
+            console.log(location.pathname)
+          //  await remove(`playerRoom${location.state}`);
             // console.log("delete room")
         }catch (e) {
             console.log(e.message);
