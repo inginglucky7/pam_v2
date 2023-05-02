@@ -16,6 +16,7 @@ const gamepage = () => {
     const [roomList, setRoomList] = useState([]);
     const [playerX, setPlayerX] = useState([]);
     const [playerO, setPlayerO] = useState([]);
+    const [board, setBoard] = useState([]);
     const { currentUser, userName, roomPlayerRef, newRoomsForPlayerRef } = useAuth();
 
     //const urlRoom = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
@@ -31,16 +32,7 @@ const gamepage = () => {
     var row = [[],[],[],[],[]];
     
     useEffect(() => {
-        document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
-        document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
-        document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
-        document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
-        document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
-        row[0].forEach((block) => block.addEventListener("click",clickCol));
-        row[1].forEach((block) => block.addEventListener("click",clickCol));
-        row[2].forEach((block) => block.addEventListener("click",clickCol));
-        row[3].forEach((block) => block.addEventListener("click",clickCol));
-        row[4].forEach((block) => block.addEventListener("click",clickCol));
+        //wwws
     }, [])
 
     useEffect(() => {
@@ -51,6 +43,10 @@ const gamepage = () => {
             // console.log(params["*"]);
         })
     }, []);
+
+    // useEffect(() => {
+    //     setBoard(row);
+    // }, []);
 
     useEffect(() => {
         Object.keys(roomList).map((room) => {
@@ -85,31 +81,16 @@ const gamepage = () => {
                     setPlayerX(Array.of(roomList[room]?.playerX));
                     setPlayerO(Array.of(roomList[room].playerO));
                 }
-            } // I think it's not has any problem here ???
-            // navigate(`/gamewithplayer/${roomList[room].roomId}`, {
-            //     state: {
-            //         oldOwner: "ARCCC"
-            //     }
-            // })
+            }
+
             // console.log("playerO : " + roomList[room]?.playerO?.name);
             // console.log("playerX : " + roomList[room]?.playerX?.name);
             // console.log("roomId : " + roomList[room]?.roomId);
             // console.log("roomName : " + roomList[room]?.roomName);
         })
+        console.log(board);
     }, [roomList]);
 
-    const handleName = () => {
-        onValue(gameRoomsRef, (snapshot) => {
-            Object.keys(roomList).map((room) => {
-                if(params["*"] === location.state.roomJoinUrl){
-                    if(params["*"] === roomList[room].roomId){
-                        console.log(location.state.roomJoinUrl);
-                        console.log(location)
-                    }
-                }
-            })
-        })
-    }
     const handleDeletePlayerRoom = async (e) => {
         e.preventDefault();
         Object.keys(roomList).map((room) => {
@@ -158,13 +139,13 @@ const gamepage = () => {
                     previousUrl: location.pathname,
                 },
             });
+            await remove(`playerRoom/`);
             console.log(location.pathname)
             // console.log("delete room")
         }catch (e) {
             console.log(e.message);
         }
     };
-
     /// Santakorn change comparison ///
     function checkWinner(board) {
         // Check rows
@@ -261,7 +242,7 @@ const gamepage = () => {
 
             <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black md:mb-[vh] lg:mb-[vh]">
 
-                <div onClick={handleName} className="text-center text-4xl font-bold">TIME</div>
+                <div className="text-center text-4xl font-bold">TIME</div>
 
                 <hr className="w-28 h-1 mx-auto bg-kiddobrown border-0 rounded my-10" />
 

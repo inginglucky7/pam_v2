@@ -26,17 +26,17 @@ export const AuthProvider = ({children}) => {
     const createPlayerRoom = useCallback(async (user, userUid) => {
         const newRoomForPlayerRef = push(ref(db, "playerRoom/")); // generate a new unique key for the room by ing
         const roomId = newRoomForPlayerRef.key;
-        await setRoomIdPath(roomId);
-        await setNewRoomsRef(newRoomForPlayerRef);
         await set(newRoomForPlayerRef, {
             roomName: user + "'s game",
             roomId: roomId,
+            // board: [["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""],["", "", "", "", ""]],
             "playerX": {
                 name: user,
                 uid: userUid,
                 role: "X",
                 isOwner: true,
                 readyStatus: false,
+                xPlay: "",
             },
             "playerO": {
                 name: "",
@@ -44,15 +44,23 @@ export const AuthProvider = ({children}) => {
                 role: "O",
                 isOwner: false,
                 readyStatus: false,
+                oPlay: "",
             }
         })
         return roomId;
     }, [roomIdPath, newRoomsRef]);
 
     useEffect(() => {
-        return () => {
-            get(roomPlayerRef)
-        };
+        // document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
+        // document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
+        // document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
+        // document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
+        // document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
+        // row[0].forEach((block) => block.addEventListener("click",clickCol));
+        // row[1].forEach((block) => block.addEventListener("click",clickCol));
+        // row[2].forEach((block) => block.addEventListener("click",clickCol));
+        // row[3].forEach((block) => block.addEventListener("click",clickCol));
+        // row[4].forEach((block) => block.addEventListener("click",clickCol));
     }, []);
     
 
