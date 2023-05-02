@@ -2,7 +2,7 @@ import React, {useEffect, useState, useMemo} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
-import {Oimg, Ximg} from "../img/exportImage";
+import {Oimg, Ximg, Tieimg} from "../img/exportImage";
 import {QA} from "./Question.jsx";
 import {ref, set, onValue, update, get, remove} from "firebase/database";
 import {db} from "../firebase-config.jsx";
@@ -277,13 +277,15 @@ const gamepage = () => {
                 AiMove();
                 console.log("inelse");
                 setTimeout(() => {
-                    setShowModal(true);
-                    setTimeout(() => {
+                    if(win == false && tie == false){
+                        setShowModal(true);
+                        setTimeout(() => {
                         SetQuestion();
                         console.log("from click");
                         turn = false;
                         timebreak = false;
                     }, 1);
+                    }
                 }, 1500);
             }
             if(clickmark == true){
@@ -320,13 +322,16 @@ const gamepage = () => {
                             click = false;
                         }, 50);
                         setTimeout(() => {
-                            setShowModal(true);
-                            setTimeout(() => {
+                            if(win == false && tie == false){
+                                setShowModal(true);
+                                setTimeout(() => {
                                 SetQuestion();
                                 console.log("from check");
                                 turn = false;
                                 timebreak = false;
                             }, 1);
+                            }
+                            
                         }, 1500);
                     } else if(turn == true && alreadymove == false){
                         ReadyPlayerReset();
@@ -414,6 +419,9 @@ const gamepage = () => {
         if(win === false && playable === false){
             tie = true;
             console.log("Tie true");
+            var divwin = document.getElementById("winner");
+            divwin.innerHTML = "THE WINNER IS:" + `<img src="${Tieimg}"></img>`;
+            ReadyPlayerReset();
         } else {
             playable = false;
             tie = false;
