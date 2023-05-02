@@ -7,7 +7,7 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 
 const browsegame = () => {
     const navigate = useNavigate();
-    const { currentUser, setUserName, userName} = useAuth();
+    const { currentUser, userName, roomNumber} = useAuth();
     const roomlistRef = useRef(null);
     const [roomList, setRoomList] = useState([]);
     const location = useLocation();
@@ -75,7 +75,8 @@ const browsegame = () => {
                         <tbody ref={roomlistRef}>
                                 {roomList === null ? <></> : Object.keys(roomList).map((room) => (
                                     <tr key={room}  className="bg-kiddolightyellow">
-                                        <th scope="row" className="py-6">{room}</th>
+                                        <th scope="row" className="py-6">{parseInt(Object.keys(roomList).indexOf(room)) + 1}</th>
+                                        {/*parseInt(room.indexOf(room))*/}
                                         <th className="">{roomList[room].roomName}</th>
                                         <th className="">{roomList[room]?.playerX?.name && roomList[room]?.playerO?.name === "" ? "1/2" : roomList[room]?.playerO?.name && roomList[room]?.playerX?.name === "" ? "1/2" :
                                             roomList[room]?.playerX?.name && roomList[room]?.playerO?.name ? "2/2" : ""

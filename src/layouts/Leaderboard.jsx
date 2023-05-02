@@ -1,9 +1,15 @@
 import React from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../contexts/AuthContext.jsx";
 
 const leaderboard = () => {
     const navigate = useNavigate();
+    const [users, setUsers] = useState([]);
+    const {usersList, userName, currentUser, usersListRef} = useAuth()
+
+
+
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
@@ -43,60 +49,6 @@ const leaderboard = () => {
                         <tbody>
                             <tr className="bg-kiddolightyellow">
                                 <th scope="row" className="py-3">1</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddoyellow">
-                                <th scope="row" className="py-3">2</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-3">3</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddoyellow">
-                                <th scope="row" className="py-3">4</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-3">5</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddoyellow">
-                                <th scope="row" className="py-3">6</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-3">7</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddoyellow">
-                                <th scope="row" className="py-3">8</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-3">9</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
-                            <tr className="bg-kiddoyellow">
-                                <th scope="row" className="py-3">10</th>
                                 <th className="py-3">PAUL</th>
                                 <td className="py-3">63070002@it.kmitl.ac.th</td>
                                 <td className="py-3">1000</td>

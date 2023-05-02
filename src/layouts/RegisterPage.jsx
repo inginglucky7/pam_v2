@@ -1,8 +1,8 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
-import {onValue, ref, get, set} from "firebase/database";
+import {onValue, ref, get, set, push} from "firebase/database";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {auth, db} from "../firebase-config.jsx";
 const registerpage = () => {
@@ -12,10 +12,11 @@ const registerpage = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
-    const {signUp, currentUser, setUserName, userName,setUserList} = useAuth();
+    const {signUp, currentUser, setUserName, userName, usersListRef, usersList} = useAuth();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
     const handleReg = async (e) => {
         e.preventDefault();
         if(passwordRef.current.value !== confirmPasswordRef.current.value){
@@ -24,10 +25,17 @@ const registerpage = () => {
         try {
             setError("")
             setLoading(true);
-            console.log(emailRef);
             await signUp(userEmail, userPassword);
+            const playersList = ref(db, `usersList/${auth?.currentUser?.uid}`);
+            set(playersList, {
+                name: auth?.currentUser.email,
+                email: auth?.currentUser.email,
+                uid: auth?.currentUser?.uid,
+                win: 0,
+                correct: 0,
+                score: 0,
+            })
             navigate("/mainmenu", {replace : true});
-            console.log(auth.currentUser.email);
         } catch (e) {
             setError("Failed to create account");
             alert("Please re-check your email and password")

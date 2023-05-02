@@ -17,7 +17,7 @@ const gamepage = () => {
     const [playerX, setPlayerX] = useState([]);
     const [playerO, setPlayerO] = useState([]);
     const [board, setBoard] = useState([]);
-    const { currentUser, userName, roomPlayerRef, newRoomsForPlayerRef } = useAuth();
+    const { currentUser, userName } = useAuth();
 
     //const urlRoom = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     const gameRoomsRef = ref(db, 'playerRoom');
@@ -30,10 +30,6 @@ const gamepage = () => {
     var winner = "";
     var turn = false;
     var row = [[],[],[],[],[]];
-    
-    useEffect(() => {
-        //wwws
-    }, [])
 
     useEffect(() => {
         onValue(gameRoomsRef, (snapshot) => {
@@ -43,10 +39,6 @@ const gamepage = () => {
             // console.log(params["*"]);
         })
     }, []);
-
-    // useEffect(() => {
-    //     setBoard(row);
-    // }, []);
 
     useEffect(() => {
         Object.keys(roomList).map((room) => {
@@ -67,10 +59,11 @@ const gamepage = () => {
             if(location.state?.roomJoinUrl === "/lobby"){ //from lobby and choose create room
                 // current url room id === roomId --> Check is correct room and loop player from this.
                 if(params["*"] === roomList[room].roomId){
-                    setPlayerO(Array.of(roomList[room].playerO));
+                    setPlayerO(Array.of(roomList[room]?.playerO));
                     setPlayerX(Array.of(roomList[room]?.playerX));
                 }
             }
+
             if(params["*"] === location.state?.roomJoinUrl){ // Check previous url and current (roomJoinId -> see Browsegame join room )
                 // useLocation() hook from browse
                 // this is check player in room is correct
@@ -337,7 +330,7 @@ const gamepage = () => {
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
                         <div className="flex justify-center" id="row1">
-                            <div className="tdtd"></div>
+                            <div onClick={clickCol} className="tdtd"></div>
                             <div className="tdtd"></div>
                             <div className="tdtd"></div>
                             <div className="tdtd"></div>

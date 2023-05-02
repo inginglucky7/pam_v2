@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
-import {auth} from "../firebase-config.jsx";
+import {auth, db} from "../firebase-config.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
-import {set} from "firebase/database";
+import {onValue, push, ref, set} from "firebase/database";
 
 const loginpage = () => {
     const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ const loginpage = () => {
     const navigate = useNavigate();
     const logEmailRef = useRef();
     const logPassRef = useRef();
-    const {signIn, signInAnonymous, currentUser, signInGoogle, setUserName, userName, setUserList} = useAuth();
+    const {signIn, signInAnonymous, currentUser, signInGoogle, setUserName, userName, usersListRef, usersList} = useAuth();
 
     useEffect(() => {
         if(currentUser !== null){
@@ -50,6 +50,16 @@ const loginpage = () => {
         e.preventDefault();
         try {
             await signInGoogle();
+            console.log(auth?.currentUser);
+            const playersList = ref(db, `usersList/${auth?.currentUser?.uid}`);
+            set(playersList, {
+                name: auth?.currentUser.email,
+                email: auth?.currentUser.email,
+                uid: auth?.currentUser?.uid,
+                win: 0,
+                correct: 0,
+                score: 0,
+            })
         } catch (e) {
             console.log(e.message);
         }

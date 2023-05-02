@@ -7,7 +7,7 @@ import {useAuth} from "../contexts/AuthContext.jsx";
 
 const lobbypage = () => {
     const navigate = useNavigate();
-    const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom, roomIdPath, setRoomIdPath} = useAuth();
+    const { currentUser, setUserName, userName, roomPlayerRef, roomBotRef, createPlayerRoom, createBotRoom, roomIdPath, usersList} = useAuth();
     const [roomList, setRoomList] = useState([]);
 
     useEffect(() => {
