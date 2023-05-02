@@ -12,6 +12,15 @@ var click = false;
 var clickmark = false;
 var row = [[],[],[],[],[]];
 var timebreak = false;
+var alreadymove = false;
+var human = "X"; // Santakorn Change humen -> human //
+var ai = "O"
+var tie = false;
+var playable = false;
+var win = false;
+var winner = "";
+var turn = false;
+var ready = false;
 
 const gamepage = () => {
     const [showModal, setShowModal] = React.useState(false);
@@ -30,15 +39,7 @@ const gamepage = () => {
             console.log(e.message);
         }
     };
-    var human = "X"; // Santakorn Change humen -> human //
-    var ai = "O"
-    var tie = false;
-    var playable = false;
-    var win = false;
-    var winner = "";
-    var turn = false;
-    var ready = false;
-    var alreadymove = false;
+
     useEffect(() => {
         document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
         document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
@@ -120,6 +121,7 @@ const gamepage = () => {
         var divTimeLeft = document.getElementById("TimeLeft");
         var divCountdownBar = document.getElementById("Countdownbar");
         var startTimer = setInterval(barCount, 30);
+        var countp = 0.00;
         function barCount(){
             if(click == true){
                 clearInterval(startTimer);
@@ -127,7 +129,8 @@ const gamepage = () => {
                 console.log("TimeBreak");
             }
             if(divTimeLeft.clientWidth < divCountdownBar.clientWidth){
-                divTimeLeft.style.width = divTimeLeft.clientWidth + 1 + "px";
+                divTimeLeft.style.width = (countp + 0.2)+"%"
+                countp += 0.2;
             } 
             else if(divTimeLeft.clientWidth == divCountdownBar.clientWidth && timebreak == false){
                 divTimeLeft.style.width = divCountdownBar.clientWidth;
@@ -184,6 +187,7 @@ const gamepage = () => {
             timebreak = true;
             console.log("True");
             setShowModal(false);
+            alreadymove = true;
             TimeMark();
             setTimeout(() => {
                 click = false;
@@ -191,13 +195,13 @@ const gamepage = () => {
         } else {
             turn = true;
             setShowModal(false);
+            alreadymove = false;
             setTimeout(() => {
                 if(alreadymove == false && turn == true && win == false){
                     AiMove();
                     setTimeout(() => {
                         click = false;
                     }, 50);
-                    alreadymove = true;
                     setTimeout(() => {
                         setShowModal(true);
                         setTimeout(() => {
@@ -308,13 +312,15 @@ const gamepage = () => {
 
     function clickCol(event) {
         checkWinner(row); /// Santakorn Add Here ///
+        console.log(alreadymove);
         console.log(event.currentTarget);
-        if (win === false && tie === false && event.currentTarget.innerHTML === "" && ready === true && turn == false){
+        if (win === false && tie === false && event.currentTarget.innerHTML === "" && ready === true && turn == false && alreadymove == true){
             clickmark = true;
             event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
             turn = true;
             checkWinner(row);
             console.log(win);
+            alreadymove = false;
             if(win === false && tie === false){
                 AiMove();
                 setTimeout(() => {
@@ -457,7 +463,7 @@ const gamepage = () => {
 
                         <div className="flex justify-center items-center p-6">
                         <div id="Countdownbar" style={{position: "relative", height: "5vh", width: "50vw", border: "2px black solid", background: "linear-gradient(to right, #D14545, #FFD045)"}}>
-                                <div id="TimeLeft" style={{position: "relative", float: "right", background: "lightgray", height: "4.7vh", width: "0vw"}}>
+                                <div id="TimeLeft" style={{position: "relative", float: "right", background: "lightgray", height: "4.7vh", width: "0%"}}>
                                     
                                 </div>
                             </div>
