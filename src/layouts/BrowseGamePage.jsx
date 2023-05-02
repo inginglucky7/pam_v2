@@ -41,8 +41,7 @@ const browsegame = () => {
             console.log(e.message);
         }
     }, [roomList]);
-    
-    
+
     useEffect(() => {
         onValue(gameRoomsRef, (snapshot) => {
             const gameRooms = snapshot.val();

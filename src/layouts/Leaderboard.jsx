@@ -45,12 +45,16 @@ const leaderboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="bg-kiddolightyellow">
-                                <th scope="row" className="py-3">1</th>
-                                <th className="py-3">PAUL</th>
-                                <td className="py-3">63070002@it.kmitl.ac.th</td>
-                                <td className="py-3">1000</td>
-                            </tr>
+                        {
+                            usersList === null ? <></> : Object.keys(usersList).map((user) => (
+                                <tr className="bg-kiddolightyellow">
+                                    <th scope="row" className="py-3">{parseInt(Object.keys(usersList).indexOf(user)) + 1}</th>
+                                    <th className="py-3">{usersList[user].email.substring(0, usersList[user].email.indexOf("@"))}</th>
+                                    <td className="py-3">{usersList[user].email}</td>
+                                    <td className="py-3">{usersList[user].score}</td>
+                                </tr>
+                                ))
+                        }
                         </tbody>
                     </table>
                 </div>
