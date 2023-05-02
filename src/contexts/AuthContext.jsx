@@ -32,12 +32,6 @@ export const AuthProvider = ({children}) => {
     }, []);
 
     useEffect(() => {
-        Object.keys(usersList).map((user) => {
-            console.log(user === currentUser?.uid);
-        })
-    }, []);
-
-    useEffect(() => {
         if(currentUser?.isAnonymous){
             setUserName({
                 name: "Guest",
@@ -152,6 +146,7 @@ export const AuthProvider = ({children}) => {
         roomNumber,
         usersListRef,
         usersList,
+        gameRoomsRef
     }
     return(
         <AuthContext.Provider value={value}>

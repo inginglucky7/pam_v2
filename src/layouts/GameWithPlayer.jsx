@@ -35,7 +35,7 @@ const gamepage = () => {
     const [playerX, setPlayerX] = useState([]);
     const [playerO, setPlayerO] = useState([]);
     const [board, setBoard] = useState([]);
-    const { currentUser, userName, roomPlayerRef, newRoomsForPlayerRef } = useAuth();
+    const { currentUser, userName, roomPlayerRef, newRoomsForPlayerRef, usersList } = useAuth();
 
     //const urlRoom = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     const gameRoomsRef = ref(db, 'playerRoom');
@@ -1052,18 +1052,33 @@ const gamepage = () => {
                 console.log("Win row");
                 console.log(winner);
                 Object.keys(roomList).map((room) => {
-                    if(params["*"] === roomList[room]?.roomId) {
-                        if(board[i][0].innerHTML == `<img src="/src/img/X.png">`){
+                    if (params["*"] === roomList[room]?.roomId) {
+                        if (board[i][0].innerHTML == `<img src="/src/img/X.png">`) {
                             update(ref(db, "playerRoom/" + room), {
                                 winner: "X",
                                 win: true,
                             })
-                        } else if(board[i][0].innerHTML == `<img src="/src/img/O.png">`){
+
+                            Object.keys(usersList).map((user) => {
+                                update(ref(db, "usersList/" + roomList[room].playerX.uid), {
+                                    score: usersList[roomList[room].playerX?.uid].score + 100,
+                                })
+                            })
+
+                        } else if (board[i][0].innerHTML == `<img src="/src/img/O.png">`) {
                             update(ref(db, "playerRoom/" + room), {
                                 winner: "O",
                                 win: true,
                             })
+
+                            Object.keys(usersList).map((user) => {
+                                update(ref(db, "usersList/" + roomList[room].playerO.uid), {
+                                    score: usersList[roomList[room].playerO.uid].score + 100,
+                                })
+                            })
+
                         }
+
                     }
                 })
             }

@@ -1,12 +1,62 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./Kiddo.css"
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.jsx";
+import {onValue, ref, orderByChild, query, endAt, limitToLast, get, off, update} from "firebase/database";
+import {db} from "../firebase-config.jsx";
 
 const leaderboard = () => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
-    const {usersList, userName, currentUser, usersListRef} = useAuth()
+    const [userScores, setUserScore] = useState([]);
+    const [roomList, setRoomList] = useState([]);
+    const {usersList, userName, currentUser, usersListRef, gameRoomsRef} = useAuth();
+    const sort = [];
+
+    useEffect(() => {
+        onValue(gameRoomsRef, (snapshot) => {
+            const gameRooms = snapshot.val();
+            setRoomList(gameRooms);
+            // console.log(location);
+            // console.log(params["*"]);
+        })
+    }, []);
+
+    useEffect(() => {
+        const usersRef = ref(db, "usersList");
+        const queRef = query(usersRef, orderByChild("score"), limitToLast(10));
+        const handleData = (snapshot) => {
+            const data = [];
+            snapshot.forEach((childSnap) => {
+                const childData = childSnap.val();
+                data.push(childData);
+            })
+            setUserScore(data.reverse());
+        }
+        onValue(queRef, handleData);
+
+        return () => {
+            off(queRef, handleData);
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     try {
+    //         Object.keys(roomList).map((room) => {
+    //             Object.keys(usersList).map((user) => {
+    //                 //console.log(user === roomList[room].playerX.uid)
+    //                 console.log(usersList[roomList[room].playerX.uid].score + 100)
+    //                 // update(ref(db, "usersList/" + roomList[room].playerO.uid), {
+    //                 //     score: usersList[roomList[room].playerO.uid].score + 100,
+    //                 // })
+    //             })
+    //         })
+    //     } catch (e) {
+    //         console.log(e.message);
+    //     }
+    //
+    // }, []);
+
 
     return (
         
@@ -46,12 +96,12 @@ const leaderboard = () => {
                         </thead>
                         <tbody>
                         {
-                            usersList === null ? <></> : Object.keys(usersList).map((user) => (
-                                <tr className="bg-kiddolightyellow">
-                                    <th scope="row" className="py-3">{parseInt(Object.keys(usersList).indexOf(user)) + 1}</th>
-                                    <th className="py-3">{usersList[user].email.substring(0, usersList[user].email.indexOf("@"))}</th>
-                                    <td className="py-3">{usersList[user].email}</td>
-                                    <td className="py-3">{usersList[user].score}</td>
+                            usersList === null ? <></> : Object.keys(userScores).map((user) => (
+                                <tr key={user} className="bg-kiddolightyellow">
+                                    <th scope="row" className="py-3">{parseInt(Object.keys(userScores).indexOf(user)) + 1}</th>
+                                    <th className="py-3">{userScores[user].email.substring(0, userScores[user].email.indexOf("@"))}</th>
+                                    <td className="py-3">{userScores[user].email}</td>
+                                    <td className="py-3">{userScores[user].score}</td>
                                 </tr>
                                 ))
                         }
