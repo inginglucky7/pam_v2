@@ -18,7 +18,6 @@ var playable = false;
 var win = false;
 var winner = "";
 var turn = false;
-var row = [[],[],[],[],[]];
 const gamepage = () => {
 
     const navigate = useNavigate();
@@ -36,18 +35,6 @@ const gamepage = () => {
 
 
     
-    useEffect(() => {
-        document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
-        document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
-        document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
-        document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
-        document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
-        row[0].forEach((block) => block.addEventListener("click",clickCol));
-        row[1].forEach((block) => block.addEventListener("click",clickCol));
-        row[2].forEach((block) => block.addEventListener("click",clickCol));
-        row[3].forEach((block) => block.addEventListener("click",clickCol));
-        row[4].forEach((block) => block.addEventListener("click",clickCol));
-    }, [])
 
     useEffect(() => {
         onValue(gameRoomsRef, (snapshot) => {
@@ -316,9 +303,8 @@ const gamepage = () => {
                         // checkWinner(row);
                         console.log(event.currentTarget);
                         if (win === false && tie === false && event.currentTarget.innerHTML === ""){
-                            clickmark = true;
+                            // clickmark = true;
                             event.currentTarget.innerHTML = `<img src="${Ximg}"></img>`
-                            turn = true;
                             // checkWinner(row);
                             console.log(win);
                             if(win == false && tie == false){
@@ -336,9 +322,8 @@ const gamepage = () => {
                         // checkWinner(row);
                         console.log(event.currentTarget);
                         if (win === false && tie === false && event.currentTarget.innerHTML === ""){
-                            clickmark = true;
+                            // clickmark = true;
                             event.currentTarget.innerHTML = `<img src="${Oimg}"></img>`
-                            turn = true;
                             // checkWinner(row);
                             console.log(win);
                             if(win == false && tie == false){
@@ -428,39 +413,39 @@ const gamepage = () => {
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
                         <div className="flex justify-center" id="row1">
-                            <div id="1-1" className="tdtd"></div>
-                            <div id="1-2" className="tdtd"></div>
-                            <div id="1-3" className="tdtd"></div>
-                            <div id="1-4" className="tdtd"></div>
-                            <div id="1-5" className="tdtd"></div>
+                            <div onClick={clickCol} id="1-1" className="tdtd"></div>
+                            <div onClick={clickCol} id="1-2" className="tdtd"></div>
+                            <div onClick={clickCol} id="1-3" className="tdtd"></div>
+                            <div onClick={clickCol} id="1-4" className="tdtd"></div>
+                            <div onClick={clickCol} id="1-5" className="tdtd"></div>
                         </div>
                         <div className="flex justify-center" id="row2">
-                            <div id="2-1" className="tdtd"></div>
-                            <div id="2-2" className="tdtd"></div>
-                            <div id="2-3" className="tdtd"></div>
-                            <div id="2-4" className="tdtd"></div>
-                            <div id="2-5" className="tdtd"></div>
+                            <div onClick={clickCol} id="2-1" className="tdtd"></div>
+                            <div onClick={clickCol} id="2-2" className="tdtd"></div>
+                            <div onClick={clickCol} id="2-3" className="tdtd"></div>
+                            <div onClick={clickCol} id="2-4" className="tdtd"></div>
+                            <div onClick={clickCol} id="2-5" className="tdtd"></div>
                         </div>
                             <div className="flex justify-center" id="row3">
-                            <div id="3-1" className="tdtd"></div>
-                            <div id="3-2" className="tdtd"></div>
-                            <div id="3-3" className="tdtd"></div>
-                            <div id="3-4" className="tdtd"></div>
-                            <div id="3-5" className="tdtd"></div>
+                            <div onClick={clickCol} id="3-1" className="tdtd"></div>
+                            <div onClick={clickCol} id="3-2" className="tdtd"></div>
+                            <div onClick={clickCol} id="3-3" className="tdtd"></div>
+                            <div onClick={clickCol} id="3-4" className="tdtd"></div>
+                            <div onClick={clickCol} id="3-5" className="tdtd"></div>
                         </div>
                         <div className="flex justify-center" id="row4">
-                            <div id="4-1" className="tdtd"></div>
-                            <div id="4-2" className="tdtd"></div>
-                            <div id="4-3" className="tdtd"></div>
-                            <div id="4-4" className="tdtd"></div>
-                            <div id="4-5" className="tdtd"></div>
+                            <div onClick={clickCol} id="4-1" className="tdtd"></div>
+                            <div onClick={clickCol} id="4-2" className="tdtd"></div>
+                            <div onClick={clickCol} id="4-3" className="tdtd"></div>
+                            <div onClick={clickCol} id="4-4" className="tdtd"></div>
+                            <div onClick={clickCol} id="4-5" className="tdtd"></div>
                         </div>
                         <div className="flex justify-center" id="row5">
-                            <div id="5-1" className="tdtd"></div>
-                            <div id="5-2" className="tdtd"></div>
-                            <div id="5-3" className="tdtd"></div>
-                            <div id="5-4" className="tdtd"></div>
-                            <div id="5-5" className="tdtd"></div>
+                            <div onClick={clickCol} id="5-1" className="tdtd"></div>
+                            <div onClick={clickCol} id="5-2" className="tdtd"></div>
+                            <div onClick={clickCol} id="5-3" className="tdtd"></div>
+                            <div onClick={clickCol} id="5-4" className="tdtd"></div>
+                            <div onClick={clickCol} id="5-5" className="tdtd"></div>
                         </div>
 
                     </div>
