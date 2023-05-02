@@ -64,6 +64,20 @@ const gamepage = () => {
 
     useEffect(() => {
         Object.keys(roomList).map((room) => {
+            if (roomList[room]?.playerX?.name === "") { // Check if playerX name is empty
+                if (roomList[room]?.playerO?.name === "") { // Check if playerO name is also empty
+                    remove(ref(db, "playerRoom/" + room)); // Remove the entire room if both names are empty
+                    return; // Exit the map function early since the room has been removed
+                }
+            }
+
+            if (roomList[room]?.playerO?.name === "") { // Check if playerO name is empty
+                if (roomList[room]?.playerX?.name === "") { // Check if playerX name is also empty
+                    remove(ref(db, "playerRoom/" + room)); // Remove the entire room if both names are empty
+                    return; // Exit the map function early since the room has been removed
+                }
+            }
+
             if(location.state?.roomJoinUrl === "/lobby"){ //from lobby and choose create room
                 // current url room id === roomId --> Check is correct room and loop player from this.
                 if(params["*"] === roomList[room].roomId){
@@ -75,7 +89,7 @@ const gamepage = () => {
                 // useLocation() hook from browse
                 // this is check player in room is correct
                 if(params["*"] === roomList[room].roomId){
-                    if(roomList[room]?.playerX?.uid !== ""){
+                    if(roomList[room]?.playerX?.uid === ""){
                         if(currentUser.uid !== roomList[room].playerX.uid &&
                             params["*"] === roomList[room].roomId && roomList[room].playerO.name === ""){
                             update(ref(db, "playerRoom/" + room + "/playerO"), {
@@ -83,17 +97,35 @@ const gamepage = () => {
                                 uid: currentUser?.uid,
                             })
                         }
-                        if(currentUser.uid !== roomList[room].playerO.uid &&
+                        if(currentUser.uid !== roomList[room]?.playerO?.uid &&
                             params["*"] === roomList[room].roomId && roomList[room].playerX.name === ""){
                             update(ref(db, "playerRoom/" + room + "/playerX"), {
                                 name: userName?.name,
                                 uid: currentUser?.uid,
                             })
-                            console.log("In");
+                            console.log("X In");
                         }
                     }
-                    setPlayerX(Array.of(roomList[room]?.playerX));
-                    setPlayerO(Array.of(roomList[room].playerO));
+
+                    if(roomList[room]?.playerO?.uid === ""){
+                        if(currentUser.uid !== roomList[room].playerX.uid &&
+                            params["*"] === roomList[room].roomId && roomList[room].playerO.name === ""){
+                            update(ref(db, "playerRoom/" + room + "/playerO"), {
+                                name: userName?.name,
+                                uid: currentUser?.uid,
+                            })
+                        }
+                        if(currentUser.uid !== roomList[room]?.playerO?.uid &&
+                            params["*"] === roomList[room].roomId && roomList[room].playerX.name === ""){
+                            update(ref(db, "playerRoom/" + room + "/playerX"), {
+                                name: userName?.name,
+                                uid: currentUser?.uid,
+                            })
+                            console.log("O In");
+                        }
+                    }
+                    setPlayerX(Array.of(roomList[room]?.playerX))
+                    setPlayerO(Array.of(roomList[room]?.playerO))
                 }
             }
 
@@ -103,6 +135,7 @@ const gamepage = () => {
             // console.log("roomName : " + roomList[room]?.roomName);
         })
         // console.log(board);
+
     }, [roomList]);
 
     const handleDeletePlayerRoom = async (e) => {
@@ -125,9 +158,12 @@ const gamepage = () => {
                         isOwner: true,
                         readyStatus: false,
                     })
+                    update(ref(db, "playerRoom/" + room), {
+                        roomName: roomList[room]?.playerO?.name + "'s game",
+                    })
                 }
                 // O Leave !!!!!!!
-                if (currentUser?.uid === roomList[room]?.playerO?.uid) { //
+                if (currentUser?.uid === roomList[room]?.playerO?.uid) {
                     //console.log("X Leave");
                     if(roomList[room]?.playerO?.name){ //"test" -> !null
                         //console.log(roomList[room].playerX.name);
@@ -141,6 +177,9 @@ const gamepage = () => {
                     update(ref(db, "playerRoom/" + room + "/playerX"), {
                         isOwner: true,
                         readyStatus: false,
+                    })
+                    update(ref(db, "playerRoom/" + room), {
+                        roomName: roomList[room]?.playerX?.name + "'s game",
                     })
                 }
             }
@@ -160,7 +199,8 @@ const gamepage = () => {
                     previousUrl: location.pathname,
                 },
             });
-            await remove(`playerRoom/`);
+            await remove(`playerRoom/${"how"}`);
+            //console.log(params["*"]);
             console.log(location.pathname)
             // console.log("delete room")
         }catch (e) {
