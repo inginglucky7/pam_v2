@@ -203,7 +203,7 @@ const gamepage = () => {
     }
 
     function SetQuestion(){
-        const Qarray = QA[Math.floor(Math.random() * 35)]
+        const Qarray = QA[Math.floor(Math.random() * 45)]
         if(Qarray.True == "A"){
             TrueAns = "A";
         } else if(Qarray.True == "B"){
@@ -479,6 +479,11 @@ const gamepage = () => {
 
     return (
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
+
+            {/* <div className="flex justify-center">
+                <div className="absolute z-50 rounded-3xl bg-black opacity-75 shadow-xl backdrop-blur top-0 w-[65%] h-[65%] mt-[18vh]"></div>
+            </div> */}
+
             <div className="absolute text-2xl ml-6 mt-6">
                 <button onClick={handleDeleteBotRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
@@ -522,9 +527,9 @@ const gamepage = () => {
             </div>
 
             <div className="flex justify-center">
-
-                <div id="table" className="absolute top-0 md:mt-[20vh] lg:mt-[10vh]">
-
+            
+                <div id="table" className="absolute top-0 md:mt-[20vh] lg:mt-[12vh]">
+                    
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
                         <div className="flex justify-center" id="row1">
@@ -566,7 +571,7 @@ const gamepage = () => {
                     </div>
 
                 </div>
-                <div id="winner" className="absolute text-center text-3xl text-white font-bold mt-[30vh]"></div>
+                <div id="winner"></div>
             </div>
 
             {showModal ? (
@@ -621,6 +626,7 @@ const gamepage = () => {
                             <div id="checkbar" style={{position: "relative", float: "left", background: "red", height: "4.7vh", width: "1%"}}>
 
                             </div>
+                            
                         </div>
                         <div className="mt-6" hidden id="buttonqte">
                             <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"

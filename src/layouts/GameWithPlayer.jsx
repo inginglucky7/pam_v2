@@ -1522,7 +1522,7 @@ const gamepage = () => {
                 <button onClick={handleDeletePlayerRoom} className="rounded-2xl bg-kiddoyellow bg-opacity-90 px-6 py-2 text-black font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover">BACK</button>
             </div>
 
-            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black md:mb-[vh] lg:mb-[vh]">
+            <div className="absolute bg-kiddoyellow w-2/12 py-8 left-0 bottom-0 rounded-r-3xl border-4 border-black text-black md:mb-[12vh] lg:mb-[13vh]">
 
                 <div id="playertimeX" className="text-center text-4xl font-bold">TIME</div>
 
@@ -1551,7 +1551,7 @@ const gamepage = () => {
 
             </div>
 
-            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 bottom-0 rounded-l-3xl border-4 border-white text-white md:mb-[vh] lg:mb-[vh]">
+            <div className="absolute bg-kiddobrown w-2/12 py-8 right-0 bottom-0 rounded-l-3xl border-4 border-white text-white md:mb-[12vh] lg:mb-[13vh]">
 
                 <div id="playertimeO" className="text-center text-4xl font-bold">TIME</div>
 
@@ -1580,7 +1580,7 @@ const gamepage = () => {
             </div>
 
             <div className="flex items-center justify-center">
-                <div className="absolute top-0 md:mt-[20vh] lg:mt-[10vh]">
+                <div className="absolute top-0 md:mt-[20vh] lg:mt-[12vh]">
                     <div className="relative bg-slate-200 rounded-3xl border-4 border-black p-2">
 
                         <div className="flex justify-center" id="row1">
@@ -1632,7 +1632,7 @@ const gamepage = () => {
 
             {showModal ? (
                 <>
-                    <div className="flex justify-center items-center fixed inset-0 z-50">
+                    <div className="flex flex-col justify-center items-center fixed inset-0 z-50">
                         <div className="relative w-auto max-w-2xl drop-shadow-kiddodropshadowtwo">
                             <div className="rounded-2xl shadow-xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
 
@@ -1652,28 +1652,31 @@ const gamepage = () => {
 
                                 <div className="flex items-center justify-center p-6 border-t">
 
-                                    <button id="A" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                                    <button id="A" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
                                             onClick={() => CheckQuestion("A")}>A) ...</button>
 
-                                    <button id="B" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                                    <button id="B" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
                                             onClick={() => CheckQuestion("B")}>B) ...</button>
 
                                 </div>
 
                                 <div className="flex items-center justify-center p-6">
 
-                                    <button id="C" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                                    <button id="C" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
                                             onClick={() => CheckQuestion("C")}>C) ...</button>
 
-                                    <button id="D" className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
+                                    <button id="D" className="rounded-2xl text-black bg-kiddoyellow px-12 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
                                             onClick={() => CheckQuestion("D")}>D) ...</button>
 
                                 </div>
                             </div>
                         </div>
                         <div className="mt-6" hidden id="quick" style={{position: "relative", height: "5vh", width: "50vw", border: "2px black solid", background: "lightgray"}}>
+
                             <div id="truebar" style={{position: "relative", float: "right", background: "green", height: "4.7vh", width: "0%"}}></div>
+
                             <div id="checkbar" style={{position: "relative", float: "left", background: "red", height: "4.7vh", width: "1%"}}></div>
+
                         </div>
                         <div className="mt-6" hidden id="buttonqte">
                             <button className="rounded-2xl text-black bg-kiddoyellow px-8 py-2 text-2xl font-bold shadow-xl drop-shadow-kiddodropshadow duration-200 hover:bg-kiddoyellowhover mx-8" type="button"
