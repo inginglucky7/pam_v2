@@ -221,6 +221,12 @@ const gamepage = () => {
                 if(roomList[room]?.playerX?.readyStatus == true){
                     var textx = document.getElementById("TextX");
                     textx.innerText = "Ready!";
+                    row = [[],[],[],[],[]];
+                    document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
+                    document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
+                    document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
+                    document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
+                    document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
                 }else if(roomList[room]?.playerX?.readyStatus == false){
                     var textx = document.getElementById("TextX");
                     textx.innerText = "Not Ready";
@@ -229,6 +235,12 @@ const gamepage = () => {
                 if(roomList[room]?.playerO?.readyStatus == true){
                     var texto = document.getElementById("TextO");
                     texto.innerText = "Ready!";
+                    row = [[],[],[],[],[]];
+                    document.querySelector("#row1").childNodes.forEach((row1) => row[0].push(row1));
+                    document.querySelector("#row2").childNodes.forEach((row2) => row[1].push(row2));
+                    document.querySelector("#row3").childNodes.forEach((row3) => row[2].push(row3));
+                    document.querySelector("#row4").childNodes.forEach((row4) => row[3].push(row4));
+                    document.querySelector("#row5").childNodes.forEach((row5) => row[4].push(row5));
                 }else if(roomList[room]?.playerO?.readyStatus == false){
                     var texto = document.getElementById("TextO");
                     texto.innerText = "Not Ready";
