@@ -899,10 +899,12 @@ const gamepage = () => {
                     update(ref(db, "playerRoom/" + room + "/playerX"), {
                         readyStatus: false,
                         xGiveup: false,
+                        xPlay: "",
                     })
                     update(ref(db, "playerRoom/" + room + "/playerO"), {
                         readyStatus: false,
-                        xGiveup: false,
+                        oGiveup: false,
+                        pPlay: "",
                     })
 
 
@@ -1219,7 +1221,7 @@ const gamepage = () => {
 
                 if(currentUser?.uid === roomList[room]?.playerX?.uid && roomList[room]?.win == false && roomList[room]?.GameStart == true){
                     if(roomList[room]?.Turn == roomList[room]?.playerX?.role){
-                        // checkWinner(row);
+                        checkWinner(row);
                         console.log(event.currentTarget.id);
                         if (win === false && tie === false && event.currentTarget.innerHTML === ""){
                             clickmark = true;
@@ -1371,7 +1373,7 @@ const gamepage = () => {
                     }
                 }else if(currentUser?.uid === roomList[room]?.playerO?.uid && roomList[room]?.win == false){
                     if(roomList[room]?.Turn == roomList[room]?.playerO?.role){
-                        // checkWinner(row);
+                        checkWinner(row);
                         console.log(event.currentTarget);
                         if (win === false && tie === false && event.currentTarget.innerHTML === ""){
                             clickmark = true;
