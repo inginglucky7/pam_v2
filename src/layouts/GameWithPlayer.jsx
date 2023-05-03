@@ -640,10 +640,20 @@ const gamepage = () => {
                 if(roomList[room]?.win == true && roomList[room]?.winner == "X"){
                     var divwin = document.getElementById("winner");
                     divwin.innerHTML = "THE WINNER IS:" + `<img src="${Ximg}"></img>`;
+                    Object.keys(usersList).map((user) => {
+                        update(ref(db, "usersList/" + roomList[room].playerX.uid), {
+                            score: usersList[roomList[room].playerX?.uid].score + 100,
+                        })
+                    })
                 }
                 if(roomList[room]?.win == true && roomList[room]?.winner == "O"){
                     var divwin = document.getElementById("winner");
                     divwin.innerHTML = "THE WINNER IS:" + `<img src="${Oimg}"></img>`;
+                    Object.keys(usersList).map((user) => {
+                        update(ref(db, "usersList/" + roomList[room].playerO.uid), {
+                            score: usersList[roomList[room].playerO.uid].score + 100,
+                        })
+                    })
                 }
                 if(roomList[room]?.win == false && roomList[room]?.tie == false){
                     var divwin = document.getElementById("winner");
@@ -1059,22 +1069,12 @@ const gamepage = () => {
                                 win: true,
                             })
 
-                            Object.keys(usersList).map((user) => {
-                                update(ref(db, "usersList/" + roomList[room].playerX.uid), {
-                                    score: usersList[roomList[room].playerX?.uid].score + 100,
-                                })
-                            })
+
 
                         } else if (board[i][0].innerHTML == `<img src="/src/img/O.png">`) {
                             update(ref(db, "playerRoom/" + room), {
                                 winner: "O",
                                 win: true,
-                            })
-
-                            Object.keys(usersList).map((user) => {
-                                update(ref(db, "usersList/" + roomList[room].playerO.uid), {
-                                    score: usersList[roomList[room].playerO.uid].score + 100,
-                                })
                             })
 
                         }
