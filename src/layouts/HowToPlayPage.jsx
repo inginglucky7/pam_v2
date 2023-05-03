@@ -40,19 +40,21 @@ const howtoplaypage = () => {
                     <table className="w-full text-center">
                         <tbody>
                             <tr className="text-xl">
-                                <td className="px-16 py-4">1. xxxxxxxxxxxxxxxxxx</td>
+                                <td className="px-16 py-4">1. Player from either side must be ready first before start.</td>
                             </tr>
                             <tr className="text-xl">
-                                <td className="px-16 py-4">2. xxxxxxxxxxxxxxxxxx</td>
+                                <td className="px-16 py-4">2. Press the start button to start the game.</td>
                             </tr>
                             <tr className="text-xl">
-                                <td className="px-16 py-4">3. xxxxxxxxxxxxxxxxxx</td>
+                                <td className="px-16 py-4">3. Question modal will show up in X's side and X must answer the correct
+                                choice to place a mark on the board. And question will be swapped and random.</td>
                             </tr>
                             <tr className="text-xl">
-                                <td className="px-16 py-4">4. xxxxxxxxxxxxxxxxxx</td>
+                                <td className="px-16 py-4">4. If player couldn't answer the correct answer, they can not place the mark.</td>
                             </tr>
                             <tr className="text-xl">
-                                <td className="px-16 py-4">5. xxxxxxxxxxxxxxxxxx</td>
+                                <td className="px-16 py-4">5. Which player have five marks in the straight directional or diagonal direction
+                                will win this game.</td>
                             </tr>
                         </tbody>
                     </table>
