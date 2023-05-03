@@ -640,20 +640,30 @@ const gamepage = () => {
                 if(roomList[room]?.win == true && roomList[room]?.winner == "X"){
                     var divwin = document.getElementById("winner");
                     divwin.innerHTML = "THE WINNER IS:" + `<img src="${Ximg}"></img>`;
-                    Object.keys(usersList).map((user) => {
-                        update(ref(db, "usersList/" + roomList[room].playerX.uid), {
-                            score: usersList[roomList[room].playerX?.uid].score + 100,
+                    try{
+                        Object.keys(usersList).map((user) => {
+                            update(ref(db, "usersList/" + roomList[room].playerX.uid), {
+                                score: usersList[roomList[room].playerX?.uid].score + 100,
+                            })
                         })
-                    })
+                    } catch (e) {
+                        console.log(e.message)
+                    }
+                    
                 }
                 if(roomList[room]?.win == true && roomList[room]?.winner == "O"){
                     var divwin = document.getElementById("winner");
                     divwin.innerHTML = "THE WINNER IS:" + `<img src="${Oimg}"></img>`;
-                    Object.keys(usersList).map((user) => {
-                        update(ref(db, "usersList/" + roomList[room].playerO.uid), {
-                            score: usersList[roomList[room].playerO.uid].score + 100,
+                    try{
+                        Object.keys(usersList).map((user) => {
+                            update(ref(db, "usersList/" + roomList[room].playerO.uid), {
+                                score: usersList[roomList[room].playerO.uid].score + 100,
+                            })
                         })
-                    })
+                    } catch (e) {
+                        console.log(e.message);
+                    }
+                    
                 }
                 if(roomList[room]?.win == false && roomList[room]?.tie == false){
                     var divwin = document.getElementById("winner");
@@ -1091,6 +1101,7 @@ const gamepage = () => {
                 win = true;
                 winner = board[0][i].innerHTML;
                 console.log("Win col");
+                console.log(winner);
 
                 Object.keys(roomList).map((room) => {
                     if(params["*"] === roomList[room]?.roomId) {
@@ -1115,6 +1126,7 @@ const gamepage = () => {
             win = true;
             winner = board[0][0].innerHTML;
             console.log("Win di");
+            console.log(winner);
 
             Object.keys(roomList).map((room) => {
                 if(params["*"] === roomList[room]?.roomId) {
@@ -1137,6 +1149,7 @@ const gamepage = () => {
             win = true;
             winner = board[0][4].innerHTML;
             console.log("Win di");
+            console.log(winner);
 
             Object.keys(roomList).map((room) => {
                 if(params["*"] === roomList[room]?.roomId) {
@@ -1204,7 +1217,7 @@ const gamepage = () => {
             console.log(room);
             if(params["*"] === roomList[room]?.roomId) {
 
-                if(currentUser?.uid === roomList[room]?.playerX?.uid && roomList[room]?.win == false){
+                if(currentUser?.uid === roomList[room]?.playerX?.uid && roomList[room]?.win == false && roomList[room]?.GameStart == true){
                     if(roomList[room]?.Turn == roomList[room]?.playerX?.role){
                         // checkWinner(row);
                         console.log(event.currentTarget.id);
