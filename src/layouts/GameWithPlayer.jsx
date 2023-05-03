@@ -663,7 +663,7 @@ const gamepage = () => {
 
     //Set Question
     function SetQuestion(){
-        const Qarray = QA[Math.floor(Math.random() * 35)]
+        const Qarray = QA[Math.floor(Math.random() * 45)]
         if(Qarray.True == "A"){
             TrueAns = "A";
         } else if(Qarray.True == "B"){
