@@ -669,6 +669,7 @@ const gamepage = () => {
                         Object.keys(usersList).map((user) => {
                             update(ref(db, "usersList/" + roomList[room].playerX.uid), {
                                 score: usersList[roomList[room].playerX?.uid].score + 100,
+                                win: usersList[roomList[room].playerX?.uid].win + 1,
                             })
                         })
                     } catch (e) {
@@ -683,6 +684,7 @@ const gamepage = () => {
                         Object.keys(usersList).map((user) => {
                             update(ref(db, "usersList/" + roomList[room].playerO.uid), {
                                 score: usersList[roomList[room].playerO.uid].score + 100,
+                                win: usersList[roomList[room].playerX?.uid].win + 1,
                             })
                         })
                     } catch (e) {

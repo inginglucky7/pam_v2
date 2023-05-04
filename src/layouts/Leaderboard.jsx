@@ -90,7 +90,7 @@ const leaderboard = () => {
                             <tr>
                                 <th scope="col" className="px-12 py-4">Ranking</th>
                                 <th scope="col" className="px-12 py-4">Username</th>
-                                <th scope="col" className="px-16 py-4">E-Mail</th>
+                                <th scope="col" className="px-16 py-4">Win</th>
                                 <th scope="col" className="px-12 py-4">Score</th>
                             </tr>
                         </thead>
@@ -100,7 +100,7 @@ const leaderboard = () => {
                                 <tr key={user} className="bg-kiddolightyellow">
                                     <th scope="row" className="py-3">{parseInt(Object.keys(userScores).indexOf(user)) + 1}</th>
                                     <th className="py-3">{userScores[user].email.substring(0, userScores[user].email.indexOf("@"))}</th>
-                                    <td className="py-3">{userScores[user].email}</td>
+                                    <td className="py-3">{userScores[user].win}</td>
                                     <td className="py-3">{userScores[user].score}</td>
                                 </tr>
                                 ))
