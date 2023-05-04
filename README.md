@@ -1,4 +1,4 @@
-This is the learning react project with Tic Tac Toe game
+This is the learning react tailwindcss project with Tic Tac Toe game
 
 # Getting Start
 
