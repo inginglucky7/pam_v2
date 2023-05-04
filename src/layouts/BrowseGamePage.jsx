@@ -96,14 +96,23 @@ const browsegame = () => {
                                 {roomList === null ? <></> : Object.keys(roomList).map((room) => (
                                     <tr key={room}  className="bg-kiddolightyellow">
                                         <th scope="row" className="py-6">{parseInt(Object.keys(roomList).indexOf(room)) + 1}</th>
-                                        {/*parseInt(room.indexOf(room))*/}
                                         <th className="">{roomList[room].roomName}</th>
                                         <th className="">{roomList[room]?.playerX?.name && roomList[room]?.playerO?.name === "" ? "1/2" : roomList[room]?.playerO?.name && roomList[room]?.playerX?.name === "" ? "1/2" :
                                             roomList[room]?.playerX?.name && roomList[room]?.playerO?.name ? "2/2" : ""
                                         }</th>
                                         <th id="${room[0]}-joinBtn" className="text-xl text-red-800">
-                                            <button onClick={() => handleJoinRoom(roomList[room].roomId)}>{roomList[room]?.playerX?.name && roomList[room]?.playerO?.name === "" ? "JOIN" : roomList[room]?.playerO?.name && roomList[room]?.playerX?.name === "" ? "JOIN" :
-                                                roomList[room]?.playerX?.name && roomList[room]?.playerO?.name ? "FULL" : ""}</button>
+                                            <button onClick={() => handleJoinRoom(roomList[room].roomId)}
+                                            disabled = {
+                                                roomList[room]?.playerX?.name && roomList[room]?.playerO?.name === "" ? false : roomList[room]?.playerO?.name && roomList[room]?.playerX?.name === true ? false :
+                                                    roomList[room]?.playerX?.name && roomList[room]?.playerO?.name ? true : false
+                                            }
+                                            >{roomList[room]?.playerX?.name && roomList[room]?.playerO?.name === "" ? "JOIN" : roomList[room]?.playerO?.name && roomList[room]?.playerX?.name === "" ? "JOIN" :
+                                                roomList[room]?.playerX?.name && roomList[room]?.playerO?.name ? <p style = {
+                                                    {
+                                                        cursor: "not-allowed"
+
+                                                    }
+                                                }>FULL</p> : ""}</button>
                                         </th>
                                     </tr>
                                 ))}
