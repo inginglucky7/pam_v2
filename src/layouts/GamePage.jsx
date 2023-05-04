@@ -305,7 +305,11 @@ const gamepage = () => {
             if (TrueAns == button){
                 timebreak = true;
                 console.log("True");
-                setShowModal(false);
+                var truebtn = document.getElementById(`${TrueAns}`);
+                truebtn.style.backgroundColor = "limegreen";
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 1000);
                 alreadymove = true;
                 TimeMark();
                 setTimeout(() => {
@@ -313,7 +317,13 @@ const gamepage = () => {
                 }, 50);
             } else {
                 turn = true;
-                setShowModal(false);
+                var truebtn = document.getElementById(`${TrueAns}`);
+                truebtn.style.backgroundColor = "limegreen";
+                var falsebtn = document.getElementById(`${button}`);
+                falsebtn.style.backgroundColor = "red";
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 1000);
                 alreadymove = false;
                 setTimeout(() => {
                     if(alreadymove == false && turn == true && win == false){

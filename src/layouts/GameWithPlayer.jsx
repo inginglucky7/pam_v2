@@ -737,34 +737,51 @@ const gamepage = () => {
 
     //Check Question
     function CheckQuestion(button){
+        console.log(button);
         if (onevent == false){
             click = true;
             console.log(TrueAns + " " + button);
             if (TrueAns == button){
                 timebreak = true;
                 console.log("True");
-                setShowModal(false);
+                var truebtn = document.getElementById(`${TrueAns}`);
+                truebtn.style.backgroundColor = "limegreen";
+                console.log("set style");
                 TimeMark();
                 setTimeout(() => {
+                    setShowModal(false);
                     click = false;
-                }, 50);
-            } else {
-                setShowModal(false);
-                click = false;
-                Object.keys(roomList).map((room) => {
-                    if(params["*"] === roomList[room]?.roomId){
-                        if(roomList[room]?.Turn == "X"){
-                            update(ref(db, "playerRoom/" + room), {
-                                Turn: "O",
-                            })
-                        }else if(roomList[room]?.Turn == "O"){
-                            update(ref(db, "playerRoom/" + room), {
-                                Turn: "X",
-                            })
-                        }
-                    }
+                }, 1000);
 
-                })
+            } else {
+                var truebtn = document.getElementById(`${TrueAns}`);
+                truebtn.style.backgroundColor = "limegreen";
+                if(button != "nah"){
+                    var falsebtn = document.getElementById(`${button}`);
+                    falsebtn.style.backgroundColor = "red";
+                }
+                setTimeout(() => {
+                    setShowModal(false);
+                    click = false;
+                    Object.keys(roomList).map((room) => {
+                        if(params["*"] === roomList[room]?.roomId){
+                            if(roomList[room]?.Turn == "X"){
+                                update(ref(db, "playerRoom/" + room), {
+                                    Turn: "O",
+                                })
+                            }else if(roomList[room]?.Turn == "O"){
+                                update(ref(db, "playerRoom/" + room), {
+                                    Turn: "X",
+                                })
+                            }
+                        }
+    
+                    })
+                }, 1000);
+                
+                
+                
+
 
 
             }
@@ -961,14 +978,16 @@ const gamepage = () => {
                         clearInterval(startTimer);
                         timebreak = true;
                         console.log("TimeBreak");
-                        setShowModal(false);
+                        // setTimeout(() => {
+                        //     setShowModal(false);
+                        // }, 1000);
                     }
                     if(divTimeLeft.clientWidth < divCountdownBar.clientWidth && onevent == false){
                         divTimeLeft.style.width = (countp + 0.2)+"%"
                         countp += 0.2;
                     }
-                    else if(divTimeLeft.clientWidth == divCountdownBar.clientWidth && timebreak == false){
-                        divTimeLeft.style.width = divCountdownBar.clientWidth;
+                    else if(divTimeLeft.clientWidth == divCountdownBar.clientWidth && timebreak == false && click == false){
+                        // divTimeLeft.style.width = divCountdownBar.clientWidth;
                         clearInterval(startTimer);
                         CheckQuestion("nah");
                     }
