@@ -1279,7 +1279,7 @@ const gamepage = () => {
                                 xPlay: event.currentTarget.id,
                             })
 
-                            //บูทฟอร์สเหย๋ดเเหม่
+                            //check board
                             if(event.currentTarget.id == "1-1"){
                                 update(ref(db, "playerRoom/" + room + "/board" + "/0"), {
                                     0: "X",
@@ -1417,7 +1417,7 @@ const gamepage = () => {
                             // ReadyPlayerReset();
                         }
                     }
-                }else if(currentUser?.uid === roomList[room]?.playerO?.uid && roomList[room]?.win == false){
+                }else if(currentUser?.uid === roomList[room]?.playerO?.uid && roomList[room]?.win == false && roomList[room]?.GameStart == true){
                     if(roomList[room]?.Turn == roomList[room]?.playerO?.role){
                         checkWinner(row);
                         console.log(event.currentTarget);
@@ -1432,7 +1432,7 @@ const gamepage = () => {
                                 oPlay: event.currentTarget.id,
                             })
 
-                            //บูทฟอร์สเหย๋ดเเหม่
+                            //check board
                             if(event.currentTarget.id == "1-1"){
                                 update(ref(db, "playerRoom/" + room + "/board" + "/0"), {
                                     0: "O",
