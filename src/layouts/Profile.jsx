@@ -6,7 +6,10 @@ import {useNavigate} from "react-router-dom";
 
 const profilepage = () => {
     const navigate = useNavigate();
-    const {currentUser, userName, setUserName} = useAuth();
+    const {currentUser, userName, setUserName, usersList} = useAuth();
+
+
+
     return (
         
         <div className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
@@ -45,13 +48,13 @@ const profilepage = () => {
                             <h1 className="text-black font-bold text-xl">6</h1>
                         </div>
                         <div className="text-white">
-                            <h1 className="mb-2 font-bold text-xl">{userName.name}</h1>
-                            <h1 className="mb-2 font-bold text-xl">1000</h1>
+                            <h1 className="mb-2 font-bold text-xl">{userName?.name}</h1>
+                            <h1 className="mb-2 font-bold text-xl">{usersList[currentUser?.uid]?.score}</h1>
                             <h1 className="text-md">{userName.email}</h1>
                         </div>
-                        <div className="ml-12">
-                            <img className="w-16 cursor-pointer" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383901460168744/Edit0.png" />
-                        </div>
+                        {/*<div className="ml-12">*/}
+                        {/*    <img className="w-16 cursor-pointer" src="https://cdn.discordapp.com/attachments/1097383654050762762/1097383901460168744/Edit0.png" />*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>
@@ -64,23 +67,11 @@ const profilepage = () => {
                         <tbody>
                             <tr className="text-xl">
                                 <td className="px-16 py-4">Score</td>
-                                <td className="px-16 py-4">X</td>
+                                <td className="px-16 py-4">{usersList[currentUser?.uid]?.score}</td>
                             </tr>
                             <tr className="text-xl">
-                                <td className="px-16 py-4">Score</td>
-                                <td className="px-16 py-4">X</td>
-                            </tr>
-                            <tr className="text-xl">
-                                <td className="px-16 py-4">Score</td>
-                                <td className="px-16 py-4">X</td>
-                            </tr>
-                            <tr className="text-xl">
-                                <td className="px-16 py-4">Score</td>
-                                <td className="px-16 py-4">X</td>
-                            </tr>
-                            <tr className="text-xl">
-                                <td className="px-16 py-4">Score</td>
-                                <td className="px-16 py-4">X</td>
+                                <td className="px-16 py-4">Win</td>
+                                <td className="px-16 py-4">{usersList[currentUser?.uid]?.win}</td>
                             </tr>
                         </tbody>
                     </table>

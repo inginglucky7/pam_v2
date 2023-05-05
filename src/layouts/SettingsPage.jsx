@@ -19,18 +19,6 @@ const settingspage = () => {
         }
     }
 
-    const handleSfx = (event) => {
-        if(event.target.checked){
-
-        }
-    }
-
-    const handleMusic = (event) => {
-        if(event.target.checked){
-
-        }
-    }
-
     return (
         
         <div ref={screenRef} className="kiddobg h-screen w-full bg-kiddogray bg-cover bg-no-repeat">
@@ -65,24 +53,6 @@ const settingspage = () => {
                     <hr className="w-40 h-1 mx-auto bg-kiddobrown border-0 rounded" />
                     <table className="w-full text-center">
                         <tbody>
-                            <tr className="text-xl">
-                                <th className="px-6 py-4">SFX</th>
-                                <td className="px-12 py-4">
-                                    <input onChange={(e) => {
-                                        handleSfx(e);
-                                    }
-                                    } id="checked-checkbox sfx" type="checkbox" className="w-6 h-6 border-2 accent-sky-200" />
-                                </td>
-                            </tr>
-                            <tr className="text-xl">
-                                <th className="px-6 py-4">MUSIC</th>
-                                <td className="px-12 py-4">
-                                    <input onChange={(e) => {
-                                        handleMusic(e);
-                                    }
-                                    } id="checked-checkbox" type="checkbox" value="" className="w-6 h-6 border-2 accent-sky-200" />
-                                </td>
-                            </tr>
                             <tr className="text-xl">
                                 <th className="px-6 py-4">FULLSCREEN</th>
                                 <td className="px-12 py-4">
